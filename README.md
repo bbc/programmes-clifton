@@ -1,27 +1,14 @@
-Alfred
-======
+Clifton
+=======
 
-A Butler to provide programmes information
+A bridge between ProgrammesDB and /programmes on Forge. Clifton provides a HTTP
+API that is consistant with APS's output, so that it can be a drop-in
+replacement data source for /programmes on Forge.
 
 
 Development
 -----------
 
+Install development dependencies with `composer install`.
 
-Alfred uses PHP 7.0. On your host machine, Assuming you're using homebrew, you
-can install it by running:
-
-```sh
-brew install php70
-```
-
-For the Sandbox, we provide a Vagrant file that shall setup a sandbox containing
-everything you need.
-
-Create a copy of your dev certificate in pem format in
-`vagrant/dev.bbc.co.uk.pem` and editing `vagrant/env.json` to reflect your proxy settings. 
-Then create your sandbox by running:
-
-```sh
-vagrant up
-```
+Run tests and code sniffer with `script/test`.
