@@ -1,0 +1,32 @@
+status:
+    path: /status
+    defaults: { _controller: CliftonBundle:Status:status }
+
+homepage:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: nelmio_api_doc_index
+        permanent: true
+
+debug:
+    path: /debug/{serviceName}/{serviceMethod}
+    defaults:
+        _controller: CliftonBundle:Debug:debug
+
+all_programmes:
+    path: /programmes/all.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:Programme:all }
+
+find_by_pid:
+    path: /programmes/{pid}.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:Programme:findByPid }
+    requirements: { pid: '[0-9|b-d|f-h|j-n|p-t|v-z]{8,15}' }
+
+programmes_children:
+    path: /programmes/{pid}/children.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:ProgrammeChildren:children }
+    requirements: { pid: '[0-9|b-d|f-h|j-n|p-t|v-z]{8,15}' }

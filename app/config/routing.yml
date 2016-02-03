@@ -1,0 +1,7 @@
+app:
+  resource: "@CliftonBundle/Resources/config/routing.yml"
+  prefix:   /
+
+apidoc:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /apidoc

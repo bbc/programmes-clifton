@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="refresh" content="2">
+        <title>Status</title>
+    </head>
+    <body>
+        <h1>Status</h1>
+
+        <h2 style="color:{{ color }}">{{ state }}</h2>
+
+        <p>Pips Lag: {{pipsLag}}</p>
+
+        <ul>
+            <li><strong>latestChangeEventId:</strong> {{status.latestChangeEventId}}</li>
+            <li><strong>latestChangeEventCreatedAt:</strong> {{status.latestChangeEventCreatedAt|date('c')}}</li>
+            <li><strong>latestChangeEventProcessedAt:</strong> {{status.latestChangeEventProcessedAt|date('c')}}</li>
+            <li><strong>pipsLatestId:</strong> {{status.pipsLatestId}}</li>
+            <li><strong>pipsLatestTime:</strong> {{status.pipsLatestTime|date('c')}}</li>
+            <li><strong>Total Programmes in database:</strong> {{total}}</li>
+        </ul>
+    </body>
+</html>

@@ -1,0 +1,35 @@
+parameters:
+    security.authentication.listener.x509.class: BBC\CliftonBundle\Security\Http\BbcX509AuthenticationListener
+
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
+security:
+
+    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+    providers:
+        bbc_certificate_user_provider:
+            id: security.user.provider.bbc_certificate
+
+    access_control:
+        - { path: ^/status, roles: [ROLE_BBCSTAFF, IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/, roles: [ROLE_BBCSTAFF] }
+
+    role_hierarchy:
+        ROLE_BBCSTAFF: [ROLE_USER]
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            stateless: true
+            security: false
+
+        main:
+            stateless: true
+            anonymous: ~
+            x509:
+                provider: bbc_certificate_user_provider
+                user: HTTP_SSLCLIENTCERTSUBJECT
+
+    encoders:
+        BBC\CliftonBundle\Security\User\BbcCertificateUser: plaintext

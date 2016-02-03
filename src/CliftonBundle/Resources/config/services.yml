@@ -1,0 +1,23 @@
+services:
+
+    security.user.provider.bbc_certificate:
+        class: BBC\CliftonBundle\Security\User\BbcCertificateUserProvider
+
+    clifton.mapper_provider:
+        class: BBC\ProgrammesPagesService\Mapper\ProgrammesDbToDomain\MapperProvider
+
+    clifton.domain_service_factory:
+        class: BBC\ProgrammesPagesService\Service\ServiceFactory
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - '@clifton.mapper_provider'
+
+    clifton.programmes_service:
+        class: BBC\ProgrammesPagesService\Service\ProgrammesService
+        factory: [ '@clifton.domain_service_factory', 'getProgrammesService']
+
+    clifton.find_by_pid_programme_mapper:
+        class: BBC\CliftonBundle\ApsMapper\FindByPidProgrammeMapper
+
+    clifton.programme_children_programme_mapper:
+        class: BBC\CliftonBundle\ApsMapper\ProgrammeChildrenProgrammeMapper
