@@ -1,6 +1,6 @@
 <?php
 
-namespace BBC\CliftonBundle\DataFixtures\ORM;
+namespace Tests\BBC\CliftonBundle\DataFixtures\ORM;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Brand;

@@ -6,7 +6,7 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 abstract class BaseWebTestCase extends WebTestCase
 {
-    const FIXTURES_PATH = 'BBC\CliftonBundle\DataFixtures\ORM\\';
+    const FIXTURES_PATH = 'Tests\BBC\CliftonBundle\DataFixtures\ORM\\';
 
     public function assertResponseStatusCode($client, $expectedCode)
     {

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="Symfony2-Programmes">
-    <description>Symfony2 CS for /programmes</description>
+<ruleset name="Symfony-Programmes">
+    <description>Symfony CS for /programmes</description>
     <!-- Requires adding https://github.com/escapestudios/Symfony2-coding-standard to
     your composer.json -->
 

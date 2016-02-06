@@ -17,6 +17,6 @@ doctrine:
         default_connection: default
         connections:
             default:
-                dbname:   clifton
+                dbname:   programmesdb
                 driver:   pdo_sqlite
                 path:     %kernel.cache_dir%/test.db
