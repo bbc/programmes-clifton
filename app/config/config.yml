@@ -79,16 +79,6 @@ stof_doctrine_extensions:
             tree: true
             timestampable: true
 
-# Doctrine Migrations Configuration
-doctrine_migrations:
-    # @todo - get the service to know this internally
-    dir_name: %kernel.root_dir%/../src/ProgrammesPagesService/Data/ProgrammesDb/Migrations
-    namespace: BBC\ProgrammesPagesService\Data\ProgrammesDb\Migrations
-    table_name: migration_versions
-    name: ProgrammesPagesService Migrations
-
-# Doctrine Extension Configuration
-
 nelmio_api_doc:
     name: /programmes API Documentation
     cache:
