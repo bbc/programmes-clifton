@@ -11,3 +11,5 @@
 /composer.phar
 .vagrant
 /vagrant/dev.bbc.co.uk.pem
+
+/infrastructure/configuration.json

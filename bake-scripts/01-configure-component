@@ -1,0 +1,88 @@
+#!/usr/bin/env python
+
+import os
+import json
+import subprocess
+from string import Template
+
+# component properties
+componentConfigFile = "/etc/bake-scripts/config.json"
+
+# application properties
+appRoot = "/var/www/brandingtool"
+
+
+def component_config():
+    print "Reading component configurations..."
+
+    if not os.path.isfile(componentConfigFile):
+        raise IOError("MISSING FILE: " + componentConfigFile)
+
+    with open(componentConfigFile, 'r') as f:
+        data = json.load(f)
+        return data
+
+
+def create_cronjob(frequency, user, cronjob_command):
+    cronjob_stmt = "(crontab -u " + user + " -l; echo \"" + frequency + " " + cronjob_command + "\" )" + ' | ' + 'crontab -u ' + user + ' - '
+    print "Creating Cronjob " + cronjob_stmt
+    os.system(cronjob_stmt)
+
+
+def substitute_data(data):
+    return {
+        'database_host': data["configuration"]["database_host"],
+        'database_name': data["configuration"]["database_name"],
+        'database_user': data["configuration"]["database_user"],
+        'database_password': data["secure_configuration"]["database_password"],
+        'secret': data["secure_configuration"]["secret"],
+        'cosmos_environment': data["environment"],
+        'cosmos_component_release': data['release'],
+    }
+
+
+def rewrite_application_parameters():
+    appParamWriteFile = appRoot + "/app/config/parameters.yml"
+    appParamReadFile = appRoot + "/app/config/parameters_prod.yml.dist"
+
+    print "Reading parameter template file..."
+    if not os.path.isfile(appParamReadFile):
+        raise IOError("MISSING FILE: " + appParamReadFile)
+
+    src = Template(open(appParamReadFile).read())
+    parameters = src.substitute(substitute_data(component_config()))
+
+    print "Overwriting " + appParamWriteFile
+    with open(appParamWriteFile, 'wt') as config_file:
+        config_file.write(parameters)
+
+
+def regenerate_cache():
+    appTmpDir = appRoot + "/tmp"
+    appConsoleFile = appRoot + "/app/console"
+
+    print "Regenerating cache..."
+    # Steal the ownership of the tmp directory for a moment, so we can write
+    # the new cache files to it
+    # subprocess.call(['chown', '-R', 'root:root', appTmpDir])
+
+    # cache:clear also warms up the cache by default (unless we specify --no-warmup)
+    subprocess.call(['php', appConsoleFile, '--env=prod', 'cache:clear', '--no-debug'])
+
+    # Give the temp directory back to apache
+    # subprocess.call(['chown', '-R', 'apache:apache', appTmpDir])
+
+
+def create_monitoring_cronjob():
+    print "Creating montitoring metrics cronjob to run every 5 minutes"
+    create_cronjob("*/5 * * * *", "root", "php " + appRoot + "/script/metrics-monitor")
+
+
+def main():
+    print "Setting up configurations..."
+    rewrite_application_parameters()
+    regenerate_cache()
+    # create_monitoring_cronjob()
+
+if __name__ == '__main__':
+    main()

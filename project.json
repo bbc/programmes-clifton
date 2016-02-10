@@ -1,0 +1,31 @@
+{
+    "name": "programmes-clifton",
+    "php_version": "7.0",
+    "packaging": {
+        "type": "pac_nginx",
+        "requires": [
+            "cosmos-ca-chains",
+            "cosmos-ca-tools",
+            "awslogs",
+            "PyYAML"
+        ],
+        "conf": {
+            "comment": "We're targeting c3.xlarge instances",
+
+            "opcache.max_accelerated_files": 7963,
+            "opcache.memory_consumption": 64,
+            "opcache.interned_strings_buffer": 16,
+            "memory_limit": "128m",
+            "max_execution_time": 30,
+
+            "fpm.max_children": 324,
+            "fpm.start_servers": 32,
+            "fpm.min_spare_servers": 16,
+            "fpm.max_spare_servers": 48,
+            "fpm.max_requests": 1000,
+
+            "nginx.worker_processes": 4,
+            "nginx.worker_connections": 1024
+        }
+    }
+}
