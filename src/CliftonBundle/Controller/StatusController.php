@@ -20,9 +20,9 @@ class StatusController extends Controller
      */
     public function statusAction(Request $request)
     {
-        // If an unauthorized person (e.g. the load balancer) is pinging us then give them a plain OK
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_BBCSTAFF')) {
-            return new Response('OK', Response::HTTP_OK, array('content-type' => 'text/plain'));
+        // If the load balancer is pinging us then give them a plain OK
+        if ($request->headers->get('User-Agent') == 'ELB-HealthChecker/1.0') {
+            return new Response('OK', Response::HTTP_OK, ['content-type' => 'text/plain']);
         }
 
         // Other people get a better info screen

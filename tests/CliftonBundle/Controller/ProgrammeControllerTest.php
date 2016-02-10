@@ -10,7 +10,7 @@ class ProgrammeControllerTest extends BaseWebTestCase
     {
         $this->loadFixtures(['EastendersFixture']);
 
-        $client = static::createAuthenticatedClient();
+        $client = static::createClient();
         $client->request('GET', '/programmes/b006m86d.json');
 
         $this->assertResponseStatusCode($client, 200);

@@ -8,7 +8,7 @@ class DefaultRouteTest extends BaseWebTestCase
 {
     public function testItRedirectsToTheApiDocRoute()
     {
-        $client = static::createAuthenticatedClient();
+        $client = static::createClient();
         $crawler = $client->request('GET', '/');
 
         $this->assertRedirectTo($client, 301, 'http://localhost/apidoc');

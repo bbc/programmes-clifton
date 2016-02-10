@@ -18,13 +18,6 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
     exit('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
 }
 
-// Add a dummy SSL cert subject while developing, to pretend we're authenticated
-// as a dummy user as PHP's built in web server doesn't do https / x509.
-if (!isset($_SERVER['HTTP_SSLCLIENTCERTSUBJECT'])) {
-    $sslSubject = 'Email=dummy.testuser@bbc.co.uk, CN=dummy.testuser, OU=Business, O=(null), L=(null), C=(null)';
-    $_SERVER['HTTP_SSLCLIENTCERTSUBJECT'] = $sslSubject;
-}
-
 /**
  * @var Composer\Autoload\ClassLoader $loader
  */

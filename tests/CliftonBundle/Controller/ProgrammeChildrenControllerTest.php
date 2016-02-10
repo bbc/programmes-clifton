@@ -10,7 +10,7 @@ class ProgrammeChildrenControllerTest extends BaseWebTestCase
     {
         $this->loadFixtures(['EastendersFixture']);
 
-        $client = static::createAuthenticatedClient();
+        $client = static::createClient();
         $client->request('GET', '/programmes/b006m86d/children.json');
 
         $this->assertResponseStatusCode($client, 200);
@@ -29,7 +29,7 @@ class ProgrammeChildrenControllerTest extends BaseWebTestCase
     {
         $this->loadFixtures(['EastendersFixture']);
 
-        $client = static::createAuthenticatedClient();
+        $client = static::createClient();
         $client->request('GET', sprintf('/programmes/b006m86d/children.json?page=%s&limit=%s', $page, $limit));
 
         $this->assertResponseStatusCode($client, 200);
