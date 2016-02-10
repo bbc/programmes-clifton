@@ -1,3 +1,6 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Symfony template
+# Cache and logs (Symfony2)
 /app/config/parameters.yml
 /build/
 /phpunit.xml
@@ -9,7 +12,11 @@
 /app/symfony_requirements
 
 /composer.phar
-.vagrant
-/vagrant/dev.bbc.co.uk.pem
+
+RPMS
+SOURCES
+SPECS
+SRPMS
+STATICS
 
 /infrastructure/configuration.json

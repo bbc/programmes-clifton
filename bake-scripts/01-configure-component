@@ -9,7 +9,7 @@ from string import Template
 componentConfigFile = "/etc/bake-scripts/config.json"
 
 # application properties
-appRoot = "/var/www/brandingtool"
+appRoot = "/var/www/programmes-clifton"
 
 
 def component_config():
@@ -64,13 +64,13 @@ def regenerate_cache():
     print "Regenerating cache..."
     # Steal the ownership of the tmp directory for a moment, so we can write
     # the new cache files to it
-    # subprocess.call(['chown', '-R', 'root:root', appTmpDir])
+    subprocess.call(['chown', '-R', 'root:root', appTmpDir])
 
     # cache:clear also warms up the cache by default (unless we specify --no-warmup)
     subprocess.call(['php', appConsoleFile, '--env=prod', 'cache:clear', '--no-debug'])
 
-    # Give the temp directory back to apache
-    # subprocess.call(['chown', '-R', 'apache:apache', appTmpDir])
+    # Give the temp directory back to nginx
+    subprocess.call(['chown', '-R', 'nginx:nginx', appTmpDir])
 
 
 def create_monitoring_cronjob():

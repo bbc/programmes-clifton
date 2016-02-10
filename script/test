@@ -1,5 +1,5 @@
 #!/bin/sh
-#
+
 # If we're not already using php70, try and solve that
 if ! (php --version | grep -q "PHP 7.0.") ; then
     if [[ "$HOSTNAME" == "sandbox.bbc.co.uk" ]]; then
