@@ -19,7 +19,6 @@ class AppKernel extends Kernel
             new Symfony\Bundle\MonologBundle\MonologBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
-            new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new BBC\CliftonBundle\CliftonBundle(),
         ];
 

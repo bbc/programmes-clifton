@@ -4,14 +4,10 @@ namespace BBC\CliftonBundle\Controller;
 
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Symfony\Component\HttpFoundation\Request;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProgrammeController extends BaseApsController
 {
-    /**
-     * @ApiDoc()
-     */
     public function findByPidAction(
         Request $request,
         string $pid

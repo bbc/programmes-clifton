@@ -16,7 +16,7 @@ framework:
         strict_requirements: ~
     # form:            ~
     # csrf_protection: ~
-    validation:      { enable_annotations: true }
+    validation:      { enable_annotations: false }
     #serializer:      { enable_annotations: true }
     templating:
         engines: ['twig']
@@ -24,11 +24,11 @@ framework:
     default_locale:  "%locale%"
     trusted_hosts:   ~
     trusted_proxies: ~
-    session:
-        # handler_id set to null will use default session handler from php.ini
-        handler_id:  ~
-        save_path:   "%kernel.root_dir%/../tmp/sessions/%kernel.environment%"
-    fragments:       ~
+    # session:
+    #     # handler_id set to null will use default session handler from php.ini
+    #     handler_id:  ~
+    #     save_path:   "%kernel.root_dir%/../tmp/sessions/%kernel.environment%"
+    # fragments:       ~
     http_method_override: true
     assets: ~
 
@@ -77,15 +77,3 @@ stof_doctrine_extensions:
         default:
             tree: true
             timestampable: true
-
-nelmio_api_doc:
-    name: /programmes API Documentation
-    cache:
-        enabled: true
-    sandbox:
-        body_format:
-            formats: [ 'json' ]
-            default_format: json
-        request_format:
-            formats: { 'json':'application/json'}
-            default_format: json

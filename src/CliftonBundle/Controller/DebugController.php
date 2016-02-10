@@ -4,13 +4,9 @@ namespace BBC\CliftonBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 class DebugController extends BaseApsController
 {
-    /**
-     * @ApiDoc()
-     */
     public function debugAction(Request $request, $serviceName, $serviceMethod)
     {
         $rawArgs = $request->query->get('a', '[]');

@@ -5,13 +5,9 @@ namespace BBC\CliftonBundle\Controller;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 class ProgrammeChildrenController extends BaseApsController
 {
-    /**
-     * @ApiDoc()
-     */
     public function childrenAction(Request $request, string $pid): JsonResponse
     {
         $programmesService = $this->get('clifton.programmes_service');
