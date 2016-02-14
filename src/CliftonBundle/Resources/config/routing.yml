@@ -18,3 +18,8 @@ programmes_children:
     methods:  [GET]
     defaults: { _controller: CliftonBundle:ProgrammeChildren:children }
     requirements: { pid: '[0-9|b-d|f-h|j-n|p-t|v-z]{8,15}' }
+
+home:
+    path: /
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:Home:home }
