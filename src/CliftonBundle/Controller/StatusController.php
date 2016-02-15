@@ -3,9 +3,9 @@
 namespace BBC\CliftonBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use DateTime;
 
 /**
  * Class StatusController
@@ -26,42 +26,11 @@ class StatusController extends Controller
         }
 
         // Other people get a better info screen
-        $statusRepo = $this->getDoctrine()->getRepository('ProgrammesPagesService:Status');
-
-        $status = $statusRepo->find(1);
-
-        $pipsLag = $status->getPipsLatestTime()->diff(
-            $status->getLatestChangeEventCreatedAt()
-        );
-
-        $formattedPipsLag = $pipsLag->format('%y Years, %m Months, %d Days, %h Hours, %i Minutes, %s Seconds');
-
-
-        $progsRepo = $this->getDoctrine()->getRepository('ProgrammesPagesService:CoreEntity');
-        $total = $progsRepo->countAll();
-
-        $state = 'Stopped!';
-        $color = 'red';
-        $latestProcessed = $status->getLatestChangeEventProcessedAt();
-        $now = new \DateTimeImmutable();
-        $seconds = $now->getTimestamp() - $latestProcessed->getTimestamp();
-
-        // if the last PIPs change is our change, we're paused
-        if ($status->getLatestChangeEventId() == $status->getPipsLatestId()) {
-            $state = "Paused - Caught up";
-            $color = 'orange';
-        } elseif ($seconds < 5) {
-            // it's running if the last change was within 5 seconds,
-            $state = 'Running';
-            $color = 'green';
-        }
+        $dbalConnection = $this->get('doctrine.dbal.default_connection');
 
         return $this->render('CliftonBundle:Status:status.html.twig', [
-            'color' => $color,
-            'state' => $state,
-            'status' => $status,
-            'pipsLag' => $formattedPipsLag,
-            'total' => $total,
+            'now' => new DateTime(),
+            'dbConnectivity' => $dbalConnection->isConnected() || $dbalConnection->connect(),
         ]);
     }
 }

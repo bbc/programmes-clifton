@@ -13,9 +13,8 @@ class StatusControllerTest extends BaseWebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/status');
         $this->assertResponseStatusCode($client, 200);
-// var_dump($crawler->html());
-        $this->assertEquals('Status', $crawler->filter('h1')->text());
-        // $this->assertEquals('Pips Lag: 0 Years, 0 Months, 0 Days, 0 Hours, 1 Minutes, 0 Seconds', $crawler->filter('p')->text());
+
+        $this->assertEquals('YES', $crawler->filter('[data-test-name=db-connectivity] span')->text());
     }
 
     public function testStatusFromElb()
