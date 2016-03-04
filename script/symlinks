@@ -1,0 +1,47 @@
+#!/bin/sh
+
+# This file will look to see if you have checked out versions of its
+# dependant libraries (at the same level as this application).
+# If so it will add symlinks to the vendor folder for those libraries
+
+# ./script/symlinks
+# Add the symlinks
+
+# ./script/symlinks remove
+# Remove the symlinks
+
+# ./script/symlinks composer
+# Remove the symlinks and re-install via composer
+
+libraries=( "programmes-pages-service" )
+
+if [ "$1" == "remove" ]; then
+    for library in "${libraries[@]}"
+    do
+        :
+        vendorDir=vendor/bbc/${library}
+        rm -rf $vendorDir
+    done
+elif [ "$1" == "composer" ]; then
+    for library in "${libraries[@]}"
+    do
+        :
+        vendorDir=vendor/bbc/${library}
+        rm -rf $vendorDir
+    done
+    composer install
+else
+    for library in "${libraries[@]}"
+    do
+        :
+        if [ -d "../$library" ]; then
+            vendorDir=vendor/bbc/${library}
+            rm -rf $vendorDir
+            ln -s ../../../${library} ${vendorDir}
+            echo "$library linked at $vendorDir"
+        else
+            echo "$library not checked out"
+        fi
+    done
+fi
+
