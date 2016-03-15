@@ -18,13 +18,12 @@ class ProgrammeController extends BaseApsController
         $programmesService = $this->get('clifton.programmes_service');
         $findByPidProgrammeMapper = $this->get('clifton.find_by_pid_programme_mapper');
 
-        $programmeResult = $programmesService->findByPidFull($pid);
+        $programme = $programmesService->findByPidFull($pid);
 
-        if (is_null($programmeResult->getResult())) {
+        if (is_null($programme)) {
             throw $this->createNotFoundException(sprintf('The programme with PID "%s" was not found', $pid));
         }
 
-        $programme = $programmeResult->getResult();
         $descendantsResult = $programmesService->findDescendantsByPid($programme->getPid());
 
         $apsProgramme = $this->mapSingleApsObject(
@@ -51,7 +50,7 @@ class ProgrammeController extends BaseApsController
 
         $programmeResult = $programmesService->findAll($limit, $page);
         $results = [];
-        foreach ($programmeResult->getResult() as $programme) {
+        foreach ($programmeResult as $programme) {
             $results[] = $this->mapSingleApsObject(
                 $findByPidProgrammeMapper,
                 $programme

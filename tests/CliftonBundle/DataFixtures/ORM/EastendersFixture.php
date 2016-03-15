@@ -25,13 +25,11 @@ class EastendersFixture extends BaseFixture
         $brand = new Brand();
         $brand->setPid('b006m86d');
         $brand->setTitle('Eastenders');
-        $brand->setReleaseDate(new PartialDate('2015'));
         $brand->setAvailableClipsCount(2);
 
         $series = new Series();
         $series->setPid('b006m86f');
         $series->setTitle('Eastenders Series');
-        $series->setReleaseDate(new PartialDate('2015-01'));
         $series->setAvailableClipsCount(2);
         $series->setParent($brand);
 
@@ -39,6 +37,7 @@ class EastendersFixture extends BaseFixture
         $episode->setPid('b06khpp0');
         $episode->setTitle('22/10/2015');
         $episode->setShortSynopsis('Short Synopsis');
+        $episode->setReleaseDate(new PartialDate('2015-01'));
         $episode->setParent($series);
         $episode->setImage($image);
 
@@ -49,7 +48,7 @@ class EastendersFixture extends BaseFixture
         $episode2 = new Episode();
         $episode2->setPid('b06khpp1');
         $episode2->setTitle('25/11/2015');
-        $episode->setShortSynopsis('Short Synopsis');
+        $episode2->setShortSynopsis('Short Synopsis');
         $episode2->setParent($series);
         $episode2->setIsStreamable(true);
         $episode2->setStreamableUntil(new DateTime('2016-08-15T00:00:00Z'));
@@ -59,13 +58,13 @@ class EastendersFixture extends BaseFixture
         $clip = new Clip();
         $clip->setPid('b06khpq0');
         $clip->setTitle('DummyClip');
-        $episode->setShortSynopsis('Short Synopsis');
+        $clip->setShortSynopsis('Short Synopsis');
         $clip->setParent($episode);
 
         $clip2 = new Clip();
         $clip2->setPid('b06khpq1');
         $clip2->setTitle('Another Dummy Clip');
-        $episode->setShortSynopsis('Short Synopsis');
+        $clip2->setShortSynopsis('Short Synopsis');
         $clip2->setParent($episode2);
 
         foreach ([$image, $brand, $series, $episode, $episode2, $clip, $clip2] as $entity) {

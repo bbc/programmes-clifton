@@ -16,12 +16,12 @@ class ProgrammeChildrenController extends BaseApsController
         $limit = $this->queryParamToInt($request, 'limit', 30, 1, 999);
         $page = $this->queryParamToInt($request, 'page', 1, 1);
 
-        $totalCount = $programmesService->countChildrenByPid($pid);
+        $totalCount = $programmesService->countEpisodeGuideChildrenByPid($pid);
 
         // Only request children if there are any, to potentially save a query
         $programmesResult = [];
         if ($totalCount) {
-            $programmesResult = $programmesService->findChildrenByPid($pid, $limit, $page)->getResult();
+            $programmesResult = $programmesService->findEpisodeGuideChildrenByPid($pid, $limit, $page);
         }
 
         $apsChildren = $this->mapManyApsObjects(

@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:bbc/programmes-pages-service.git",
-                "reference": "cd45bb842054847189e41f4eade1b6f3e85e1c69"
+                "reference": "124699a3209755cc747b0ec17ecb0d361882c4ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/cd45bb842054847189e41f4eade1b6f3e85e1c69",
-                "reference": "cd45bb842054847189e41f4eade1b6f3e85e1c69",
+                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/124699a3209755cc747b0ec17ecb0d361882c4ae",
+                "reference": "124699a3209755cc747b0ec17ecb0d361882c4ae",
                 "shasum": ""
             },
             "require": {
@@ -27,6 +27,7 @@
                 "php": ">=7.0.1"
             },
             "require-dev": {
+                "doctrine/data-fixtures": "^1.1",
                 "escapestudios/symfony2-coding-standard": "^2.0",
                 "phpunit/phpunit": "^5.1",
                 "squizlabs/php_codesniffer": "^2.5"
@@ -47,10 +48,10 @@
             ],
             "description": "A library for building /programmes pages",
             "support": {
-                "source": "https://github.com/bbc/programmes-pages-service/tree/master",
+                "source": "https://github.com/bbc/programmes-pages-service/tree/EpisodeGuideChildren",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2016-02-09 08:08:49"
+            "time": "2016-03-14 22:14:14"
         },
         {
             "name": "behat/transliterator",

@@ -20,7 +20,7 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
             'Search Title',
             'Short Synopsis',
             'Long Synopsis',
-            new Image(new Pid('p01m5mss'), 'Title', 'ShortSynopsis', 'standard', 'jpg'),
+            new Image(new Pid('p01m5mss'), 'Title', 'ShortSynopsis', 'ShortSynopsis', 'standard', 'jpg'),
             0,
             1,
             false,
