@@ -5,10 +5,10 @@ status:
 find_by_pid:
     path: /programmes/{pid}.json
     methods:  [GET]
-    defaults: { _controller: CliftonBundle:Programme:findByPid }
+    defaults: { _controller: CliftonBundle:FindByPid:findByPid }
     requirements: { pid: '[0-9|b-d|f-h|j-n|p-t|v-z]{8,15}' }
 
-programmes_children:
+programme_children:
     path: /programmes/{pid}/children.json
     methods:  [GET]
     defaults: { _controller: CliftonBundle:ProgrammeChildren:children }

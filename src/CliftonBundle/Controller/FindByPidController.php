@@ -6,7 +6,7 @@ use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ProgrammeController extends BaseApsController
+class FindByPidController extends BaseApsController
 {
     public function findByPidAction(
         Request $request,

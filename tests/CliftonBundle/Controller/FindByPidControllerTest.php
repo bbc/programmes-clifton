@@ -5,9 +5,9 @@ namespace Tests\BBC\CliftonBundle\Controller;
 use Tests\BBC\CliftonBundle\BaseWebTestCase;
 
 /**
- * @covers BBC\CliftonBundle\Controller\ProgrammeController
+ * @covers BBC\CliftonBundle\Controller\FindByPidController
  */
-class ProgrammeControllerTest extends BaseWebTestCase
+class FindByPidControllerTest extends BaseWebTestCase
 {
     public function testFindByPidAction()
     {
