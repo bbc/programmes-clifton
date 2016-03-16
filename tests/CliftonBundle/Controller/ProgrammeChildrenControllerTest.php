@@ -4,6 +4,10 @@ namespace Tests\BBC\CliftonBundle\Controller;
 
 use Tests\BBC\CliftonBundle\BaseWebTestCase;
 
+/**
+ * @covers BBC\CliftonBundle\Controller\ProgrammeChildrenController
+ * @covers BBC\CliftonBundle\Controller\BaseApsController
+ */
 class ProgrammeChildrenControllerTest extends BaseWebTestCase
 {
     public function testChildrenAction()

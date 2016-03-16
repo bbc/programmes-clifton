@@ -9,6 +9,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Series;
+use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Enumeration\MediaTypeEnum;
 use DateTime;
 use InvalidArgumentException;
@@ -37,7 +38,7 @@ class ProgrammeChildrenProgrammeMapper implements MapperInterface
             'media_type' => $this->getMediaType($programme),
             'title' => $programme->getTitle(),
             'short_synopsis' => $programme->getShortSynopsis(),
-            'image' => $this->getImage($programme),
+            'image' => $this->getImageObject($programme->getImage()),
             'position' => $programme->getPosition(),
             'expected_child_count' => ($programme instanceof ProgrammeContainer) ? $programme->getExpectedChildCount() : null,
             // 'first_broadcast_date' => 'TODO (Is this the Release Date?)',
@@ -92,14 +93,10 @@ class ProgrammeChildrenProgrammeMapper implements MapperInterface
         return $mediaType != MediaTypeEnum::UNKNOWN ? $mediaType : null;
     }
 
-    private function getImage(Programme $programme)
+    private function getImageObject(Image $image)
     {
-        if (!$programme->getImage()) {
-            return null;
-        }
-
         return (object) [
-            'pid' => $programme->getImage()->getPid(),
+            'pid' => $image->getPid(),
         ];
     }
 }
