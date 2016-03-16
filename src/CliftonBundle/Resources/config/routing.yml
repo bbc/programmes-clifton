@@ -2,11 +2,6 @@ status:
     path: /status
     defaults: { _controller: CliftonBundle:Status:status }
 
-all_programmes:
-    path: /programmes/all.json
-    methods:  [GET]
-    defaults: { _controller: CliftonBundle:Programme:all }
-
 find_by_pid:
     path: /programmes/{pid}.json
     methods:  [GET]

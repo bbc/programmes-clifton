@@ -4,6 +4,9 @@ namespace Tests\BBC\CliftonBundle\Controller;
 
 use Tests\BBC\CliftonBundle\BaseWebTestCase;
 
+/**
+ * @covers BBC\CliftonBundle\Controller\ProgrammeController
+ */
 class ProgrammeControllerTest extends BaseWebTestCase
 {
     public function testFindByPidAction()
@@ -19,5 +22,15 @@ class ProgrammeControllerTest extends BaseWebTestCase
 
         $this->assertObjectHasAttribute('programme', $jsonContent);
         $this->assertEquals('b006m86d', $jsonContent->programme->pid);
+    }
+
+    public function testFindByPidActionWithEmptyResult()
+    {
+        $this->loadFixtures([]);
+
+        $client = static::createClient();
+        $client->request('GET', '/programmes/qqqqqqqq.json');
+
+        $this->assertResponseStatusCode($client, 404);
     }
 }
