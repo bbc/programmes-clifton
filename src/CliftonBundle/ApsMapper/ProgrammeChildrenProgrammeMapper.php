@@ -17,11 +17,6 @@ use stdClass;
 
 class ProgrammeChildrenProgrammeMapper implements MapperInterface
 {
-    /**
-     * TODO:
-     * * What is first_broadcast_date based off? Release Date?
-     * * Segment events on ProgrammeItems
-     */
     public function getApsObject($programme): stdClass
     {
         if (!($programme instanceof Programme)) {
@@ -41,14 +36,14 @@ class ProgrammeChildrenProgrammeMapper implements MapperInterface
             'image' => $this->getImageObject($programme->getImage()),
             'position' => $programme->getPosition(),
             'expected_child_count' => ($programme instanceof ProgrammeContainer) ? $programme->getExpectedChildCount() : null,
-            // 'first_broadcast_date' => 'TODO (Is this the Release Date?)',
+            'first_broadcast_date' => $this->getFirstBroadcastDate($programme),
             'has_medium_or_long_synopsis' => true, // This isn't actually used anywhere
             'has_related_links' => $programme->getRelatedLinksCount() > 0,
             'has_clips' => ($programme instanceof ProgrammeContainer || $programme instanceof Episode) ? $programme->getAvailableClipsCount() > 0 : false,
         ];
 
         if ($programme instanceof ProgrammeItem) {
-            // $output['has_segment_events'] = 'TODO (not got a denorm for this yet)';
+            $output['has_segment_events'] = false; // This isn't used any more
 
             if ($programme->isStreamable()) {
                 if ($programme->getStreamableUntil()) {
@@ -91,6 +86,19 @@ class ProgrammeChildrenProgrammeMapper implements MapperInterface
 
         $mediaType = $programme->getMediaType();
         return $mediaType != MediaTypeEnum::UNKNOWN ? $mediaType : null;
+    }
+
+    private function getFirstBroadcastDate(Programme $programme)
+    {
+        // Previously first_broadcast_date was based upon broadcasts of
+        // episodes. As that info is expensive to calculate and we don't need it
+        // elsewhere we're now going to base this off ReleaseDate which should
+        // be good enough
+        if (!($programme instanceof ProgrammeItem)) {
+            return null;
+        }
+
+        return DateTime::createFromFormat(DateTime::ISO8601, $programme->getReleaseDate() . 'T12:00:00Z');
     }
 
     private function getImageObject(Image $image)
