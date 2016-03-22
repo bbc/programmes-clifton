@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:bbc/programmes-pages-service.git",
-                "reference": "124699a3209755cc747b0ec17ecb0d361882c4ae"
+                "reference": "1d98b44134b8d3f3580f15b9cae05536d2575cd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/124699a3209755cc747b0ec17ecb0d361882c4ae",
-                "reference": "124699a3209755cc747b0ec17ecb0d361882c4ae",
+                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/1d98b44134b8d3f3580f15b9cae05536d2575cd4",
+                "reference": "1d98b44134b8d3f3580f15b9cae05536d2575cd4",
                 "shasum": ""
             },
             "require": {
@@ -48,10 +48,10 @@
             ],
             "description": "A library for building /programmes pages",
             "support": {
-                "source": "https://github.com/bbc/programmes-pages-service/tree/EpisodeGuideChildren",
+                "source": "https://github.com/bbc/programmes-pages-service/tree/master",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2016-03-14 22:14:14"
+            "time": "2016-03-21 17:42:00"
         },
         {
             "name": "behat/transliterator",
