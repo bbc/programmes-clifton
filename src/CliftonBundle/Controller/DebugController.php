@@ -16,6 +16,11 @@ class DebugController extends BaseApsController
 {
     public function debugAction(Request $request, $serviceName, $serviceMethod)
     {
+        // Not accessible on LIVE environments
+        if ($this->getParameter('cosmos_environment') == 'live') {
+            throw $this->createNotFoundException();
+        }
+
         $rawArgs = $request->query->get('a', '[]');
         $args = json_decode($rawArgs);
 

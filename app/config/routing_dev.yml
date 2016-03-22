@@ -12,8 +12,3 @@ _errors:
 
 _main:
     resource: routing.yml
-
-debug:
-    path: /debug/{serviceName}/{serviceMethod}
-    defaults:
-        _controller: CliftonBundle:Debug:debug

@@ -18,3 +18,8 @@ home:
     path: /
     methods:  [GET]
     defaults: { _controller: CliftonBundle:Home:home }
+
+debug:
+    path: /debug/{serviceName}/{serviceMethod}
+    defaults:
+        _controller: CliftonBundle:Debug:debug
