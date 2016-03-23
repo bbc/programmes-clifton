@@ -12,12 +12,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
 
-    log_formatter:
-            class: Monolog\Formatter\LineFormatter
-            arguments:
-                - null
-                - "Y-m-d\\TH:i:sO"
-
     monitoring:
         class: RMP\CloudwatchMonitoring\MonitoringHandler
         arguments:

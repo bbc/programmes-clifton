@@ -1,0 +1,51 @@
+#!/usr/bin/env python
+import sys
+import json
+from string import Template
+
+aws_logs_config = """
+[general]
+state_file = /var/awslogs/state/agent-state
+
+[clifton/nginx-access]
+file = /var/log/nginx/access.log
+log_group_name = $environment-clifton/nginx-access
+log_stream_name = $component_name-{instance_id}
+datetime_format = %d/%b/%Y:%H:%M:%S %z
+
+[clifton/nginx-error]
+file = /var/log/nginx/error.log
+log_group_name = $environment-clifton/nginx-error
+log_stream_name = $component_name-{instance_id}
+datetime_format = %d/%b/%Y:%H:%M:%S %z
+
+[clifton/php-error]
+file = /var/log/php-fpm/error.log
+log_group_name = $environment-clifton/php-error
+log_stream_name = $component_name-{instance_id}
+datetime_format = %d-%b-%Y %H:%M:%S
+
+
+[clifton/app-error]
+file = /var/www/programmes-clifton/tmp/logs/prod.log
+log_group_name = $environment-clifton/app-error
+log_stream_name = $component_name-{instance_id}
+datetime_format = %Y-%m-%d %H:%M:%S
+"""
+
+
+def main(component_json_path):
+    aws_logs_config_file = "/var/awslogs/etc/awslogs.conf"
+    config = json.load(open(component_json_path))
+
+    try:
+        with open(aws_logs_config_file, "w") as f:
+            f.write(Template(aws_logs_config).substitute({
+                "component_name": config["name"],
+                "environment": config["environment"],
+            }))
+    except KeyError:
+        raise Exception("key 'environment' or 'name' is missing from config")
+
+if __name__ == "__main__":
+    main(sys.argv[1])
