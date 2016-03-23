@@ -94,11 +94,14 @@ class ProgrammeChildrenProgrammeMapper implements MapperInterface
         // episodes. As that info is expensive to calculate and we don't need it
         // elsewhere we're now going to base this off ReleaseDate which should
         // be good enough
-        if (!($programme instanceof ProgrammeItem)) {
+        if (!($programme instanceof ProgrammeItem) || is_null($programme->getReleaseDate())) {
             return null;
         }
 
-        return DateTime::createFromFormat(DateTime::ISO8601, $programme->getReleaseDate() . 'T12:00:00Z');
+        // ReleaseDate is a
+        list($year, $month, $day) = explode('-', (string) $programme->getReleaseDate());
+        $iso8601Date = sprintf('%s-%s-%sT12:00:00Z', $year, $month == 0 ? 1 : $month, $day == 0 ? 1 : $day);
+        return DateTime::createFromFormat(DateTime::ISO8601, $iso8601Date);
     }
 
     private function getImageObject(Image $image)
