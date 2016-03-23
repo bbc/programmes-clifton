@@ -1,7 +1,14 @@
-services:
+parameters:
+    clifton.cloudwatch_client_class:  Aws\CloudWatch\CloudWatchClient
 
+services:
     security.user.provider.bbc_certificate:
         class: BBC\CliftonBundle\Security\User\BbcCertificateUserProvider
+
+    clifton.cloudwatch_client:
+        class: '%clifton.cloudwatch_client_class%'
+        arguments:
+            - { region: '%aws_s3_region%', version: '2010-08-01' }
 
     clifton.mapper_provider:
         class: BBC\ProgrammesPagesService\Mapper\ProgrammesDbToDomain\MapperProvider

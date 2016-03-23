@@ -4,6 +4,23 @@ parameters:
 #    parameter_name: value
 
 services:
-#    service_name:
-#        class: CliftonBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    kernel.listener.monitoring_listener:
+        class: BBC\CliftonBundle\EventListener\MonitoringListener
+        arguments:
+            - "@monitoring"
+            - "clifton"
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+
+    log_formatter:
+            class: Monolog\Formatter\LineFormatter
+            arguments:
+                - null
+                - "Y-m-d\\TH:i:sO"
+
+    monitoring:
+        class: RMP\CloudwatchMonitoring\MonitoringHandler
+        arguments:
+            - "@clifton.cloudwatch_client"
+            - "clifton"
+            - "%cosmos_environment%"

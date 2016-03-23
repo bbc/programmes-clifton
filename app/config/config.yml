@@ -6,6 +6,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    aws_s3_region: eu-west-1
 
 framework:
     #esi:             ~

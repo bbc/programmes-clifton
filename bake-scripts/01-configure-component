@@ -82,7 +82,7 @@ def main():
     print "Setting up configurations..."
     rewrite_application_parameters()
     regenerate_cache()
-    # create_monitoring_cronjob()
+    create_monitoring_cronjob()
 
 if __name__ == '__main__':
     main()

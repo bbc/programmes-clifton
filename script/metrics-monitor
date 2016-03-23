@@ -1,0 +1,91 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__.'/../vendor/autoload.php';
+
+use Aws\CloudWatch\CloudWatchClient;
+use RMP\CloudwatchMonitoring\MonitoringHandler;
+
+date_default_timezone_set(@date_default_timezone_get());
+
+$metrics = new ServerMetrics();
+$metrics->putAllMetrics();
+$metrics->sendMetrics();
+
+class ServerMetrics
+{
+    private $componentName;
+
+    private $monitor;
+
+    public function __construct()
+    {
+        $this->setupMonitor();
+    }
+
+    public function putAllMetrics()
+    {
+        $this->putMemoryMetric();
+    }
+
+    public function sendMetrics()
+    {
+        $this->monitor->sendMetrics();
+    }
+
+    private function setupMonitor()
+    {
+        $env = 'local';
+        $componentName = null;
+
+        $attemptedComponentName = 'programmes-clifton';
+        if (file_exists('/etc/'.$attemptedComponentName.'/component_configuration.json')) {
+            $componentName = $attemptedComponentName;
+        }
+
+        if (!$componentName) {
+            error_log('[Nginx-FPM-Monitor] Could not read component_configuration.json');
+            exit;
+        }
+
+        $envConfig = json_decode(file_get_contents(
+            '/etc/'.$componentName.'/component_configuration.json'
+        ));
+
+        $cloudWatch = new CloudWatchClient([
+            'region' => 'eu-west-1',
+            'version' => '2010-08-01'
+        ]);
+
+        $this->monitor = new MonitoringHandler($cloudWatch, 'clifton', $envConfig->environment);
+        $this->componentName = $componentName;
+    }
+
+    /**
+     * Memory Usage
+     */
+    private function putMemoryMetric()
+    {
+        $memoryContents = shell_exec('free -m');
+
+        if (!$memoryContents) {
+            return;
+        }
+
+        if (preg_match('/Mem:\s+(\d+)/i', $memoryContents, $totalMatches)) {
+            preg_match('/-\/\+ buffers\/cache:\s+(\d+)\s+(\d+)/i', $memoryContents, $memoryMatches);
+
+            $totalMemory = (int)$totalMatches[1];
+            $used = (int)$memoryMatches[1];
+            if ($totalMemory && $totalMemory > 0) {
+                $ratio = round(($used / $totalMemory) * 100, 0);
+            } else {
+                $ratio = 0;
+            }
+
+            $this->monitor->putMetricData('RAMUtilization', $ratio, [
+                ['Name' => 'ComponentName', 'Value' => $this->componentName],
+            ]);
+        }
+    }
+}
