@@ -2,6 +2,7 @@ imports:
     - { resource: config.yml }
 
 parameters:
+    clifton.cloudwatch_client_class: RMP\CloudwatchMonitoring\CloudWatchClientMock
 
 framework:
     router:

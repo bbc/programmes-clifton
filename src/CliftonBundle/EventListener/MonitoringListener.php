@@ -25,11 +25,11 @@ class MonitoringListener
         if ($exception) {
             if (method_exists($exception, 'getStatusCode')) {
                 if ($exception->getStatusCode() == 500) {
-                    $this->monitor->putMetricData('500Error', 1, [['Name' => 'ComponentName', 'Value' => $this->componentName]]);
+                    $this->monitor->putMetricData('500Error', 1, [['Name' => 'ComponentName', 'Value' => $this->componentName]], "Count");
                     $this->monitor->sendMetrics();
                 }
             } else {
-                $this->monitor->putMetricData('500Error', 1, [['Name' => 'ComponentName', 'Value' => $this->componentName]]);
+                $this->monitor->putMetricData('500Error', 1, [['Name' => 'ComponentName', 'Value' => $this->componentName]], "Count");
                 $this->monitor->sendMetrics();
             }
 

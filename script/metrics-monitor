@@ -85,7 +85,7 @@ class ServerMetrics
 
             $this->monitor->putMetricData('RAMUtilization', $ratio, [
                 ['Name' => 'ComponentName', 'Value' => $this->componentName],
-            ]);
+            ], "Percent");
         }
     }
 }
