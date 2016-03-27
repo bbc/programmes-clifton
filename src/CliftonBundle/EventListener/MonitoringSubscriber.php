@@ -28,7 +28,6 @@ class MonitoringSubscriber implements EventSubscriberInterface
         return [
            'kernel.request' => [['onRequestStart', 1023]],
            'kernel.terminate' => [['onTerminate', -1023]],
-           'kernel.exception' => [['onKernelException', 0]],
         ];
     }
 
@@ -40,6 +39,7 @@ class MonitoringSubscriber implements EventSubscriberInterface
     public function onTerminate(PostResponseEvent $event)
     {
         $stopEvent = $this->stopwatch->stop('request');
+        $status = $event->getResponse()->getStatusCode();
 
         // TODO: This currently makes a request per call to putMetricData. We
         // should give the MonitoringHandler a way to make multiple metric logs
@@ -50,19 +50,14 @@ class MonitoringSubscriber implements EventSubscriberInterface
             $this->monitor->putMetricData('RequestTime', $stopEvent->getDuration(), [], "Milliseconds");
         }
 
-        $this->monitor->sendMetrics();
-    }
-
-    public function onKernelException(GetResponseForExceptionEvent $event)
-    {
-        $exception = $event->getException();
-
-        if ($exception) {
-            if ($exception->getStatusCode() == 500) {
-                $this->monitor->putMetricData('500Error', 1, [['Name' => 'ComponentName', 'Value' => $this->componentName]], "Count");
-                // Don't need to call sendMetrics() here as it'll be logged
-                // when we call sendMetrics in the Terminate handler
-            }
+        if ($status == 400) {
+            $this->monitor->putMetricData('400Error', 1, [], "Count");
         }
+
+        if ($status == 500) {
+            $this->monitor->putMetricData('500Error', 1, [], "Count");
+        }
+
+        $this->monitor->sendMetrics();
     }
 }
