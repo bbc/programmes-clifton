@@ -4,18 +4,6 @@ parameters:
 #    parameter_name: value
 
 services:
-    stopwatch:
-        class: Symfony\Component\Stopwatch\Stopwatch
-
-    kernel.listener.monitoring_subscriber:
-        class: BBC\CliftonBundle\EventListener\MonitoringSubscriber
-        arguments:
-            - "@monitoring"
-            - "@stopwatch"
-            - "clifton"
-        tags:
-            - { name: kernel.event_subscriber }
-
     monitoring:
         class: RMP\CloudwatchMonitoring\MonitoringHandler
         arguments:
