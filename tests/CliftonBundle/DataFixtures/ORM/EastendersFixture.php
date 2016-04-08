@@ -41,7 +41,7 @@ class EastendersFixture extends BaseFixture
         $episode->setParent($series);
         $episode->setImage($image);
 
-        $episode->setIsStreamable(true);
+        $episode->setStreamable(true);
         $episode->setStreamableUntil(new DateTime('2016-08-15T00:00:00Z'));
         $episode->setAvailableClipsCount(1);
 
@@ -50,7 +50,7 @@ class EastendersFixture extends BaseFixture
         $episode2->setTitle('25/11/2015');
         $episode2->setShortSynopsis('Short Synopsis');
         $episode2->setParent($series);
-        $episode2->setIsStreamable(true);
+        $episode2->setStreamable(true);
         $episode2->setStreamableUntil(new DateTime('2016-08-15T00:00:00Z'));
         $episode2->setAvailableClipsCount(1);
 
