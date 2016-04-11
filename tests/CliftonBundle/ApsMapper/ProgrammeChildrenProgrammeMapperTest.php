@@ -97,7 +97,7 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
             'image' => (object) ['pid' => 'p01m5mss'],
             'position' => 101,
             'expected_child_count' => null,
-            'first_broadcast_date' => new DateTime('2015-02-01T12:00:00Z'),
+            'first_broadcast_date' => '2015-02-01T12:00:00Z',
             'has_medium_or_long_synopsis' => true,
             'has_related_links' => true,
             'has_clips' => true,
@@ -113,7 +113,7 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testInvalidDomainObject()
     {

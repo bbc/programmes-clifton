@@ -98,10 +98,21 @@ class ProgrammeChildrenProgrammeMapper implements MapperInterface
             return null;
         }
 
-        // ReleaseDate is a
+        // ReleaseDate is a PartialDate, so set to the first day/month if they were zeroes
         list($year, $month, $day) = explode('-', (string) $programme->getReleaseDate());
-        $iso8601Date = sprintf('%s-%s-%sT12:00:00Z', $year, $month == 0 ? 1 : $month, $day == 0 ? 1 : $day);
-        return DateTime::createFromFormat(DateTime::ISO8601, $iso8601Date);
+        $iso8601Date = sprintf(
+            '%s-%s-%sT12:00:00Z',
+            $year,
+            $this->validDatePoint($month),
+            $this->validDatePoint($day)
+        );
+        return $iso8601Date;
+    }
+
+    private function validDatePoint(int $point)
+    {
+        $point = $point ?: 1;
+        return str_pad($point, '2', '0', STR_PAD_LEFT);
     }
 
     private function getImageObject(Image $image)
