@@ -15,27 +15,19 @@ class EastendersFixture extends BaseFixture
 {
     public function load(ObjectManager $manager)
     {
-        $image = new Image();
-        $image->setPid('p01m5mss');
-        $image->setTitle('Image Title');
+        $image = new Image('p01m5mss', 'Image Title');
         $image->setShortSynopsis('Image Synopsis');
         $image->setType('standard');
         $image->setExtension('jpg');
 
-        $brand = new Brand();
-        $brand->setPid('b006m86d');
-        $brand->setTitle('Eastenders');
+        $brand = new Brand('b006m86d', 'Eastenders');
         $brand->setAvailableClipsCount(2);
 
-        $series = new Series();
-        $series->setPid('b006m86f');
-        $series->setTitle('Eastenders Series');
+        $series = new Series('b006m86f', 'Eastenders Series');
         $series->setAvailableClipsCount(2);
         $series->setParent($brand);
 
-        $episode = new Episode();
-        $episode->setPid('b06khpp0');
-        $episode->setTitle('22/10/2015');
+        $episode = new Episode('b06khpp0', '22/10/2015');
         $episode->setShortSynopsis('Short Synopsis');
         $episode->setReleaseDate(new PartialDate('2015-01'));
         $episode->setParent($series);
@@ -45,9 +37,7 @@ class EastendersFixture extends BaseFixture
         $episode->setStreamableUntil(new DateTime('2016-08-15T00:00:00Z'));
         $episode->setAvailableClipsCount(1);
 
-        $episode2 = new Episode();
-        $episode2->setPid('b06khpp1');
-        $episode2->setTitle('25/11/2015');
+        $episode2 = new Episode('b06khpp1', '25/11/2015');
         $episode2->setShortSynopsis('Short Synopsis');
         $episode2->setParent($series);
         $episode2->setStreamable(true);
@@ -55,15 +45,11 @@ class EastendersFixture extends BaseFixture
         $episode2->setAvailableClipsCount(1);
 
 
-        $clip = new Clip();
-        $clip->setPid('b06khpq0');
-        $clip->setTitle('DummyClip');
+        $clip = new Clip('b06khpq0', 'DummyClip');
         $clip->setShortSynopsis('Short Synopsis');
         $clip->setParent($episode);
 
-        $clip2 = new Clip();
-        $clip2->setPid('b06khpq1');
-        $clip2->setTitle('Another Dummy Clip');
+        $clip2 = new Clip('b06khpq1', 'Another Dummy Clip');
         $clip2->setShortSynopsis('Short Synopsis');
         $clip2->setParent($episode2);
 

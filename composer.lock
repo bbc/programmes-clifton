@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.17.6",
+            "version": "3.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "d5a5145263da88c9ba870b579c3d4f648b82d2a9"
+                "reference": "4dce50189be0acac9d7b877c7439e2890937473c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/d5a5145263da88c9ba870b579c3d4f648b82d2a9",
-                "reference": "d5a5145263da88c9ba870b579c3d4f648b82d2a9",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/4dce50189be0acac9d7b877c7439e2890937473c",
+                "reference": "4dce50189be0acac9d7b877c7439e2890937473c",
                 "shasum": ""
             },
             "require": {
@@ -85,7 +85,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2016-04-11 17:36:01"
+            "time": "2016-04-19 16:36:37"
         },
         {
             "name": "bbc-rmp/cloudwatch-monitoringhandler",
@@ -141,12 +141,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:bbc/programmes-pages-service.git",
-                "reference": "64bf109c8e81a6d593b3f93b0a93e98f1b2f70ef"
+                "reference": "ede155f9d4b9209481dfac4a9352790bdf75b2b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/64bf109c8e81a6d593b3f93b0a93e98f1b2f70ef",
-                "reference": "64bf109c8e81a6d593b3f93b0a93e98f1b2f70ef",
+                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/ede155f9d4b9209481dfac4a9352790bdf75b2b6",
+                "reference": "ede155f9d4b9209481dfac4a9352790bdf75b2b6",
                 "shasum": ""
             },
             "require": {
@@ -176,10 +176,10 @@
             ],
             "description": "A library for building /programmes pages",
             "support": {
-                "source": "https://github.com/bbc/programmes-pages-service/tree/master",
+                "source": "https://github.com/bbc/programmes-pages-service/tree/constructor-defaults",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2016-04-18 14:29:41"
+            "time": "2016-04-20 15:50:43"
         },
         {
             "name": "behat/transliterator",
@@ -3002,16 +3002,16 @@
         },
         {
             "name": "phpunit/phpunit-mock-objects",
-            "version": "3.1.2",
+            "version": "3.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "7c34c9bdde4131b824086457a3145e27dba10ca1"
+                "reference": "151c96874bff6fe61a25039df60e776613a61489"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/7c34c9bdde4131b824086457a3145e27dba10ca1",
-                "reference": "7c34c9bdde4131b824086457a3145e27dba10ca1",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/151c96874bff6fe61a25039df60e776613a61489",
+                "reference": "151c96874bff6fe61a25039df60e776613a61489",
                 "shasum": ""
             },
             "require": {
@@ -3054,7 +3054,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2016-03-24 05:58:25"
+            "time": "2016-04-20 14:39:26"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
