@@ -29,7 +29,7 @@ elif [ "$1" == "composer" ]; then
         vendorDir=vendor/bbc/${library}
         rm -rf $vendorDir
     done
-    composer install
+    composer update
 else
     for library in "${libraries[@]}"
     do

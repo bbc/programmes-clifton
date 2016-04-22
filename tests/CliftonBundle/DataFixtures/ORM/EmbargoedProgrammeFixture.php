@@ -16,9 +16,10 @@ class EmbargoedProgrammeFixture extends AbstractFixture
         $this->manager = $manager;
 
         $brand = $this->buildBrand('b017j7vs', 'Old Jews Telling Jokes');
+        $brand2 = $this->buildBrand('00000000', 'Old Jews Telling Jokes 2', true);
 
         $e1 = $this->buildEpisode('b01777fr', 'Episode 1', $brand);
-        $e2 = $this->buildEpisode('b017j5jw', 'Episode 2', $brand);
+        $e2 = $this->buildEpisode('b017j5jw', 'Episode 2', $brand2);
 
         // The mythical 3rd episode doesn't exist, but we want to prove that
         // embargoed items don't get returned when querying
@@ -27,9 +28,10 @@ class EmbargoedProgrammeFixture extends AbstractFixture
         $manager->flush();
     }
 
-    private function buildBrand($pid, $title)
+    private function buildBrand($pid, $title, $embargoed = false)
     {
         $entity = new Brand($pid, $title);
+        $entity->setIsEmbargoed($embargoed);
         $this->manager->persist($entity);
         return $entity;
     }

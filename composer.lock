@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.18.0",
+            "version": "3.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "4dce50189be0acac9d7b877c7439e2890937473c"
+                "reference": "ed9bfdfd19b1e50a13f7ac772fd3d09a00ed8ed1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/4dce50189be0acac9d7b877c7439e2890937473c",
-                "reference": "4dce50189be0acac9d7b877c7439e2890937473c",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/ed9bfdfd19b1e50a13f7ac772fd3d09a00ed8ed1",
+                "reference": "ed9bfdfd19b1e50a13f7ac772fd3d09a00ed8ed1",
                 "shasum": ""
             },
             "require": {
@@ -85,7 +85,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2016-04-19 16:36:37"
+            "time": "2016-04-21 21:16:40"
         },
         {
             "name": "bbc-rmp/cloudwatch-monitoringhandler",
@@ -141,12 +141,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:bbc/programmes-pages-service.git",
-                "reference": "ede155f9d4b9209481dfac4a9352790bdf75b2b6"
+                "reference": "7c817ebb7ac935c142f1bf109e467e419ce0fe6f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/ede155f9d4b9209481dfac4a9352790bdf75b2b6",
-                "reference": "ede155f9d4b9209481dfac4a9352790bdf75b2b6",
+                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/7c817ebb7ac935c142f1bf109e467e419ce0fe6f",
+                "reference": "7c817ebb7ac935c142f1bf109e467e419ce0fe6f",
                 "shasum": ""
             },
             "require": {
@@ -176,10 +176,10 @@
             ],
             "description": "A library for building /programmes pages",
             "support": {
-                "source": "https://github.com/bbc/programmes-pages-service/tree/constructor-defaults",
+                "source": "https://github.com/bbc/programmes-pages-service/tree/master",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2016-04-20 15:50:43"
+            "time": "2016-04-22 13:48:14"
         },
         {
             "name": "behat/transliterator",
