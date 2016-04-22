@@ -40,5 +40,4 @@ class EmbargoableEntitiesTest extends BaseWebTestCase
 
         $this->assertEmpty($repo->findBy(['pid' => 'v0000000']));
     }
-
 }
