@@ -13,8 +13,15 @@ docker stop registry.ci.rmp.api.bbci.co.uk/programmes-docker-base || true
 echo "Running CI in container..."
 docker run --rm -u `id -u`:`id -g` -e OAUTH="$OAUTH_TOKEN" -v "$WORKSPACE":/mnt/ registry.ci.rmp.api.bbci.co.uk/programmes-docker-base script/ci-docker
 
-echo "Running cosmos-build..."
-cosmos-build -s docker -i registry.ci.rmp.api.bbci.co.uk/programmes-docker-base
+if [ "$BUILD_TYPE" = "pull-request" ]
+then
+    echo "Running mbt..."
+	BUILD_COMMAND="mbt"
+else
+    echo "Running cosmos-build..."
+	BUILD_COMMAND="cosmos-build"
+fi
+$BUILD_COMMAND -s docker -i registry.ci.rmp.api.bbci.co.uk/programmes-docker-base
 
 echo "Stopping container..."
 docker stop registry.ci.rmp.api.bbci.co.uk/programmes-docker-base || true
