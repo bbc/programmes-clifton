@@ -18,3 +18,5 @@ which contains instructions on how to run Clifton, and Faucet (which provides
 the DB schema and tools to ingest data into the DB) within a single VM. This
 shall provide the tools to create and populate the Database that Clifton
 requests data from.
+
+</readme>
