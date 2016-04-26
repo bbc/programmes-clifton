@@ -38,6 +38,7 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
             null,
             new PartialDate('2015-01-02'),
             101,
+            null,
             1001
         );
 
@@ -83,6 +84,7 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
             null,
             new PartialDate(2015, 02, 00),
             101,
+            null,
             1001,
             $streamableFrom,
             $streamableUntil

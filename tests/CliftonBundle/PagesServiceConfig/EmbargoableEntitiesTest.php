@@ -28,16 +28,12 @@ class EmbargoableEntitiesTest extends BaseWebTestCase
         $this->assertFalse(isset($entities[2]['parent']));
     }
 
-    public function testEmbargoedVersionsAreFilteredOut()
+    public function testVersionIsEmbargoedIfParentIsEmbargoed()
     {
-        $this->loadFixtures(['EmbargoedVersionFixture']);
+        $this->loadFixtures(['EmbargoedProgrammeFixture']);
         $repo = $this->getContainer()->get('doctrine')->getRepository('ProgrammesPagesService:Version');
 
-        $entities = $repo->findAll();
-        $this->assertEquals('v0000001', $entities[0]->getPid());
-        $this->assertEquals('v0000002', $entities[1]->getPid());
-        // We do not expect to see the pid v0000000 which belongs to the embargoed version
-
-        $this->assertEmpty($repo->findBy(['pid' => 'v0000000']));
+        $entity = $repo->findByPid('v0000001');
+        $this->assertNull($entity);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Tests\BBC\CliftonBundle\DataFixtures\ORM;
 
+use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Version;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Brand;
@@ -24,6 +25,12 @@ class EmbargoedProgrammeFixture extends AbstractFixture
         // The mythical 3rd episode doesn't exist, but we want to prove that
         // embargoed items don't get returned when querying
         $e3Embargoed = $this->buildEpisode('99999999', 'Episode 3', $brand, true);
+
+        $manager->flush();
+
+        // add a version to the embargoed episode
+        $version = new Version('v0000001', $e3Embargoed);
+        $this->manager->persist($version);
 
         $manager->flush();
     }

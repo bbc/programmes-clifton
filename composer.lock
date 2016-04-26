@@ -141,12 +141,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:bbc/programmes-pages-service.git",
-                "reference": "7c817ebb7ac935c142f1bf109e467e419ce0fe6f"
+                "reference": "fe42370878ce6a776e35f143c094559358b78830"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/7c817ebb7ac935c142f1bf109e467e419ce0fe6f",
-                "reference": "7c817ebb7ac935c142f1bf109e467e419ce0fe6f",
+                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/fe42370878ce6a776e35f143c094559358b78830",
+                "reference": "fe42370878ce6a776e35f143c094559358b78830",
                 "shasum": ""
             },
             "require": {
@@ -179,7 +179,7 @@
                 "source": "https://github.com/bbc/programmes-pages-service/tree/master",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2016-04-22 13:48:14"
+            "time": "2016-04-26 14:05:05"
         },
         {
             "name": "behat/transliterator",
@@ -1722,16 +1722,16 @@
         },
         {
             "name": "sensio/distribution-bundle",
-            "version": "v5.0.5",
+            "version": "v5.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
-                "reference": "3a160355bb1364da55ed9e415c1aa1fa8d457b6f"
+                "reference": "ffe306d09c1f2bad721237f63b2169d1b78253d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/3a160355bb1364da55ed9e415c1aa1fa8d457b6f",
-                "reference": "3a160355bb1364da55ed9e415c1aa1fa8d457b6f",
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/ffe306d09c1f2bad721237f63b2169d1b78253d0",
+                "reference": "ffe306d09c1f2bad721237f63b2169d1b78253d0",
                 "shasum": ""
             },
             "require": {
@@ -1770,7 +1770,7 @@
                 "configuration",
                 "distribution"
             ],
-            "time": "2016-03-15 16:21:41"
+            "time": "2016-04-25 20:50:31"
         },
         {
             "name": "sensiolabs/security-checker",
