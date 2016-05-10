@@ -18,6 +18,10 @@
         {
             "type": "vcs",
             "url": "git@github.com:bbc/rmp-monitoringhandler.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:bbc/DoctrineExtensions.git"
         }
     ],
     "require": {
