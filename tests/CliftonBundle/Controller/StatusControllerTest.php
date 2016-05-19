@@ -8,8 +8,6 @@ class StatusControllerTest extends BaseWebTestCase
 {
     public function testStatus()
     {
-        $this->loadFixtures(['SimpleStatusFixture']);
-
         $client = static::createClient();
         $crawler = $client->request('GET', '/status');
         $this->assertResponseStatusCode($client, 200);
