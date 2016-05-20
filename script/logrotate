@@ -1,0 +1,6 @@
+/var/www/programmes-clifton/tmp/logs/*.log {
+    daily
+    rotate 7
+    dateext
+    create 666 nginx nginx
+}

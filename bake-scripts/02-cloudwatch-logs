@@ -33,6 +33,10 @@ log_stream_name = $component_name-{instance_id}
 datetime_format = %Y-%m-%d %H:%M:%S
 """
 
+def logrotate():
+    print "Setting up log rotation"
+    appRoot = "/var/www/programmes-clifton"
+    subprocess.call(['cp', appRoot + '/script/logrotate', '/etc/logrotate.d'])
 
 def main(component_json_path):
     aws_logs_config_file = "/var/awslogs/etc/awslogs.conf"
@@ -46,6 +50,8 @@ def main(component_json_path):
             }))
     except KeyError:
         raise Exception("key 'environment' or 'name' is missing from config")
+
+    logrotate()
 
 if __name__ == "__main__":
     main(sys.argv[1])
