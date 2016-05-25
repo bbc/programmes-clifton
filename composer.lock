@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "095b0d3e5a68f22e41ba64170ed2b3c1",
-    "content-hash": "25be2819c8e2739c6e0033e9b97b837a",
+    "hash": "d1776b5084cbe4dc410acb78c26c18af",
+    "content-hash": "838ddf3e8d867ec49db115a986fbc5a3",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.18.10",
+            "version": "3.18.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "483e21b602fc5c9993437e6e04e44d936392c344"
+                "reference": "8bd25f62869051476034464d853a9c0c72e2d91e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/483e21b602fc5c9993437e6e04e44d936392c344",
-                "reference": "483e21b602fc5c9993437e6e04e44d936392c344",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/8bd25f62869051476034464d853a9c0c72e2d91e",
+                "reference": "8bd25f62869051476034464d853a9c0c72e2d91e",
                 "shasum": ""
             },
             "require": {
@@ -85,7 +85,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2016-05-18 20:23:24"
+            "time": "2016-05-24 18:21:32"
         },
         {
             "name": "bbc-rmp/cloudwatch-monitoringhandler",
@@ -137,22 +137,25 @@
         },
         {
             "name": "bbc/doctrine-extensions",
-            "version": "v2.4.135",
+            "version": "v2.4.136",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bbc/DoctrineExtensions.git",
-                "reference": "a071e7ab587ff2f3322ee6fc7a135cbe667308db"
+                "reference": "ad417e48a8f1ae75cfebfdb5f0f55ebdaf4cbbf2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/DoctrineExtensions/zipball/a071e7ab587ff2f3322ee6fc7a135cbe667308db",
-                "reference": "a071e7ab587ff2f3322ee6fc7a135cbe667308db",
+                "url": "https://api.github.com/repos/bbc/DoctrineExtensions/zipball/ad417e48a8f1ae75cfebfdb5f0f55ebdaf4cbbf2",
+                "reference": "ad417e48a8f1ae75cfebfdb5f0f55ebdaf4cbbf2",
                 "shasum": ""
             },
             "require": {
                 "behat/transliterator": "~1.0",
                 "doctrine/common": "~2.4",
                 "php": ">=5.4"
+            },
+            "replace": {
+                "gedmo/doctrine-extensions": "2.*"
             },
             "require-dev": {
                 "doctrine/common": ">=2.5.0",
@@ -213,9 +216,9 @@
             "support": {
                 "email": "gediminas.morkevicius@gmail.com",
                 "wiki": "https://github.com/Atlantic18/DoctrineExtensions/tree/master/doc",
-                "source": "https://github.com/bbc/DoctrineExtensions/tree/v2.4.135"
+                "source": "https://github.com/bbc/DoctrineExtensions/tree/v2.4.136"
             },
-            "time": "2016-04-27 17:05:59"
+            "time": "2016-05-23 15:17:33"
         },
         {
             "name": "bbc/programmes-pages-service",
@@ -223,12 +226,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:bbc/programmes-pages-service.git",
-                "reference": "640da5174f8316d4a84a54ce96c1d71f49f7bfaa"
+                "reference": "9347a800353df0ccd30c3242b28f6eefaddb472c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/640da5174f8316d4a84a54ce96c1d71f49f7bfaa",
-                "reference": "640da5174f8316d4a84a54ce96c1d71f49f7bfaa",
+                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/9347a800353df0ccd30c3242b28f6eefaddb472c",
+                "reference": "9347a800353df0ccd30c3242b28f6eefaddb472c",
                 "shasum": ""
             },
             "require": {
@@ -261,7 +264,7 @@
                 "source": "https://github.com/bbc/programmes-pages-service/tree/master",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2016-05-18 14:43:13"
+            "time": "2016-05-25 14:17:40"
         },
         {
             "name": "behat/transliterator",
@@ -1182,85 +1185,6 @@
                 "orm"
             ],
             "time": "2016-01-05 21:34:58"
-        },
-        {
-            "name": "gedmo/doctrine-extensions",
-            "version": "v2.4.13",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Atlantic18/DoctrineExtensions.git",
-                "reference": "5f4b6c848f0d6834a434a62a09a0935d147082e1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Atlantic18/DoctrineExtensions/zipball/5f4b6c848f0d6834a434a62a09a0935d147082e1",
-                "reference": "5f4b6c848f0d6834a434a62a09a0935d147082e1",
-                "shasum": ""
-            },
-            "require": {
-                "behat/transliterator": "~1.0",
-                "doctrine/common": "~2.4",
-                "php": ">=5.3.2"
-            },
-            "require-dev": {
-                "doctrine/common": ">=2.5.0",
-                "doctrine/mongodb-odm": ">=1.0.2",
-                "doctrine/orm": ">=2.5.0",
-                "phpunit/phpunit": "~4.4",
-                "phpunit/phpunit-mock-objects": "~2.3",
-                "symfony/yaml": "~2.6"
-            },
-            "suggest": {
-                "doctrine/mongodb-odm": "to use the extensions with the MongoDB ODM",
-                "doctrine/orm": "to use the extensions with the ORM"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.4.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Gedmo\\": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "David Buchmann",
-                    "email": "david@liip.ch"
-                },
-                {
-                    "name": "Gediminas Morkevicius",
-                    "email": "gediminas.morkevicius@gmail.com"
-                },
-                {
-                    "name": "Gustavo Falco",
-                    "email": "comfortablynumb84@gmail.com"
-                }
-            ],
-            "description": "Doctrine2 behavioral extensions",
-            "homepage": "http://gediminasm.org/",
-            "keywords": [
-                "Blameable",
-                "behaviors",
-                "doctrine2",
-                "extensions",
-                "gedmo",
-                "loggable",
-                "nestedset",
-                "sluggable",
-                "sortable",
-                "timestampable",
-                "translatable",
-                "tree",
-                "uploadable"
-            ],
-            "time": "2016-02-18 15:33:43"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -2772,16 +2696,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "3.3.1",
+            "version": "3.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "2431befdd451fac43fbcde94d1a92fb3b8b68f86"
+                "reference": "4862dac433cbdb4438b593fa7f79e07559ba157e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/2431befdd451fac43fbcde94d1a92fb3b8b68f86",
-                "reference": "2431befdd451fac43fbcde94d1a92fb3b8b68f86",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/4862dac433cbdb4438b593fa7f79e07559ba157e",
+                "reference": "4862dac433cbdb4438b593fa7f79e07559ba157e",
                 "shasum": ""
             },
             "require": {
@@ -2831,7 +2755,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-04-08 08:14:53"
+            "time": "2016-05-25 06:48:21"
         },
         {
             "name": "phpunit/php-file-iterator",
