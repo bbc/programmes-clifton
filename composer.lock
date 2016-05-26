@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d1776b5084cbe4dc410acb78c26c18af",
-    "content-hash": "838ddf3e8d867ec49db115a986fbc5a3",
+    "hash": "c76ea6eabb3c44082006a98cd4acd24a",
+    "content-hash": "b4775e66a5c392b6dc157658e54e9b65",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -89,16 +89,16 @@
         },
         {
             "name": "bbc-rmp/cloudwatch-monitoringhandler",
-            "version": "dev-mock-promises",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:bbc/rmp-monitoringhandler.git",
-                "reference": "bc6af29afbf766d1eca993ea2e970a8c66165a1d"
+                "reference": "8be9756d03de894e328e1138891a22403671620d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/rmp-monitoringhandler/zipball/bc6af29afbf766d1eca993ea2e970a8c66165a1d",
-                "reference": "bc6af29afbf766d1eca993ea2e970a8c66165a1d",
+                "url": "https://api.github.com/repos/bbc/rmp-monitoringhandler/zipball/8be9756d03de894e328e1138891a22403671620d",
+                "reference": "8be9756d03de894e328e1138891a22403671620d",
                 "shasum": ""
             },
             "require": {
@@ -130,10 +130,10 @@
             ],
             "description": "Handler for RMP projects to post monitoring events to cloudwatch",
             "support": {
-                "source": "https://github.com/bbc/rmp-monitoringhandler/tree/mock-promises",
+                "source": "https://github.com/bbc/rmp-monitoringhandler/tree/v1.0.0",
                 "issues": "https://github.com/bbc/rmp-monitoringhandler/issues"
             },
-            "time": "2015-12-16 13:32:57"
+            "time": "2016-05-26 11:27:10"
         },
         {
             "name": "bbc/doctrine-extensions",
@@ -3718,8 +3718,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "bbc/programmes-pages-service": 20,
-        "bbc-rmp/cloudwatch-monitoringhandler": 20
+        "bbc/programmes-pages-service": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

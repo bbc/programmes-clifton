@@ -37,7 +37,7 @@
         "stof/doctrine-extensions-bundle": "^1.2",
         "aws/aws-sdk-php": "^3.0",
         "bbc/programmes-pages-service": "dev-master@dev",
-        "bbc-rmp/cloudwatch-monitoringhandler": "dev-mock-promises"
+        "bbc-rmp/cloudwatch-monitoringhandler": "^1.0"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^3.0",

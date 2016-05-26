@@ -14,7 +14,7 @@ use TypeError;
 
 class DebugController extends BaseApsController
 {
-    public function debugAction(Request $request, $serviceName, $serviceMethod)
+    public function debugAction(Request $request, $serviceName, $serviceMethod): Response
     {
         // Not accessible on LIVE environments
         if ($this->getParameter('cosmos_environment') == 'live') {
@@ -29,7 +29,7 @@ class DebugController extends BaseApsController
         }
 
         try {
-            $callable = [$this->get('clifton.' . $serviceName), $serviceMethod];
+            $callable = [$this->get('pps.' . $serviceName), $serviceMethod];
             $reflectionParams = $this->getParametersForCallable($callable);
 
             // Make sure passed in args are fewer than the number of allowed arguments

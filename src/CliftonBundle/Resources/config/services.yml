@@ -1,5 +1,5 @@
 parameters:
-    clifton.cloudwatch_client_class:  Aws\CloudWatch\CloudWatchClient
+    clifton.cloudwatch_client_class: Aws\CloudWatch\CloudWatchClient
 
 services:
     security.user.provider.bbc_certificate:
@@ -10,21 +10,16 @@ services:
         arguments:
             - { region: '%aws_s3_region%', version: '2010-08-01' }
 
-    clifton.mapper_provider:
+    pps.mapper_provider:
         class: BBC\ProgrammesPagesService\Mapper\ProgrammesDbToDomain\MapperProvider
+        private: true
 
-    clifton.domain_service_factory:
+    pps.service_factory:
         class: BBC\ProgrammesPagesService\Service\ServiceFactory
         arguments:
             - '@doctrine.orm.default_entity_manager'
-            - '@clifton.mapper_provider'
+            - '@pps.mapper_provider'
 
-    clifton.programmes_service:
+    pps.programmes_service:
         class: BBC\ProgrammesPagesService\Service\ProgrammesService
-        factory: [ '@clifton.domain_service_factory', 'getProgrammesService']
-
-    clifton.find_by_pid_programme_mapper:
-        class: BBC\CliftonBundle\ApsMapper\FindByPidProgrammeMapper
-
-    clifton.programme_children_programme_mapper:
-        class: BBC\CliftonBundle\ApsMapper\ProgrammeChildrenProgrammeMapper
+        factory: [ '@pps.service_factory', 'getProgrammesService']

@@ -9,7 +9,7 @@ use BBC\CliftonBundle\ApsMapper\MapperInterface;
 
 abstract class BaseApsController extends Controller
 {
-    protected function jsonResponse($data)
+    protected function json($data)
     {
         return new JsonResponse($data);
     }

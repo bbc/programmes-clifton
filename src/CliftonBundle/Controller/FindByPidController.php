@@ -2,36 +2,43 @@
 
 namespace BBC\CliftonBundle\Controller;
 
+use BBC\CliftonBundle\ApsMapper\FindByPidProgrammeMapper;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class FindByPidController extends BaseApsController
 {
-    public function findByPidAction(
-        Request $request,
-        string $pid
-    ): Response {
-        // @todo - catch if this is invalid
+    public function findByPidAction(Request $request, string $pid): JsonResponse
+    {
         $pid = new Pid($pid);
 
-        $programmesService = $this->get('clifton.programmes_service');
-        $findByPidProgrammeMapper = $this->get('clifton.find_by_pid_programme_mapper');
-
-        $programme = $programmesService->findByPidFull($pid);
-
-        if (is_null($programme)) {
-            throw $this->createNotFoundException(sprintf('The programme with PID "%s" was not found', $pid));
+        // Attempt to find a Programme
+        $programme = $this->get('pps.programmes_service')->findByPidFull($pid);
+        if ($programme) {
+            return $this->programmeResponse($programme);
         }
 
-        $descendantsResult = $programmesService->findDescendantsByPid($programme->getPid());
+        // TODO
+        // Attempt to find a Version
 
+        // TODO
+        // Attempt to find a Segment
+
+        // TODO
+        // Attempt to find a SegmentEvent
+
+        throw $this->createNotFoundException(sprintf('The item with PID "%s" was not found', $pid));
+    }
+
+    private function programmeResponse($programme)
+    {
         $apsProgramme = $this->mapSingleApsObject(
-            $findByPidProgrammeMapper,
+            new FindByPidProgrammeMapper(),
             $programme
         );
 
-        return $this->jsonResponse([
+        return $this->json([
             'programme' => $apsProgramme,
         ]);
     }
