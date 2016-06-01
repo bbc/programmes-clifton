@@ -5,94 +5,178 @@ namespace BBC\CliftonBundle\ApsMapper;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
-use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
-use BBC\ProgrammesPagesService\Domain\Entity\Series;
 use DateTime;
-use InvalidArgumentException;
 use stdClass;
 
-class FindByPidProgrammeMapper implements MapperInterface
+class FindByPidProgrammeMapper extends AbstractProgrammeMapper
 {
-    const ENTITY_NS = 'BBC\\ProgrammesPagesService\\Domain\\Entity\\';
-
-    const MAPPER_LOOKUP_TABLE = [
-        self::ENTITY_NS . 'Brand' => 'getBrandObject',
-        self::ENTITY_NS . 'Clip' => 'getClipObject',
-        self::ENTITY_NS . 'Episode' => 'getEpisodeObject',
-        self::ENTITY_NS . 'Series' => 'getSeriesObject',
-    ];
-
-    public function getApsObject($entity)
+    public function getApsObject($programme, $relatedLinks = [], $peers = [], $versions = []): stdClass
     {
-        $entityClass = get_class($entity);
+        $this->assertIsProgramme($programme);
 
-        if (is_null($entity)) {
+        $output = [
+            'type' => $this->getProgrammeType($programme),
+            'pid' => (string) $programme->getPid(),
+            'expected_child_count' => ($programme instanceof ProgrammeContainer) ? $programme->getExpectedChildCount() : null,
+            'position' => $programme->getPosition(),
+            'image' => $this->getImageObject($programme->getImage()),
+            'media_type' => $this->getMediaType($programme),
+            'title' => $programme->getTitle(),
+            'short_synopsis' => $programme->getShortSynopsis(),
+            'medium_synopsis' => $programme->getShortSynopsis(), // We never use medium synopsis on the page
+            'long_synopsis' => $programme->getLongestSynopsis(),
+            'first_broadcast_date' => $this->getFirstBroadcastDate($programme),
+            'display_title' => $this->getDisplayTitle($programme),
+        ];
+
+        // Ownership is only added if it is present
+        $ownership = $this->getOwnership($programme);
+        if ($ownership) {
+            $output['ownership'] = $this->getOwnership($programme);
+        }
+
+        // Parents and Peers are only added to items with parents
+        if ($programme->getParent()) {
+            // TODO the parent object is different from the main object
+            $output['parent'] = $this->getParent($programme->getParent());
+
+            // Peers are only added to items that are not TLEOs
+            // (i.e. things that have a parent)
+            $output['peers'] = (object) [
+                'previous' => $this->getPeer($peers['previous'] ?? null),
+                'next' => $this->getPeer($peers['next'] ?? null),
+            ];
+        }
+
+        // Versions are only added to ProgrammeItems
+        if ($programme instanceof ProgrammeItem) {
+            $output['versions'] = $this->getVersions($versions); //TODO
+        }
+
+        $output['links'] = $this->getRelatedLinks($relatedLinks); // TODO
+
+        $output['supporting_content_items'] = []; // Not used anymore
+        $output['categories'] = $this->getCategories($programme);
+
+        return (object) $output;
+    }
+
+    private function getParent(Programme $programme)
+    {
+
+        $output = [
+            'type' => $this->getProgrammeType($programme),
+            'pid' => (string) $programme->getPid(),
+            'title' => $programme->getTitle(),
+            'short_synopsis' => $programme->getShortSynopsis(),
+            'position' => $programme->getPosition(),
+            'image' => $this->getImageObject($programme->getImage()),
+            'expected_child_count' => ($programme instanceof ProgrammeContainer) ? $programme->getExpectedChildCount() : null,
+            'first_broadcast_date' => $this->getFirstBroadcastDate($programme),
+        ];
+
+        // Ownership is only added if it is present
+        $ownership = $this->getOwnership($programme);
+        if ($ownership) {
+            $output['ownership'] = $this->getOwnership($programme);
+        }
+
+        // Parents and Peers are only added to items with parents
+        if ($programme->getParent()) {
+            // TODO the parent object is different from the main object
+            $output['parent'] = $this->getParent($programme->getParent());
+        }
+
+        return (object) ['programme' => (object) $output];
+    }
+
+    private function getDisplayTitle(Programme $programme)
+    {
+        $hierarchy = [$programme];
+        while ($hierarchy[0]->getParent()) {
+            array_unshift($hierarchy, $hierarchy[0]->getParent());
+        }
+
+        // Subtitles are everything but the TLEO title
+        $subtitlesSet = array_slice($hierarchy, 1);
+
+        // If the programme is a clip whose parent is an Episode, the parent
+        // episode should be removed from the subtitles too
+        if ($programme instanceof Clip && $programme->getParent() instanceof Episode) {
+            // Last item is the current item, last but one item is the parent
+            $offset = count($subtitlesSet) - 2;
+            if (isset($subtitlesSet[$offset])) {
+                unset($subtitlesSet[$offset]);
+            }
+        }
+
+        $subtitles = [];
+        foreach ($subtitlesSet as $item) {
+            $subtitles[] = $item->getTitle();
+        }
+
+        return (object) [
+            'title' => $hierarchy[0]->getTitle(),
+            'subtitle' => implode(', ', $subtitles),
+        ];
+    }
+
+    private function getOwnership(Programme $programme)
+    {
+        $mb = $programme->getMasterBrand();
+        if (!$mb) {
             return null;
         }
 
-        if (!array_key_exists($entityClass, self::MAPPER_LOOKUP_TABLE)) {
-            throw new InvalidArgumentException('Could not find mapper for entity "' . $entityClass . '"');
+        $network = $mb->getNetwork();
+
+        $output = [
+            'type' => $network->getType(),
+            'id' => $network->getNid(),
+            'key' => $network->getUrlKey(),
+            'title' => $network->getName(),
+        ];
+
+        // This is technically wrong, as in APS world an outlet is a mixture of
+        // a MasterBrand and a Service, whereas in the ProgrammesDB world we
+        // have a Network as a denormed entity that is a umberella for Services.
+        // As such we don't know the services key, or shortName. However we
+        // don't use the outlet for anything anyway. The top-level 'service' is
+        // correct based upon the Network and that's what we care about.
+        if ((string) $mb->getMid() != (string) $network->getNid()) {
+            $output['outlet'] = (object) [
+                'key' => null,
+                'title' => $mb->getName(),
+                'id' => $mb->getMid(),
+            ];
         }
 
-        return $this->{self::MAPPER_LOOKUP_TABLE[$entityClass]}($entity);
+        return (object) ['service' => (object) $output];
     }
 
-    private function getBrandObject(Brand $programme)
+    private function getPeer($peer)
     {
-        $output = $this->getBaseProgrammeContainerObject($programme);
-        $output->type = 'brand';
-
-        return $output;
+        // TODO
+        return null;
     }
 
-    private function getSeriesObject(Series $programme)
+    private function getVersions($versions)
     {
-        $output = $this->getBaseProgrammeContainerObject($programme);
-        $output->type = 'series';
-
-        return $output;
+        // TODO
+        return [];
     }
 
-    private function getEpisodeObject(Episode $programme)
+    private function getRelatedLinks($relatedLinks)
     {
-        $output = $this->getBaseProgrammeItemObject($programme);
-        $output->type = 'episode';
-
-        return $output;
+        // TODO
+        return [];
     }
 
-    private function getClipObject(Clip $programme)
+    private function getCategories(Programme $programme)
     {
-        $output = $this->getBaseProgrammeItemObject($programme);
-        $output->type = 'clip';
-
-        return $output;
-    }
-
-    private function getBaseProgrammeApsObject(Programme $programme)
-    {
-        $output = new stdClass();
-
-        $output->pid = $programme->getPid();
-        $output->title = $programme->getTitle();
-        $output->parent = $this->getApsObject($programme->getParent());
-
-        return $output;
-    }
-
-    private function getBaseProgrammeContainerObject(ProgrammeContainer $programme)
-    {
-        $output = $this->getBaseProgrammeApsObject($programme);
-        return $output;
-    }
-
-    private function getBaseProgrammeItemObject(ProgrammeItem $programme)
-    {
-        $output = $this->getBaseProgrammeApsObject($programme);
-        $output->availableUntil = $programme->getStreamableUntil() ? $programme->getStreamableUntil()->format(DateTime::ISO8601) : null;
-
-        return $output;
+        $categories = $programme->getGenres() + $programme->getFormats();
+        return [];
     }
 }

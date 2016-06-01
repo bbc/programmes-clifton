@@ -34,13 +34,13 @@ abstract class BaseApsController extends Controller
         );
     }
 
-    protected function mapSingleApsObject(MapperInterface $apsMapper, $domainEntity)
+    protected function mapSingleApsObject(MapperInterface $apsMapper, $domainEntity, ...$additionalArgs)
     {
         if (is_null($domainEntity)) {
             return null;
         }
 
-        return $apsMapper->getApsObject($domainEntity);
+        return $apsMapper->getApsObject($domainEntity, ...$additionalArgs);
     }
 
     protected function mapManyApsObjects(MapperInterface $apsMapper, $domainEntities)

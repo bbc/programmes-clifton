@@ -33,9 +33,17 @@ class FindByPidController extends BaseApsController
 
     private function programmeResponse($programme)
     {
+        // $descendantsResult = $this->programmesService->findDescendantsByPid($programme->getPid());
+        $relatedLinks = [];
+        $peers = [];
+        $versions = [];
+
         $apsProgramme = $this->mapSingleApsObject(
             new FindByPidProgrammeMapper(),
-            $programme
+            $programme,
+            $relatedLinks,
+            $peers,
+            $versions
         );
 
         return $this->json([
