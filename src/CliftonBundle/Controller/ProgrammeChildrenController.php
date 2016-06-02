@@ -17,12 +17,18 @@ class ProgrammeChildrenController extends BaseApsController
 
         $programmesService = $this->get('pps.programmes_service');
 
-        $totalCount = $programmesService->countEpisodeGuideChildrenByPid($pid);
+        $programmeDbId = $programmesService->findIdByPid($pid);
+
+        if (is_null($programmeDbId)) {
+            throw $this->createNotFoundException(sprintf('The item with PID "%s" was not found', $pid));
+        }
+
+        $totalCount = $programmesService->countEpisodeGuideChildrenByDbId($programmeDbId);
 
         // Only request children if there are any, to potentially save a query
         $programmesResult = [];
         if ($totalCount) {
-            $programmesResult = $programmesService->findEpisodeGuideChildrenByPid($pid, $limit, $page);
+            $programmesResult = $programmesService->findEpisodeGuideChildrenByDbId($programmeDbId, $limit, $page);
         }
 
         $apsChildren = $this->mapManyApsObjects(

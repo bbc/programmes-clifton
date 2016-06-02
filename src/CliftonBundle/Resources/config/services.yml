@@ -10,16 +10,20 @@ services:
         arguments:
             - { region: '%aws_s3_region%', version: '2010-08-01' }
 
-    pps.mapper_provider:
-        class: BBC\ProgrammesPagesService\Mapper\ProgrammesDbToDomain\MapperProvider
+    pps.mapper_factory:
+        class: BBC\ProgrammesPagesService\Mapper\ProgrammesDbToDomain\MapperFactory
         private: true
 
     pps.service_factory:
         class: BBC\ProgrammesPagesService\Service\ServiceFactory
         arguments:
             - '@doctrine.orm.default_entity_manager'
-            - '@pps.mapper_provider'
+            - '@pps.mapper_factory'
 
     pps.programmes_service:
         class: BBC\ProgrammesPagesService\Service\ProgrammesService
         factory: [ '@pps.service_factory', 'getProgrammesService']
+
+    pps.related_links_service:
+        class: BBC\ProgrammesPagesService\Service\RelatedLinksService
+        factory: [ '@pps.service_factory', 'getRelatedLinksService']

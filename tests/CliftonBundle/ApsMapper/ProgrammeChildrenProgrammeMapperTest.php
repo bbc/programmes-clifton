@@ -19,6 +19,7 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
     public function testMappingSeries()
     {
         $series = new Series(
+            1,
             new Pid('b06hgxtt'),
             'Series 9 - Omnibus',
             'Search Title',
@@ -69,6 +70,7 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
         $streamableUntil = new DateTimeImmutable();
 
         $series = new Episode(
+            1,
             new Pid('b06tl32t'),
             'The Husbands of River Song',
             'Search Title',
