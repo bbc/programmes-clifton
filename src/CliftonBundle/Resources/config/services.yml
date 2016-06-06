@@ -27,3 +27,7 @@ services:
     pps.related_links_service:
         class: BBC\ProgrammesPagesService\Service\RelatedLinksService
         factory: [ '@pps.service_factory', 'getRelatedLinksService']
+
+    pps.versions_service:
+        class: BBC\ProgrammesPagesService\Service\VersionsService
+        factory: [ '@pps.service_factory', 'getVersionsService']

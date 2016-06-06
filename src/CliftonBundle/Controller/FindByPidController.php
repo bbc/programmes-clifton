@@ -3,6 +3,7 @@
 namespace BBC\CliftonBundle\Controller;
 
 use BBC\CliftonBundle\ApsMapper\FindByPidProgrammeMapper;
+use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -33,16 +34,36 @@ class FindByPidController extends BaseApsController
 
     private function programmeResponse($programme)
     {
-        // $descendantsResult = $this->programmesService->findDescendantsByPid($programme->getPid());
+        $dbId = $programme->getDbId();
+        // Related Links
         $relatedLinks = [];
-        $peers = [];
+        if ($programme->getRelatedLinksCount()) {
+            $rls = $this->get('pps.related_links_service');
+            $relatedLinks = $rls->findByRelatedToProgrammeDbId($dbId);
+        }
+
+        // Peers
+        $nextSibling = null;
+        $previousSibling = null;
+        if ($programme->getParent()) {
+            $ps = $this->get('pps.programmes_service');
+            $nextSibling = $ps->findNextSiblingByProgramme($programme);
+            $previousSibling = $ps->findPreviousSiblingByProgramme($programme);
+        }
+
+        // Versions
         $versions = [];
+        if ($programme instanceof ProgrammeItem) {
+            $vs = $this->get('pps.versions_service');
+            $versions = $vs->findByProgrammeItemDbId($dbId);
+        }
 
         $apsProgramme = $this->mapSingleApsObject(
             new FindByPidProgrammeMapper(),
             $programme,
             $relatedLinks,
-            $peers,
+            $nextSibling,
+            $previousSibling,
             $versions
         );
 

@@ -7,12 +7,14 @@ use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Clip;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
+use BBC\ProgrammesPagesService\Domain\Entity\RelatedLink;
+use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use DateTime;
 use stdClass;
 
 class FindByPidProgrammeMapper extends AbstractProgrammeMapper
 {
-    public function getApsObject($programme, $relatedLinks = [], $peers = [], $versions = []): stdClass
+    public function getApsObject($programme, $relatedLinks = [], $nextSibling = null, $previousSibling = null, $versions = []): stdClass
     {
         $this->assertIsProgramme($programme);
 
@@ -39,23 +41,22 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
 
         // Parents and Peers are only added to items with parents
         if ($programme->getParent()) {
-            // TODO the parent object is different from the main object
             $output['parent'] = $this->getParent($programme->getParent());
 
             // Peers are only added to items that are not TLEOs
             // (i.e. things that have a parent)
             $output['peers'] = (object) [
-                'previous' => $this->getPeer($peers['previous'] ?? null),
-                'next' => $this->getPeer($peers['next'] ?? null),
+                'previous' => $previousSibling ? $this->getPeer($previousSibling) : null,
+                'next' => $nextSibling ? $this->getPeer($nextSibling) : null,
             ];
         }
 
         // Versions are only added to ProgrammeItems
         if ($programme instanceof ProgrammeItem) {
-            $output['versions'] = $this->getVersions($versions); //TODO
+            $output['versions'] = array_map([$this, 'getVersion'], $versions);
         }
 
-        $output['links'] = $this->getRelatedLinks($relatedLinks); // TODO
+        $output['links'] = array_map([$this, 'getRelatedLink'], $relatedLinks);
 
         $output['supporting_content_items'] = []; // Not used anymore
         $output['categories'] = $this->getCategories($programme);
@@ -65,7 +66,6 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
 
     private function getParent(Programme $programme)
     {
-
         $output = [
             'type' => $this->getProgrammeType($programme),
             'pid' => (string) $programme->getPid(),
@@ -85,7 +85,6 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
 
         // Parents and Peers are only added to items with parents
         if ($programme->getParent()) {
-            // TODO the parent object is different from the main object
             $output['parent'] = $this->getParent($programme->getParent());
         }
 
@@ -156,22 +155,45 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
         return (object) ['service' => (object) $output];
     }
 
-    private function getPeer($peer)
+    private function getPeer(Programme $programme)
     {
-        // TODO
-        return null;
+        return (object) [
+            'type' => $this->getProgrammeType($programme),
+            'pid' => (string) $programme->getPid(),
+            'title' => $programme->getTitle(),
+            'first_broadcast_date' => $this->getFirstBroadcastDate($programme),
+            'position' => $programme->getPosition(),
+            'media_type' => $this->getMediaType($programme),
+        ];
     }
 
-    private function getVersions($versions)
+    private function getVersion(Version $version)
     {
-        // TODO
-        return [];
+        $isCanonical = 0;
+        foreach ($version->getVersionTypes() as $vt) {
+            if ($vt->getType() == 'Original') {
+                $isCanonical = 1;
+                break;
+            }
+        }
+
+        return (object) [
+            'canonical' => $isCanonical,
+            'pid' => $version->getPid(),
+            'duration' => $version->getDuration(),
+            'types' => array_map(function ($vt) {
+                return $vt->getName();
+            }, $version->getVersionTypes()),
+        ];
     }
 
-    private function getRelatedLinks($relatedLinks)
+    private function getRelatedLink(RelatedLink $relatedLink)
     {
-        // TODO
-        return [];
+        return (object) [
+            'type' => $relatedLink->getType(),
+            'title' => $relatedLink->getTitle(),
+            'url' => $relatedLink->getUri(),
+        ];
     }
 
     private function getCategories(Programme $programme)
