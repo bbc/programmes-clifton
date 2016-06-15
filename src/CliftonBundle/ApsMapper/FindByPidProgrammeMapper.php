@@ -2,6 +2,7 @@
 
 namespace BBC\CliftonBundle\ApsMapper;
 
+use BBC\ProgrammesPagesService\Domain\Entity\Genre;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
@@ -26,9 +27,9 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
             'image' => $this->getImageObject($programme->getImage()),
             'media_type' => $this->getMediaType($programme),
             'title' => $programme->getTitle(),
-            'short_synopsis' => $programme->getShortSynopsis(),
-            'medium_synopsis' => $programme->getShortSynopsis(), // We never use medium synopsis on the page
-            'long_synopsis' => $programme->getLongestSynopsis(),
+            'short_synopsis' => $programme->getSynopses()->getShortSynopsis(),
+            'medium_synopsis' => $programme->getSynopses()->getMediumSynopsis(),
+            'long_synopsis' => $programme->getSynopses()->getLongSynopsis(),
             'first_broadcast_date' => $this->getFirstBroadcastDate($programme),
             'display_title' => $this->getDisplayTitle($programme),
         ];
@@ -59,7 +60,14 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
         $output['links'] = array_map([$this, 'getRelatedLink'], $relatedLinks);
 
         $output['supporting_content_items'] = []; // Not used anymore
-        $output['categories'] = $this->getCategories($programme);
+
+        // Categories are sorted by their URL Key
+        $categories = $programme->getGenres() + $programme->getFormats();
+        usort($categories, function ($a, $b) {
+            return $a->getUrlKey() <=> $b->getUrlKey();
+        });
+
+        $output['categories'] = array_map([$this, 'getCategory'], $categories);
 
         return (object) $output;
     }
@@ -196,9 +204,33 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
         ];
     }
 
-    private function getCategories(Programme $programme)
+    private function getCategory($category, $showNarrower = true)
     {
-        $categories = $programme->getGenres() + $programme->getFormats();
-        return [];
+        $output = [
+            'type' => ($category instanceof Genre ? 'genre' : 'format'),
+            'id' => $category->getId(),
+            'key' => $category->getUrlKey(),
+            'title' => $category->getTitle(),
+        ];
+
+        if ($showNarrower) {
+            $output['narrower'] = [];
+        }
+
+        if ($category instanceof Genre) {
+            $parent = $category->getParent();
+            if ($parent) {
+                $output['broader'] = (object) [
+                    'category' => $this->getCategory($parent, false),
+                ];
+            } else {
+                $output['broader'] = (object) [];
+            }
+        }
+
+        $output['has_topic_page'] = false;
+        $output['sameAs'] = null;
+
+        return (object) $output;
     }
 }
