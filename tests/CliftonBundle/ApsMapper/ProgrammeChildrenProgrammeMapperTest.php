@@ -9,6 +9,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Series;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\PartialDate;
+use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use BBC\CliftonBundle\ApsMapper\ProgrammeChildrenProgrammeMapper;
 use DateTime;
 use DateTimeImmutable;
@@ -23,8 +24,7 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
             new Pid('b06hgxtt'),
             'Series 9 - Omnibus',
             'Search Title',
-            'Short Synopsis',
-            'Long Synopsis',
+            new Synopses('Short Synopsis', '', ''),
             new Image(new Pid('p01m5mss'), 'Title', 'ShortSynopsis', 'ShortSynopsis', 'standard', 'jpg'),
             0,
             1,
@@ -37,7 +37,6 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
             0,
             false,
             null,
-            new PartialDate('2015-01-02'),
             101,
             null,
             [],
@@ -74,8 +73,7 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
             new Pid('b06tl32t'),
             'The Husbands of River Song',
             'Search Title',
-            'Short Synopsis',
-            'Long Synopsis',
+            new Synopses('Short Synopsis', '', ''),
             new Image(new Pid('p01m5mss'), 'Title', 'ShortSynopsis', 'ShortSynopsis', 'standard', 'jpg'),
             1,
             2,
@@ -86,11 +84,11 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
             12,
             13,
             null,
-            new PartialDate(2015, 02, 00),
             101,
             null,
             [],
             [],
+            new PartialDate(2015, 02, 00),
             1001,
             $streamableFrom,
             $streamableUntil

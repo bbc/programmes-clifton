@@ -12,7 +12,7 @@ services:
 
     pps.mapper_factory:
         class: BBC\ProgrammesPagesService\Mapper\ProgrammesDbToDomain\MapperFactory
-        private: true
+        public: false
 
     pps.service_factory:
         class: BBC\ProgrammesPagesService\Service\ServiceFactory

@@ -9,9 +9,9 @@ use BBC\CliftonBundle\ApsMapper\MapperInterface;
 
 abstract class BaseApsController extends Controller
 {
-    protected function json($data)
+    protected function json($data, $status = 200, $headers = [], $context = [])
     {
-        return new JsonResponse($data);
+        return new JsonResponse($data, $status, $headers, $context);
     }
 
     protected function queryParamToInt(Request $request, string $param, int $default, int $min = null, int $max = null)
