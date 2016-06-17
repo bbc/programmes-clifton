@@ -27,9 +27,9 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
             'image' => $this->getImageObject($programme->getImage()),
             'media_type' => $this->getMediaType($programme),
             'title' => $programme->getTitle(),
-            'short_synopsis' => $programme->getSynopses()->getShortSynopsis(),
-            'medium_synopsis' => $programme->getSynopses()->getMediumSynopsis(),
-            'long_synopsis' => $programme->getSynopses()->getLongSynopsis(),
+            'short_synopsis' => $this->nullableSynopsis($programme->getSynopses()->getShortSynopsis()),
+            'medium_synopsis' => $this->nullableSynopsis($programme->getSynopses()->getMediumSynopsis()),
+            'long_synopsis' => $this->nullableSynopsis($programme->getSynopses()->getLongSynopsis()),
             'first_broadcast_date' => $this->getFirstBroadcastDate($programme),
             'display_title' => $this->getDisplayTitle($programme),
         ];
@@ -72,12 +72,18 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
         return (object) $output;
     }
 
+    private function nullableSynopsis(string $synopsis)
+    {
+        return $synopsis === '' ? null : $synopsis;
+    }
+
     private function getParent(Programme $programme)
     {
         $output = [
             'type' => $this->getProgrammeType($programme),
             'pid' => (string) $programme->getPid(),
             'title' => $programme->getTitle(),
+            // Only synopses at the top level coerce empty strings to null
             'short_synopsis' => $programme->getShortSynopsis(),
             'position' => $programme->getPosition(),
             'image' => $this->getImageObject($programme->getImage()),
@@ -140,7 +146,7 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
         $network = $mb->getNetwork();
 
         $output = [
-            'type' => $network->getType(),
+            'type' => $network->getMedium(),
             'id' => (string) $network->getNid(),
             'key' => $network->getUrlKey(),
             'title' => $network->getName(),

@@ -31,7 +31,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             new Pid('b006q2x0'),
             'Doctor Who',
             'Search Title',
-            new Synopses('Short Synopsis', 'Medium Synopsis', 'Long Synopsis'),
+            new Synopses('Short Synopsis', 'Medium Synopsis', ' '),
             new Image(new Pid('p01m5mss'), 'Title', 'ShortSynopsis', 'ShortSynopsis', 'standard', 'jpg'),
             0,
             1,
@@ -61,7 +61,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             'title' => 'Doctor Who',
             'short_synopsis' => 'Short Synopsis',
             'medium_synopsis' => 'Medium Synopsis',
-            'long_synopsis' => 'Long Synopsis',
+            'long_synopsis' => ' ',
             'first_broadcast_date' => null,
             'display_title' => (object) [
                 'title' => 'Doctor Who',
@@ -83,7 +83,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             new Pid('b06hgxtt'),
             'Series 9 - Omnibus',
             'Search Title',
-            new Synopses('Short Synopsis', 'Medium Synopsis', 'Long Synopsis'),
+            new Synopses('Short Synopsis', 'Medium Synopsis', ' '),
             new Image(new Pid('p01m5mss'), 'Title', 'ShortSynopsis', 'ShortSynopsis', 'standard', 'jpg'),
             0,
             1,
@@ -113,7 +113,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             'title' => 'Series 9 - Omnibus',
             'short_synopsis' => 'Short Synopsis',
             'medium_synopsis' => 'Medium Synopsis',
-            'long_synopsis' => 'Long Synopsis',
+            'long_synopsis' => ' ',
             'first_broadcast_date' => null,
             'display_title' => (object) [
                 'title' => 'Series 9 - Omnibus',
@@ -138,7 +138,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             new Pid('b06tl32t'),
             'The Husbands of River Song',
             'Search Title',
-            new Synopses('Short Synopsis', 'Medium Synopsis', 'Long Synopsis'),
+            new Synopses('Short Synopsis', 'Medium Synopsis', ' '),
             new Image(new Pid('p01m5mss'), 'Title', 'ShortSynopsis', 'ShortSynopsis', 'standard', 'jpg'),
             1,
             2,
@@ -169,7 +169,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             'title' => 'The Husbands of River Song',
             'short_synopsis' => 'Short Synopsis',
             'medium_synopsis' => 'Medium Synopsis',
-            'long_synopsis' => 'Long Synopsis',
+            'long_synopsis' => ' ',
             'first_broadcast_date' => '2015-02-01T12:00:00Z',
             'display_title' => (object) [
                 'title' => 'The Husbands of River Song',
@@ -195,7 +195,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             new Pid('b06tl32t'),
             'The Husbands of River Song',
             'Search Title',
-            new Synopses('Short Synopsis', 'Medium Synopsis', 'Long Synopsis'),
+            new Synopses('Short Synopsis', 'Medium Synopsis', ' '),
             new Image(new Pid('p01m5mss'), 'Title', 'ShortSynopsis', 'ShortSynopsis', 'standard', 'jpg'),
             1,
             2,
@@ -223,7 +223,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             'title' => 'The Husbands of River Song',
             'short_synopsis' => 'Short Synopsis',
             'medium_synopsis' => 'Medium Synopsis',
-            'long_synopsis' => 'Long Synopsis',
+            'long_synopsis' => ' ',
             'first_broadcast_date' => '2015-02-01T12:00:00Z',
             'display_title' => (object) [
                 'title' => 'The Husbands of River Song',
@@ -239,28 +239,49 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedOutput, $mapper->getApsObject($clip));
     }
 
+    public function testMappingEmptySynopsisToNull()
+    {
+        $brand = $this->createMock(Brand::CLASS);
+        $brand->method('getSynopses')->willReturn(new Synopses('', '', ''));
+
+        $series = $this->createMock(Series::CLASS);
+        $series->method('getSynopses')->willReturn(new Synopses('', '', ''));
+        $series->method('getParent')->willReturn($brand);
+
+        $mapper = new FindByPidProgrammeMapper();
+        $apsObject = $mapper->getApsObject($series);
+
+        $this->assertNull($apsObject->{'short_synopsis'});
+        $this->assertNull($apsObject->{'medium_synopsis'});
+        $this->assertNull($apsObject->{'long_synopsis'});
+
+        // Synopses of parents do not get coerced to null
+        $this->assertSame('', $apsObject->parent->programme->short_synopsis);
+    }
+
     public function testMappingOwnership()
     {
         $series = $this->createMock(Series::CLASS);
         $series->method('getMasterBrand')->willReturn(new MasterBrand(
-            new Mid('bbc_one'),
-            'BBC One',
+            new Mid('bbc_radio_one'),
+            'BBC Radio 1',
             new Image(new Pid('p01tqv8z'), 'Title', 'ShortSynopsis', 'ShortSynopsis', 'standard', 'jpg'),
             new Network(
-                new Nid('bbc_one'),
-                'BBC One',
+                new Nid('bbc_radio_one'),
+                'BBC Radio 1',
                 new Image(new Pid('p01tqv8z'), 'Title', 'ShortSynopsis', 'ShortSynopsis', 'standard', 'jpg'),
-                'bbc_one',
-                'tv'
+                'radio1',
+                'National Radio',
+                'radio'
             )
         ));
 
         $expectedOwnership = (object) [
             'service' => (object) [
-                'type' => 'tv',
-                'id' => 'bbc_one',
-                'key' => 'bbc_one',
-                'title' => 'BBC One',
+                'type' => 'radio',
+                'id' => 'bbc_radio_one',
+                'key' => 'radio1',
+                'title' => 'BBC Radio 1',
             ],
         ];
 
@@ -283,6 +304,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
                 'BBC One',
                 new Image(new Pid('p01tqv8z'), 'Title', 'ShortSynopsis', 'ShortSynopsis', 'standard', 'jpg'),
                 'bbc_one',
+                'TV',
                 'tv'
             )
         ));
@@ -338,6 +360,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
                     'BBC Two',
                     new Image(new Pid('p01tqv8z'), 'Title', 'ShortSynopsis', 'ShortSynopsis', 'standard', 'jpg'),
                     'bbc_two',
+                    'TV',
                     'tv'
                 )
             ),
@@ -374,6 +397,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
                     'BBC One',
                     new Image(new Pid('p01tqv8z'), 'Title', 'ShortSynopsis', 'ShortSynopsis', 'standard', 'jpg'),
                     'bbc_one',
+                    'TV',
                     'tv'
                 )
             ),
