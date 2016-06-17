@@ -62,7 +62,7 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
         $output['supporting_content_items'] = []; // Not used anymore
 
         // Categories are sorted by their URL Key
-        $categories = $programme->getGenres() + $programme->getFormats();
+        $categories = array_merge($programme->getGenres(), $programme->getFormats());
         usort($categories, function ($a, $b) {
             return $a->getUrlKey() <=> $b->getUrlKey();
         });
@@ -141,7 +141,7 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
 
         $output = [
             'type' => $network->getType(),
-            'id' => $network->getNid(),
+            'id' => (string) $network->getNid(),
             'key' => $network->getUrlKey(),
             'title' => $network->getName(),
         ];
@@ -156,7 +156,7 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
             $output['outlet'] = (object) [
                 'key' => null,
                 'title' => $mb->getName(),
-                'id' => $mb->getMid(),
+                'id' => (string) $mb->getMid(),
             ];
         }
 
