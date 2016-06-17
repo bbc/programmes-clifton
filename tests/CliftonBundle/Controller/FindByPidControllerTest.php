@@ -14,7 +14,7 @@ class FindByPidControllerTest extends BaseWebTestCase
         $this->loadFixtures(['EastendersFixture']);
 
         $client = static::createClient();
-        $client->request('GET', '/programmes/b006m86d.json');
+        $client->request('GET', '/aps/programmes/b006m86d.json');
 
         $this->assertResponseStatusCode($client, 200);
 
@@ -29,7 +29,7 @@ class FindByPidControllerTest extends BaseWebTestCase
         $this->loadFixtures([]);
 
         $client = static::createClient();
-        $client->request('GET', '/programmes/qqqqqqqq.json');
+        $client->request('GET', '/aps/programmes/qqqqqqqq.json');
 
         $this->assertResponseStatusCode($client, 404);
     }

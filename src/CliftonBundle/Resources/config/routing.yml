@@ -2,14 +2,14 @@ status:
     path: /status
     defaults: { _controller: CliftonBundle:Status:status }
 
-find_by_pid:
-    path: /programmes/{pid}.json
+aps.find_by_pid:
+    path: /aps/programmes/{pid}.json
     methods:  [GET]
     defaults: { _controller: CliftonBundle:FindByPid:findByPid }
     requirements: { pid: '[0-9|b-d|f-h|j-n|p-t|v-z]{8,15}' }
 
-programme_children:
-    path: /programmes/{pid}/children.json
+aps.programme_children:
+    path: /aps/programmes/{pid}/children.json
     methods:  [GET]
     defaults: { _controller: CliftonBundle:ProgrammeChildren:children }
     requirements: { pid: '[0-9|b-d|f-h|j-n|p-t|v-z]{8,15}' }
