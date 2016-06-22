@@ -20,7 +20,7 @@ class ProgrammeChildrenProgrammeMapper extends AbstractProgrammeMapper
             'type' => $this->getProgrammeType($programme),
             'pid' => (string) $programme->getPid(),
             'media_type' => $this->getMediaType($programme),
-            'title' => $programme->getTitle(),
+            'title' => $this->getTitle($programme),
             'short_synopsis' => $programme->getShortSynopsis(),
             'image' => $this->getImageObject($programme->getImage()),
             'position' => $programme->getPosition(),

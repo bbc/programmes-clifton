@@ -132,6 +132,22 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
         $this->assertObjectNotHasAttribute('image', $apsObject);
     }
 
+    public function testMappingNumericTitleResultsInNumericData()
+    {
+        // This is a dumb bug in APS, but we want to mimic it's behaviour
+        // If the Title is a numeric string, then APS outputs the value as a
+        // number, rather than a string
+        // e.g. http://open.live.bbc.co.uk/aps/programmes/b008hskr.json
+        $series = $this->createMock(Series::CLASS);
+        $series->method('getTitle')->willReturn('2008');
+
+
+        $mapper = new ProgrammeChildrenProgrammeMapper();
+        $apsObject = $mapper->getApsObject($series);
+
+        $this->assertSame(2008, $apsObject->title);
+    }
+
     /**
      * @expectedException InvalidArgumentException
      */
