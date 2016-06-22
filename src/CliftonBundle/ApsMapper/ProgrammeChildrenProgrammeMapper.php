@@ -26,7 +26,7 @@ class ProgrammeChildrenProgrammeMapper extends AbstractProgrammeMapper
             'position' => $programme->getPosition(),
             'expected_child_count' => ($programme instanceof ProgrammeContainer) ? $programme->getExpectedChildCount() : null,
             'first_broadcast_date' => $this->getFirstBroadcastDate($programme),
-            'has_medium_or_long_synopsis' => true, // This isn't actually used anywhere
+            'has_medium_or_long_synopsis' => (!empty($programme->getSynopses()->getMediumSynopsis()) || !empty($programme->getSynopses()->getLongSynopsis())),
             'has_related_links' => $programme->getRelatedLinksCount() > 0,
             'has_clips' => ($programme instanceof ProgrammeContainer || $programme instanceof Episode) ? $programme->getAvailableClipsCount() > 0 : false,
         ];

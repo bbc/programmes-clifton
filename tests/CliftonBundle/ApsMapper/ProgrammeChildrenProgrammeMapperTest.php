@@ -54,7 +54,7 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
             'position' => 101,
             'expected_child_count' => 1001,
             'first_broadcast_date' => null,
-            'has_medium_or_long_synopsis' => true,
+            'has_medium_or_long_synopsis' => false,
             'has_related_links' => true,
             'has_clips' => true,
         ];
@@ -104,7 +104,7 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
             'position' => 101,
             'expected_child_count' => null,
             'first_broadcast_date' => '2015-02-01T12:00:00Z',
-            'has_medium_or_long_synopsis' => true,
+            'has_medium_or_long_synopsis' => false,
             'has_related_links' => true,
             'has_clips' => true,
             'has_segment_events' => false,
@@ -146,6 +146,30 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
         $apsObject = $mapper->getApsObject($series);
 
         $this->assertSame(2008, $apsObject->title);
+    }
+
+    /**
+     * @dataProvider mappingHasMediumOrLongSynopsisDataProvider
+     */
+    public function testMappingHasMediumOrLongSynopsis($synopses, $expectedValue)
+    {
+        $series = $this->createMock(Series::CLASS);
+        $series->method('getSynopses')->willReturn($synopses);
+
+        $mapper = new ProgrammeChildrenProgrammeMapper();
+        $apsObject = $mapper->getApsObject($series);
+
+        $this->assertSame($expectedValue, $apsObject->{'has_medium_or_long_synopsis'});
+    }
+
+    public function mappingHasMediumOrLongSynopsisDataProvider()
+    {
+        return [
+            [new Synopses('Short', '', ''), false],
+            [new Synopses('Short', 'Medium', ''), true],
+            [new Synopses('Short', '', 'Long'), true],
+            [new Synopses('Short', 'Medium', 'Long'), true],
+        ];
     }
 
     /**
