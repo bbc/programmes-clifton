@@ -239,6 +239,62 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedOutput, $mapper->getApsObject($clip));
     }
 
+    public function testMappingDisplayTitleOfClipsThatBelongToSeries()
+    {
+        $brand = $this->createMock(Brand::CLASS);
+        $brand->method('getTitle')->willReturn('Brand');
+
+        $series = $this->createMock(Series::CLASS);
+        $series->method('getTitle')->willReturn('Series');
+        $series->method('getParent')->willReturn($brand);
+
+        $subSeries = $this->createMock(Series::CLASS);
+        $subSeries->method('getTitle')->willReturn('SubSeries');
+        $subSeries->method('getParent')->willReturn($series);
+
+        $clip = $this->createMock(Clip::CLASS);
+        $clip->method('getTitle')->willReturn('Clip');
+        $clip->method('getParent')->willReturn($subSeries);
+
+        $mapper = new FindByPidProgrammeMapper();
+        $apsObject = $mapper->getApsObject($clip);
+
+        $expectedDisplayTitle = (object) [
+            'title' => 'Brand',
+            'subtitle' => 'Series, SubSeries, Clip',
+        ];
+
+        $this->assertEquals($expectedDisplayTitle, $apsObject->{'display_title'});
+    }
+
+    public function testMappingDisplayTitleOfClipsThatBelongToEpisodes()
+    {
+        $brand = $this->createMock(Brand::CLASS);
+        $brand->method('getTitle')->willReturn('Brand');
+
+        $series = $this->createMock(Series::CLASS);
+        $series->method('getTitle')->willReturn('Series');
+        $series->method('getParent')->willReturn($brand);
+
+        $episode = $this->createMock(Episode::CLASS);
+        $episode->method('getTitle')->willReturn('Episode');
+        $episode->method('getParent')->willReturn($series);
+
+        $clip = $this->createMock(Clip::CLASS);
+        $clip->method('getTitle')->willReturn('Clip');
+        $clip->method('getParent')->willReturn($episode);
+
+        $mapper = new FindByPidProgrammeMapper();
+        $apsObject = $mapper->getApsObject($clip);
+
+        $expectedDisplayTitle = (object) [
+            'title' => 'Brand',
+            'subtitle' => 'Series, Clip',
+        ];
+
+        $this->assertEquals($expectedDisplayTitle, $apsObject->{'display_title'});
+    }
+
     public function testMappingEmptySynopsisToNull()
     {
         $brand = $this->createMock(Brand::CLASS);
