@@ -54,4 +54,14 @@ class ProgrammeChildrenControllerTest extends BaseWebTestCase
             ['5', '3', 3, 10], // Custom page and limit
         ];
     }
+
+    public function testChildrenActionWithEmptyResult()
+    {
+        $this->loadFixtures([]);
+
+        $client = static::createClient();
+        $client->request('GET', '/aps/programmes/qqqqqqqq/children.json');
+
+        $this->assertResponseStatusCode($client, 404);
+    }
 }

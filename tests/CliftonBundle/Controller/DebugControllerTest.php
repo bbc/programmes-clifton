@@ -14,8 +14,8 @@ class DebugControllerTest extends BaseWebTestCase
         $crawler = $client->request('GET', '/debug/programmes_service/findAll');
         $this->assertResponseStatusCode($client, 200);
 
-        // 6 Items dumped out
-        $this->assertEquals(6, $crawler->filter('.sf-dump-index')->count());
+        // 7 Items dumped out
+        $this->assertEquals(7, $crawler->filter('.sf-dump-index')->count());
     }
 
     public function testDebugWithArguments()
