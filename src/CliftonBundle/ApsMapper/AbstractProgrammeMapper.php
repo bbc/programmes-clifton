@@ -57,6 +57,12 @@ abstract class AbstractProgrammeMapper implements MapperInterface
 
     protected function getImageObject(Image $image)
     {
+        // If the default image is returned by the Domain models, then Clifton
+        // should not show any image model at all.
+        if ($image->getPid() == 'p01tqv8z') {
+            return null;
+        }
+
         return (object) [
             'pid' => $image->getPid(),
         ];

@@ -295,6 +295,20 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedDisplayTitle, $apsObject->{'display_title'});
     }
 
+    public function testMappingDefaultImageResultsInAbsentImageField()
+    {
+        $image = $this->createMock(Image::CLASS);
+        $image->method('getPid')->willReturn(new Pid('p01tqv8z'));
+
+        $series = $this->createMock(Series::CLASS);
+        $series->method('getImage')->willReturn($image);
+
+        $mapper = new FindByPidProgrammeMapper();
+        $apsObject = $mapper->getApsObject($series);
+
+        $this->assertObjectNotHasAttribute('image', $apsObject);
+    }
+
     public function testMappingEmptySynopsisToNull()
     {
         $brand = $this->createMock(Brand::CLASS);

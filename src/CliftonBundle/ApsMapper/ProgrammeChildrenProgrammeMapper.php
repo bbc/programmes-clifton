@@ -31,6 +31,11 @@ class ProgrammeChildrenProgrammeMapper extends AbstractProgrammeMapper
             'has_clips' => ($programme instanceof ProgrammeContainer || $programme instanceof Episode) ? $programme->getAvailableClipsCount() > 0 : false,
         ];
 
+        // If Image is null then remove it from the feed
+        if (is_null($output['image'])) {
+            unset($output['image']);
+        }
+
         if ($programme instanceof ProgrammeItem) {
             $output['has_segment_events'] = false; // This isn't used any more
 

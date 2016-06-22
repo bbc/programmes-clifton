@@ -34,6 +34,11 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
             'display_title' => $this->getDisplayTitle($programme),
         ];
 
+        // If Image is null then remove it from the feed
+        if (is_null($output['image'])) {
+            unset($output['image']);
+        }
+
         // Ownership is only added if it is present
         $ownership = $this->getOwnership($programme);
         if ($ownership) {

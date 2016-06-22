@@ -118,6 +118,20 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedOutput, $mapper->getApsObject($series));
     }
 
+    public function testMappingDefaultImageResultsInAbsentImageField()
+    {
+        $image = $this->createMock(Image::CLASS);
+        $image->method('getPid')->willReturn(new Pid('p01tqv8z'));
+
+        $series = $this->createMock(Series::CLASS);
+        $series->method('getImage')->willReturn($image);
+
+        $mapper = new ProgrammeChildrenProgrammeMapper();
+        $apsObject = $mapper->getApsObject($series);
+
+        $this->assertObjectNotHasAttribute('image', $apsObject);
+    }
+
     /**
      * @expectedException InvalidArgumentException
      */
