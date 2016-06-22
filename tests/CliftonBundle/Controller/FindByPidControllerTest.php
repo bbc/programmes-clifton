@@ -20,8 +20,8 @@ class FindByPidControllerTest extends BaseWebTestCase
 
         $jsonContent = $this->getDecodedJsonContent($client);
 
-        $this->assertObjectHasAttribute('programme', $jsonContent);
-        $this->assertEquals('b006m86d', $jsonContent->programme->pid);
+        $this->assertArrayHasKey('programme', $jsonContent);
+        $this->assertEquals('b006m86d', $jsonContent['programme']['pid']);
     }
 
     public function testFindByPidActionWithEmptyResult()

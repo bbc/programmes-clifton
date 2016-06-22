@@ -38,7 +38,7 @@ abstract class BaseWebTestCase extends WebTestCase
     {
         $content = $client->getResponse()->getContent();
 
-        $decodedContent = json_decode($content);
+        $decodedContent = json_decode($content, true);
         $this->assertNotNull($decodedContent, 'Expected response content to be valid JSON but it was"' . $content . '"');
 
         return $decodedContent;
