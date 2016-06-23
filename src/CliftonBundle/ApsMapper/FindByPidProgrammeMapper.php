@@ -15,7 +15,13 @@ use stdClass;
 
 class FindByPidProgrammeMapper extends AbstractProgrammeMapper
 {
-    public function getApsObject($programme, $relatedLinks = [], $nextSibling = null, $previousSibling = null, $versions = []): stdClass
+    public function getApsObject(
+        $programme,
+        $relatedLinks = [],
+        $nextSibling = null,
+        $previousSibling = null,
+        $versions = []
+    ): stdClass
     {
         $this->assertIsProgramme($programme);
 
@@ -160,8 +166,8 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
         // correct based upon the Network and that's what we care about.
         if ((string) $mb->getMid() != (string) $network->getNid()) {
             $output['outlet'] = (object) [
-                'key' => null,
-                'title' => $mb->getName(),
+                'key' => '',
+                'title' => !empty($mb->getName()) ? $mb->getName() : null,
                 'id' => (string) $mb->getMid(),
             ];
         }
@@ -223,17 +229,17 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
             $output['narrower'] = [];
         }
 
+        $broader = [];
         if ($category instanceof Genre) {
             $parent = $category->getParent();
             if ($parent) {
-                $output['broader'] = (object) [
+                $broader = [
                     'category' => $this->getCategory($parent, false),
                 ];
-            } else {
-                $output['broader'] = (object) [];
             }
         }
 
+        $output['broader'] = (object) $broader;
         $output['has_topic_page'] = false;
         $output['sameAs'] = null;
 
