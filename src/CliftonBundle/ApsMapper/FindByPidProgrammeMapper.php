@@ -157,9 +157,9 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
         $network = $mb->getNetwork();
 
         $output = [
-            'type' => $network->getMedium(),
+            'type' => !empty($network->getMedium()) ? $network->getMedium() : null,
             'id' => (string) $network->getNid(),
-            'key' => $network->getUrlKey(),
+            'key' => (string) $network->getUrlKey(),
             'title' => $network->getName(),
         ];
 
@@ -172,7 +172,7 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
         if ((string) $mb->getMid() != (string) $network->getNid()) {
             $output['outlet'] = (object) [
                 'key' => '',
-                'title' => !empty($mb->getName()) ? $mb->getName() : null,
+                'title' => $mb->getName(),
                 'id' => (string) $mb->getMid(),
             ];
         }

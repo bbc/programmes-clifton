@@ -385,6 +385,39 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedOwnership, $apsObject->ownership);
     }
 
+    public function testMappingOwnershipWithEmptyValues()
+    {
+        $series = $this->createMock(Series::CLASS);
+        $series->method('getMasterBrand')->willReturn(new MasterBrand(
+            new Mid('bbc_radio_one'),
+            'BBC Radio 1',
+            new Image(new Pid('p01tqv8z'), 'Title', 'ShortSynopsis', 'ShortSynopsis', 'standard', 'jpg'),
+            new Network(
+                new Nid('bbc_radio_one'),
+                'BBC Radio 1',
+                new Image(new Pid('p01tqv8z'), 'Title', 'ShortSynopsis', 'ShortSynopsis', 'standard', 'jpg'),
+                null,
+                'National Radio',
+                ''
+            )
+        ));
+
+        $expectedOwnership = (object) [
+            'service' => (object) [
+                'type' => null,
+                'id' => 'bbc_radio_one',
+                'key' => '',
+                'title' => 'BBC Radio 1',
+            ],
+        ];
+
+        $mapper = new FindByPidProgrammeMapper();
+        $apsObject = $mapper->getApsObject($series);
+
+        $this->assertObjectHasAttribute('ownership', $apsObject);
+        $this->assertEquals($expectedOwnership, $apsObject->ownership);
+    }
+
     public function testMappingOwnershipForSubMasterBrand()
     {
         $series = $this->createMock(Series::CLASS);
