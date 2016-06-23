@@ -71,24 +71,30 @@ class EastendersFixture extends BaseFixture
         $version = new Version('b06khpr0', $clip);
         $version2 = new Version('b06khpr1', $clip);
 
-        $relatedLink = new RelatedLink('b06khps1', 'RL1', 'http://example.com', 'standard', $brand, true);
-        $relatedLink2 = new RelatedLink('b06khps2', 'RL2', 'http://example.net', 'standard', $brand, true);
+        $relatedLink = new RelatedLink('b06khps1', 'RL1', 'http://example.com', 'related_site', $brand, true);
+        $relatedLink2 = new RelatedLink('b06khps2', 'RL1', 'http://example.com', 'standard', $brand, true);
+        $relatedLink3 = new RelatedLink('b06khps3', 'RL2', 'http://example.net', 'related_site', $brand, true);
 
         foreach ([
-            $image, $brand, $series,
-            $episode, $episode2, $episode3,
-            $clip, $clip2,
-
-        ] as $entity) {
+                     $image,
+                     $brand,
+                     $series,
+                     $episode,
+                     $episode2,
+                     $episode3,
+                     $clip,
+                     $clip2,
+                 ] as $entity) {
             $manager->persist($entity);
         }
         $manager->flush();
-
-
         foreach ([
-            $version, $version2,
-            $relatedLink, $relatedLink2,
-        ] as $entity) {
+                     $version,
+                     $version2,
+                     $relatedLink,
+                     $relatedLink2,
+                     $relatedLink3,
+                 ] as $entity) {
             $manager->persist($entity);
         }
         $manager->flush();
