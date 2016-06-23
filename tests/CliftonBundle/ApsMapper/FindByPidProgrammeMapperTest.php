@@ -18,8 +18,8 @@ use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\PartialDate;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use BBC\CliftonBundle\ApsMapper\FindByPidProgrammeMapper;
-use DateTime;
 use DateTimeImmutable;
+use InvalidArgumentException;
 use PHPUnit_Framework_TestCase;
 
 class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
@@ -571,6 +571,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
                 'key' => 'format1',
                 'title' => 'Format One',
                 'narrower' => [],
+                'broader' => (object) [],
                 'has_topic_page' => false,
                 'sameAs' => null,
             ],

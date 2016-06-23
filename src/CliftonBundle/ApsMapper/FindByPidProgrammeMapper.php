@@ -15,13 +15,7 @@ use stdClass;
 
 class FindByPidProgrammeMapper extends AbstractProgrammeMapper
 {
-    public function getApsObject(
-        $programme,
-        $relatedLinks = [],
-        $nextSibling = null,
-        $previousSibling = null,
-        $versions = []
-    ): stdClass
+    public function getApsObject($programme, $relatedLinks = [], $nextSibling = null, $previousSibling = null, $versions = []): stdClass
     {
         $this->assertIsProgramme($programme);
 
