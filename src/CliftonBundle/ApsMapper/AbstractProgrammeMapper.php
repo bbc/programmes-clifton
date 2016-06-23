@@ -45,6 +45,15 @@ abstract class AbstractProgrammeMapper implements MapperInterface
         throw new InvalidArgumentException('Could not find type for entity "' . get_class($entity) . '"');
     }
 
+    protected function getTitle(Programme $programme)
+    {
+        // Mimic a dumb bug in APS: If the Title is a numeric string, then APS
+        // outputs the value as a number, rather than a string
+        // e.g. http://open.live.bbc.co.uk/aps/programmes/b008hskr.json
+        $title = $programme->getTitle();
+        return is_numeric($title) ? (int) $title : $title;
+    }
+
     protected function getMediaType(Programme $programme)
     {
         if (!($programme instanceof ProgrammeItem)) {
@@ -57,6 +66,12 @@ abstract class AbstractProgrammeMapper implements MapperInterface
 
     protected function getImageObject(Image $image)
     {
+        // If the default image is returned by the Domain models, then Clifton
+        // should not show any image model at all.
+        if ($image->getPid() == 'p01tqv8z') {
+            return null;
+        }
+
         return (object) [
             'pid' => $image->getPid(),
         ];

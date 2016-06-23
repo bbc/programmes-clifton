@@ -21,9 +21,9 @@ class ProgrammeChildrenControllerTest extends BaseWebTestCase
 
         $jsonContent = $this->getDecodedJsonContent($client);
 
-        $this->assertCount(1, $jsonContent->children->programmes);
-        $this->assertEquals(1, $jsonContent->children->page);
-        $this->assertEquals(0, $jsonContent->children->offset);
+        $this->assertCount(1, $jsonContent['children']['programmes']);
+        $this->assertEquals(1, $jsonContent['children']['page']);
+        $this->assertEquals(0, $jsonContent['children']['offset']);
     }
 
     /**
@@ -40,8 +40,8 @@ class ProgrammeChildrenControllerTest extends BaseWebTestCase
 
         $jsonContent = $this->getDecodedJsonContent($client);
 
-        $this->assertEquals($expectedPage, $jsonContent->children->page);
-        $this->assertEquals($expectedOffset, $jsonContent->children->offset);
+        $this->assertEquals($expectedPage, $jsonContent['children']['page']);
+        $this->assertEquals($expectedOffset, $jsonContent['children']['offset']);
     }
 
     public function childrenPaginationProvider()
@@ -53,5 +53,15 @@ class ProgrammeChildrenControllerTest extends BaseWebTestCase
 
             ['5', '3', 3, 10], // Custom page and limit
         ];
+    }
+
+    public function testChildrenActionWithEmptyResult()
+    {
+        $this->loadFixtures([]);
+
+        $client = static::createClient();
+        $client->request('GET', '/aps/programmes/qqqqqqqq/children.json');
+
+        $this->assertResponseStatusCode($client, 404);
     }
 }

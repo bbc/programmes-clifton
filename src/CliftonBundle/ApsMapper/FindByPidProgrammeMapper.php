@@ -32,13 +32,18 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
             'position' => $programme->getPosition(),
             'image' => $this->getImageObject($programme->getImage()),
             'media_type' => $this->getMediaType($programme),
-            'title' => $programme->getTitle(),
+            'title' => $this->getTitle($programme),
             'short_synopsis' => $this->nullableSynopsis($programme->getSynopses()->getShortSynopsis()),
             'medium_synopsis' => $this->nullableSynopsis($programme->getSynopses()->getMediumSynopsis()),
             'long_synopsis' => $this->nullableSynopsis($programme->getSynopses()->getLongSynopsis()),
             'first_broadcast_date' => $this->getFirstBroadcastDate($programme),
             'display_title' => $this->getDisplayTitle($programme),
         ];
+
+        // If Image is null then remove it from the feed
+        if (is_null($output['image'])) {
+            unset($output['image']);
+        }
 
         // Ownership is only added if it is present
         $ownership = $this->getOwnership($programme);
@@ -88,7 +93,7 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
         $output = [
             'type' => $this->getProgrammeType($programme),
             'pid' => (string) $programme->getPid(),
-            'title' => $programme->getTitle(),
+            'title' => $this->getTitle($programme),
             // Only synopses at the top level coerce empty strings to null
             'short_synopsis' => $programme->getShortSynopsis(),
             'position' => $programme->getPosition(),
@@ -136,9 +141,15 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
             $subtitles[] = $item->getTitle();
         }
 
+        // Mimic a dumb bug in APS: If the Title is a numeric string, then APS
+        // outputs the value as a number, rather than a string
+        // e.g. http://open.live.bbc.co.uk/aps/programmes/b008hskr.json
+        $subTitle = implode(', ', $subtitles);
+        $subTitle = is_numeric($subTitle) ? (int) $subTitle : $subTitle;
+
         return (object) [
-            'title' => $hierarchy[0]->getTitle(),
-            'subtitle' => implode(', ', $subtitles),
+            'title' => $this->getTitle($hierarchy[0]),
+            'subtitle' => $subTitle,
         ];
     }
 

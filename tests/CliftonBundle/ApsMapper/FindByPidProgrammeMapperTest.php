@@ -239,6 +239,99 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedOutput, $mapper->getApsObject($clip));
     }
 
+    public function testMappingDisplayTitleOfClipsThatBelongToSeries()
+    {
+        $brand = $this->createMock(Brand::CLASS);
+        $brand->method('getTitle')->willReturn('Brand');
+
+        $series = $this->createMock(Series::CLASS);
+        $series->method('getTitle')->willReturn('Series');
+        $series->method('getParent')->willReturn($brand);
+
+        $subSeries = $this->createMock(Series::CLASS);
+        $subSeries->method('getTitle')->willReturn('SubSeries');
+        $subSeries->method('getParent')->willReturn($series);
+
+        $clip = $this->createMock(Clip::CLASS);
+        $clip->method('getTitle')->willReturn('Clip');
+        $clip->method('getParent')->willReturn($subSeries);
+
+        $mapper = new FindByPidProgrammeMapper();
+        $apsObject = $mapper->getApsObject($clip);
+
+        $expectedDisplayTitle = (object) [
+            'title' => 'Brand',
+            'subtitle' => 'Series, SubSeries, Clip',
+        ];
+
+        $this->assertEquals($expectedDisplayTitle, $apsObject->{'display_title'});
+    }
+
+    public function testMappingDisplayTitleOfClipsThatBelongToEpisodes()
+    {
+        $brand = $this->createMock(Brand::CLASS);
+        $brand->method('getTitle')->willReturn('Brand');
+
+        $series = $this->createMock(Series::CLASS);
+        $series->method('getTitle')->willReturn('Series');
+        $series->method('getParent')->willReturn($brand);
+
+        $episode = $this->createMock(Episode::CLASS);
+        $episode->method('getTitle')->willReturn('Episode');
+        $episode->method('getParent')->willReturn($series);
+
+        $clip = $this->createMock(Clip::CLASS);
+        $clip->method('getTitle')->willReturn('Clip');
+        $clip->method('getParent')->willReturn($episode);
+
+        $mapper = new FindByPidProgrammeMapper();
+        $apsObject = $mapper->getApsObject($clip);
+
+        $expectedDisplayTitle = (object) [
+            'title' => 'Brand',
+            'subtitle' => 'Series, Clip',
+        ];
+
+        $this->assertEquals($expectedDisplayTitle, $apsObject->{'display_title'});
+    }
+
+    public function testMappingDefaultImageResultsInAbsentImageField()
+    {
+        $image = $this->createMock(Image::CLASS);
+        $image->method('getPid')->willReturn(new Pid('p01tqv8z'));
+
+        $series = $this->createMock(Series::CLASS);
+        $series->method('getImage')->willReturn($image);
+
+        $mapper = new FindByPidProgrammeMapper();
+        $apsObject = $mapper->getApsObject($series);
+
+        $this->assertObjectNotHasAttribute('image', $apsObject);
+    }
+
+    public function testMappingNumericTitleResultsInNumericData()
+    {
+        // This is a dumb bug in APS, but we want to mimic it's behaviour
+        // If the Title is a numeric string, then APS outputs the value as a
+        // number, rather than a string
+        // e.g. http://open.live.bbc.co.uk/aps/programmes/b008hskr.json
+        $brand = $this->createMock(Brand::CLASS);
+        $brand->method('getTitle')->willReturn('2007');
+
+        $series = $this->createMock(Series::CLASS);
+        $series->method('getTitle')->willReturn('2008');
+        $series->method('getParent')->willReturn($brand);
+
+
+        $mapper = new FindByPidProgrammeMapper();
+        $apsObject = $mapper->getApsObject($series);
+
+        $this->assertSame(2008, $apsObject->title);
+        $this->assertSame(2007, $apsObject->{'display_title'}->title);
+        $this->assertSame(2008, $apsObject->{'display_title'}->subtitle);
+        $this->assertSame(2007, $apsObject->parent->programme->title);
+    }
+
     public function testMappingEmptySynopsisToNull()
     {
         $brand = $this->createMock(Brand::CLASS);

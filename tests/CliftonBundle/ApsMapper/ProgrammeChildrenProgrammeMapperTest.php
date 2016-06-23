@@ -54,7 +54,7 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
             'position' => 101,
             'expected_child_count' => 1001,
             'first_broadcast_date' => null,
-            'has_medium_or_long_synopsis' => true,
+            'has_medium_or_long_synopsis' => false,
             'has_related_links' => true,
             'has_clips' => true,
         ];
@@ -104,7 +104,7 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
             'position' => 101,
             'expected_child_count' => null,
             'first_broadcast_date' => '2015-02-01T12:00:00Z',
-            'has_medium_or_long_synopsis' => true,
+            'has_medium_or_long_synopsis' => false,
             'has_related_links' => true,
             'has_clips' => true,
             'has_segment_events' => false,
@@ -116,6 +116,60 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
 
         $mapper = new ProgrammeChildrenProgrammeMapper();
         $this->assertEquals($expectedOutput, $mapper->getApsObject($series));
+    }
+
+    public function testMappingDefaultImageResultsInAbsentImageField()
+    {
+        $image = $this->createMock(Image::CLASS);
+        $image->method('getPid')->willReturn(new Pid('p01tqv8z'));
+
+        $series = $this->createMock(Series::CLASS);
+        $series->method('getImage')->willReturn($image);
+
+        $mapper = new ProgrammeChildrenProgrammeMapper();
+        $apsObject = $mapper->getApsObject($series);
+
+        $this->assertObjectNotHasAttribute('image', $apsObject);
+    }
+
+    public function testMappingNumericTitleResultsInNumericData()
+    {
+        // This is a dumb bug in APS, but we want to mimic it's behaviour
+        // If the Title is a numeric string, then APS outputs the value as a
+        // number, rather than a string
+        // e.g. http://open.live.bbc.co.uk/aps/programmes/b008hskr.json
+        $series = $this->createMock(Series::CLASS);
+        $series->method('getTitle')->willReturn('2008');
+
+
+        $mapper = new ProgrammeChildrenProgrammeMapper();
+        $apsObject = $mapper->getApsObject($series);
+
+        $this->assertSame(2008, $apsObject->title);
+    }
+
+    /**
+     * @dataProvider mappingHasMediumOrLongSynopsisDataProvider
+     */
+    public function testMappingHasMediumOrLongSynopsis($synopses, $expectedValue)
+    {
+        $series = $this->createMock(Series::CLASS);
+        $series->method('getSynopses')->willReturn($synopses);
+
+        $mapper = new ProgrammeChildrenProgrammeMapper();
+        $apsObject = $mapper->getApsObject($series);
+
+        $this->assertSame($expectedValue, $apsObject->{'has_medium_or_long_synopsis'});
+    }
+
+    public function mappingHasMediumOrLongSynopsisDataProvider()
+    {
+        return [
+            [new Synopses('Short', '', ''), false],
+            [new Synopses('Short', 'Medium', ''), true],
+            [new Synopses('Short', '', 'Long'), true],
+            [new Synopses('Short', 'Medium', 'Long'), true],
+        ];
     }
 
     /**
