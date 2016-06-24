@@ -199,7 +199,7 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
     {
         return (object) [
             'type' => $relatedLink->getType(),
-            'title' => $relatedLink->getTitle(),
+            'title' => !empty($relatedLink->getTitle()) ? $relatedLink->getTitle() : null,
             'url' => $relatedLink->getUri(),
         ];
     }
