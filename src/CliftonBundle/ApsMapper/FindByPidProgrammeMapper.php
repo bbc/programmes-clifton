@@ -6,11 +6,8 @@ use BBC\ProgrammesPagesService\Domain\Entity\Genre;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
-use BBC\ProgrammesPagesService\Domain\Entity\Clip;
-use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\RelatedLink;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
-use DateTime;
 use stdClass;
 
 class FindByPidProgrammeMapper extends AbstractProgrammeMapper
@@ -112,38 +109,24 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
 
     private function getDisplayTitle(Programme $programme)
     {
-        $hierarchy = [$programme];
-        while ($hierarchy[0]->getParent()) {
-            array_unshift($hierarchy, $hierarchy[0]->getParent());
-        }
+        // Nasty but copying logic from:
+        // https://repo.dev.bbc.co.uk/services/aps/trunk/lib/Helpers/Application.pm
 
-        // Subtitles are everything but the TLEO title
-        $subtitlesSet = array_slice($hierarchy, 1);
-
-        // If the programme is a clip whose parent is an Episode, the parent
-        // episode should be removed from the subtitles too
-        if ($programme instanceof Clip && $programme->getParent() instanceof Episode) {
-            // Last item is the current item, last but one item is the parent
-            $offset = count($subtitlesSet) - 2;
-            if (isset($subtitlesSet[$offset])) {
-                unset($subtitlesSet[$offset]);
+        $titles = [];
+        if ($this->isContainer($programme)) {
+            $titles[] = $this->getTitle($programme);
+        } else {
+            foreach ($this->getHierarchy($programme) as $entity) {
+                if ($this->isContainer($entity)) {
+                    $titles[] = $this->getTitle($entity);
+                }
             }
+            $titles[] = $this->getTitle($programme);
         }
-
-        $subtitles = [];
-        foreach ($subtitlesSet as $item) {
-            $subtitles[] = $item->getTitle();
-        }
-
-        // Mimic a dumb bug in APS: If the Title is a numeric string, then APS
-        // outputs the value as a number, rather than a string
-        // e.g. http://open.live.bbc.co.uk/aps/programmes/b008hskr.json
-        $subTitle = implode(', ', $subtitles);
-        $subTitle = is_numeric($subTitle) ? (int) $subTitle : $subTitle;
 
         return (object) [
-            'title' => $this->getTitle($hierarchy[0]),
-            'subtitle' => $subTitle,
+            'title' => array_shift($titles),
+            'subtitle' => implode(', ', $titles),
         ];
     }
 
@@ -249,5 +232,19 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
         $output['sameAs'] = null;
 
         return (object) $output;
+    }
+
+    private function isContainer(Programme $programme): bool
+    {
+        return in_array($this->getProgrammeType($programme), ['brand', 'series']);
+    }
+
+    private function getHierarchy(Programme $programme): array
+    {
+        $hierarchy = [$programme];
+        while ($hierarchy[0]->getParent()) {
+            array_unshift($hierarchy, $hierarchy[0]->getParent());
+        }
+        return $hierarchy;
     }
 }

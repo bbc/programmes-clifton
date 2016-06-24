@@ -73,7 +73,6 @@ class EastendersFixture extends BaseFixture
 
         $relatedLink = new RelatedLink('b06khps1', 'RL1', 'http://example.com', 'related_site', $brand, true);
         $relatedLink2 = new RelatedLink('b06khps2', 'RL1', 'http://example.com', 'standard', $brand, true);
-        $relatedLink3 = new RelatedLink('b06khps3', 'RL2', 'http://example.net', 'related_site', $brand, true);
 
         foreach ([
                      $image,
@@ -93,7 +92,6 @@ class EastendersFixture extends BaseFixture
                      $version2,
                      $relatedLink,
                      $relatedLink2,
-                     $relatedLink3,
                  ] as $entity) {
             $manager->persist($entity);
         }

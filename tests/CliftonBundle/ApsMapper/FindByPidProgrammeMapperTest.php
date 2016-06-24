@@ -78,6 +78,31 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
 
     public function testMappingSeries()
     {
+        $brand = new Brand(
+            1,
+            new Pid('b006q2x0'),
+            'Doctor Who',
+            'Search Title',
+            new Synopses('Short Synopsis', 'Medium Synopsis', ' '),
+            new Image(new Pid('p01m5mss'), 'Title', 'ShortSynopsis', 'ShortSynopsis', 'standard', 'jpg'),
+            0,
+            1,
+            false,
+            false,
+            0,
+            0,
+            11,
+            0,
+            0,
+            false,
+            null,
+            101,
+            null,
+            [],
+            [],
+            1001
+        );
+
         $series = new Series(
             1,
             new Pid('b06hgxtt'),
@@ -95,7 +120,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             0,
             0,
             false,
-            null,
+            $brand,
             101,
             null,
             [],
@@ -122,6 +147,19 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             'links' => [],
             'supporting_content_items' => [],
             'categories' => [],
+            'parent' => (object) [
+                'programme' => (object) [
+                    'type' => 'brand',
+                    'pid' => 'b006q2x0',
+                    'expected_child_count' => 1001,
+                    'position' => 101,
+                    'image' => (object) ['pid' => 'p01m5mss'],
+                    'title' => 'Doctor Who',
+                    'short_synopsis' => 'Short Synopsis',
+                    'first_broadcast_date' => null,
+                ],
+            ],
+            'peers' => (object) ['previous' => null, 'next' => null],
         ];
 
         $mapper = new FindByPidProgrammeMapper();
@@ -239,6 +277,94 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedOutput, $mapper->getApsObject($clip));
     }
 
+    public function testMappingDisplayTitleOfBrand()
+    {
+        $brand = $this->createMock(Brand::CLASS);
+        $brand->method('getTitle')->willReturn('Brand');
+
+        $mapper = new FindByPidProgrammeMapper();
+        $apsObject = $mapper->getApsObject($brand);
+
+        $expectedDisplayTitle = (object) [
+            'title' => 'Brand',
+            'subtitle' => '',
+        ];
+
+        $this->assertEquals($expectedDisplayTitle, $apsObject->{'display_title'});
+    }
+
+    public function testMappingDisplayTitleOfSeries()
+    {
+        $brand = $this->createMock(Brand::CLASS);
+        $brand->method('getTitle')->willReturn('Brand');
+
+        $series = $this->createMock(Series::CLASS);
+        $series->method('getTitle')->willReturn('Series');
+        $series->method('getParent')->willReturn($brand);
+
+        $mapper = new FindByPidProgrammeMapper();
+        $apsObject = $mapper->getApsObject($series);
+
+        $expectedDisplayTitle = (object) [
+            'title' => 'Series',
+            'subtitle' => '',
+        ];
+
+        $this->assertEquals($expectedDisplayTitle, $apsObject->{'display_title'});
+    }
+
+    public function testMappingDisplayTitleOfSubSeries()
+    {
+        $brand = $this->createMock(Brand::CLASS);
+        $brand->method('getTitle')->willReturn('Brand');
+
+        $series = $this->createMock(Series::CLASS);
+        $series->method('getTitle')->willReturn('Series');
+        $series->method('getParent')->willReturn($brand);
+
+        $subSeries = $this->createMock(Series::CLASS);
+        $subSeries->method('getTitle')->willReturn('SubSeries');
+        $subSeries->method('getParent')->willReturn($series);
+
+        $mapper = new FindByPidProgrammeMapper();
+        $apsObject = $mapper->getApsObject($subSeries);
+
+        $expectedDisplayTitle = (object) [
+            'title' => 'SubSeries',
+            'subtitle' => '',
+        ];
+
+        $this->assertEquals($expectedDisplayTitle, $apsObject->{'display_title'});
+    }
+
+    public function testMappingDisplayTitleOfEpisode()
+    {
+        $brand = $this->createMock(Brand::CLASS);
+        $brand->method('getTitle')->willReturn('Brand');
+
+        $series = $this->createMock(Series::CLASS);
+        $series->method('getTitle')->willReturn('Series');
+        $series->method('getParent')->willReturn($brand);
+
+        $subSeries = $this->createMock(Series::CLASS);
+        $subSeries->method('getTitle')->willReturn('SubSeries');
+        $subSeries->method('getParent')->willReturn($series);
+
+        $episode = $this->createMock(Episode::CLASS);
+        $episode->method('getTitle')->willReturn('Episode');
+        $episode->method('getParent')->willReturn($subSeries);
+
+        $mapper = new FindByPidProgrammeMapper();
+        $apsObject = $mapper->getApsObject($episode);
+
+        $expectedDisplayTitle = (object) [
+            'title' => 'Brand',
+            'subtitle' => 'Series, SubSeries, Episode',
+        ];
+
+        $this->assertEquals($expectedDisplayTitle, $apsObject->{'display_title'});
+    }
+
     public function testMappingDisplayTitleOfClipsThatBelongToSeries()
     {
         $brand = $this->createMock(Brand::CLASS);
@@ -295,6 +421,26 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedDisplayTitle, $apsObject->{'display_title'});
     }
 
+    public function testMappingDisplayTitleOfEpisodeWithTitleAsADate()
+    {
+        $brand = $this->createMock(Brand::CLASS);
+        $brand->method('getTitle')->willReturn('Brand');
+
+        $episode = $this->createMock(Episode::CLASS);
+        $episode->method('getTitle')->willReturn('01/01/1970');
+        $episode->method('getParent')->willReturn($brand);
+
+        $mapper = new FindByPidProgrammeMapper();
+        $apsObject = $mapper->getApsObject($episode);
+
+        $expectedDisplayTitle = (object) [
+            'title' => 'Brand',
+            'subtitle' => '01/01/1970',
+        ];
+
+        $this->assertEquals($expectedDisplayTitle, $apsObject->{'display_title'});
+    }
+
     public function testMappingDefaultImageResultsInAbsentImageField()
     {
         $image = $this->createMock(Image::CLASS);
@@ -322,13 +468,11 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
         $series->method('getTitle')->willReturn('2008');
         $series->method('getParent')->willReturn($brand);
 
-
         $mapper = new FindByPidProgrammeMapper();
         $apsObject = $mapper->getApsObject($series);
 
         $this->assertSame(2008, $apsObject->title);
-        $this->assertSame(2007, $apsObject->{'display_title'}->title);
-        $this->assertSame(2008, $apsObject->{'display_title'}->subtitle);
+        $this->assertSame(2008, $apsObject->{'display_title'}->title);
         $this->assertSame(2007, $apsObject->parent->programme->title);
     }
 
