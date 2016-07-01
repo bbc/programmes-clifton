@@ -2,6 +2,7 @@
 
 namespace BBC\CliftonBundle\ApsMapper;
 
+use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\VersionType;
 use BBC\ProgrammesPagesService\Domain\Entity\Genre;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
@@ -14,8 +15,8 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
 {
     public function getApsObject($programme, $relatedLinks = [], $nextSibling = null, $previousSibling = null, $versions = []): stdClass
     {
+        /** @var ProgrammeContainer $programme */
         $this->assertIsProgramme($programme);
-
         $output = [
             'type' => $this->getProgrammeType($programme),
             'pid' => (string) $programme->getPid(),
@@ -189,7 +190,7 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
             'canonical' => $isCanonical,
             'pid' => $version->getPid(),
             'duration' => $version->getDuration(),
-            'types' => array_map(function ($vt) {
+            'types' => array_map(function (VersionType $vt) {
                 return $vt->getName();
             }, $version->getVersionTypes()),
         ];
