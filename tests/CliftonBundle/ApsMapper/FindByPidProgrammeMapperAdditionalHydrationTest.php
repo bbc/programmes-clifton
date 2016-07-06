@@ -81,6 +81,7 @@ class FindByPidProgrammeMapperAdditionalHydrationTest extends PHPUnit_Framework_
             null,
             [],
             [],
+            new \DateTimeImmutable('1970-01-01 00:00:00'),
             1001
         );
 
@@ -105,6 +106,7 @@ class FindByPidProgrammeMapperAdditionalHydrationTest extends PHPUnit_Framework_
             [],
             [],
             new PartialDate(2015, 02, 00),
+            new \DateTimeImmutable('1970-01-01 01:00:00'),
             1001,
             $streamableFrom,
             $streamableUntil
@@ -115,7 +117,7 @@ class FindByPidProgrammeMapperAdditionalHydrationTest extends PHPUnit_Framework_
                 'type' => 'series',
                 'title' => 'Series 9 - Omnibus',
                 'pid' => 'b06hgxtt',
-                'first_broadcast_date' => null,
+                'first_broadcast_date' => '1970-01-01T00:00:00Z',
                 'position' => 101,
                 'media_type' => null,
             ],
@@ -123,7 +125,7 @@ class FindByPidProgrammeMapperAdditionalHydrationTest extends PHPUnit_Framework_
                 'type' => 'episode',
                 'title' => 'The Husbands of River Song',
                 'pid' => 'b06tl32t',
-                'first_broadcast_date' => '2015-02-01T12:00:00Z',
+                'first_broadcast_date' => '1970-01-01T01:00:00Z',
                 'position' => 103,
                 'media_type' => 'audio_video',
             ],

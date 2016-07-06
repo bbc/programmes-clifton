@@ -41,6 +41,7 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
             null,
             [],
             [],
+            new \DateTimeImmutable('1970-01-01 00:00:00'),
             1001
         );
 
@@ -53,7 +54,7 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
             'image' => (object) ['pid' => 'p01m5mss'],
             'position' => 101,
             'expected_child_count' => 1001,
-            'first_broadcast_date' => null,
+            'first_broadcast_date' => '1970-01-01T00:00:00Z',
             'has_medium_or_long_synopsis' => false,
             'has_related_links' => true,
             'has_clips' => true,
@@ -89,6 +90,7 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
             [],
             [],
             new PartialDate(2015, 02, 00),
+            new \DateTimeImmutable('1970-01-01 00:00:00'),
             1001,
             $streamableFrom,
             $streamableUntil
@@ -103,7 +105,7 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
             'image' => (object) ['pid' => 'p01m5mss'],
             'position' => 101,
             'expected_child_count' => null,
-            'first_broadcast_date' => '2015-02-01T12:00:00Z',
+            'first_broadcast_date' => '1970-01-01T00:00:00Z',
             'has_medium_or_long_synopsis' => false,
             'has_related_links' => true,
             'has_clips' => true,
