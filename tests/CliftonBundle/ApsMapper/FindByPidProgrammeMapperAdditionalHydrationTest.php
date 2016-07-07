@@ -11,12 +11,10 @@ use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\RelatedLink;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use BBC\ProgrammesPagesService\Domain\Entity\VersionType;
-use BBC\ProgrammesPagesService\Domain\ValueObject\Mid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\PartialDate;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use BBC\CliftonBundle\ApsMapper\FindByPidProgrammeMapper;
-use DateTime;
 use DateTimeImmutable;
 use PHPUnit_Framework_TestCase;
 
@@ -81,7 +79,7 @@ class FindByPidProgrammeMapperAdditionalHydrationTest extends PHPUnit_Framework_
             null,
             [],
             [],
-            new \DateTimeImmutable('1970-01-01 00:00:00'),
+            new DateTimeImmutable('1970-01-01 00:00:00'),
             1001
         );
 
@@ -105,8 +103,8 @@ class FindByPidProgrammeMapperAdditionalHydrationTest extends PHPUnit_Framework_
             null,
             [],
             [],
+            new DateTimeImmutable('1970-01-01 01:00:00'),
             new PartialDate(2015, 02, 00),
-            new \DateTimeImmutable('1970-01-01 01:00:00'),
             1001,
             $streamableFrom,
             $streamableUntil
@@ -140,9 +138,7 @@ class FindByPidProgrammeMapperAdditionalHydrationTest extends PHPUnit_Framework_
 
     public function testMappingVersions()
     {
-        // TODO
         $episode = $this->createMock(Episode::CLASS);
-
 
         $versions = [
             new Version(

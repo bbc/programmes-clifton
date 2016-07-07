@@ -18,6 +18,7 @@ use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\PartialDate;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use BBC\CliftonBundle\ApsMapper\FindByPidProgrammeMapper;
+use DateTime;
 use DateTimeImmutable;
 use InvalidArgumentException;
 use PHPUnit_Framework_TestCase;
@@ -48,7 +49,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             null,
             [],
             [],
-            new \DateTimeImmutable('1970-01-01 00:00:00'),
+            new DateTimeImmutable('1970-01-01 00:00:00'),
             1001
         );
 
@@ -101,7 +102,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             null,
             [],
             [],
-            new \DateTimeImmutable('1970-01-01 00:00:00'),
+            new DateTimeImmutable('1970-01-01 00:00:00'),
             1001
         );
 
@@ -127,7 +128,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             null,
             [],
             [],
-            new \DateTimeImmutable('1970-01-01 00:00:00'),
+            new DateTimeImmutable('1970-01-01 00:00:00'),
             1001
         );
 
@@ -194,8 +195,8 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             null,
             [],
             [],
+            new DateTimeImmutable('1970-01-01 00:00:00'),
             new PartialDate(2015, 02, 00),
-            new \DateTimeImmutable('1970-01-01 00:00:00'),
             1001,
             $streamableFrom,
             $streamableUntil
@@ -249,8 +250,8 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             null,
             [],
             [],
+            new DateTimeImmutable('1970-01-01 00:00:00'),
             new PartialDate(2015, 02, 00),
-            new \DateTimeImmutable('1970-01-01 00:00:00'),
             1001,
             $streamableFrom,
             $streamableUntil
@@ -449,7 +450,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
     public function testMappingFirstBroadcastDateGMT()
     {
         $episode = $this->createMock(Episode::CLASS);
-        $episode->method('getFirstBroadcastDate')->willReturn(new \DateTime('1999-02-15T21:30:00Z'));
+        $episode->method('getFirstBroadcastDate')->willReturn(new DateTime('1999-02-15T21:30:00Z'));
 
         $mapper = new FindByPidProgrammeMapper();
         $apsObject = $mapper->getApsObject($episode);
@@ -460,7 +461,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
     public function testMappingFirstBroadcastDateBST()
     {
         $episode = $this->createMock(Episode::CLASS);
-        $episode->method('getFirstBroadcastDate')->willReturn(new \DateTime('2007-05-18T22:55:00+01:00'));
+        $episode->method('getFirstBroadcastDate')->willReturn(new DateTime('2007-05-18T22:55:00+01:00'));
 
         $mapper = new FindByPidProgrammeMapper();
         $apsObject = $mapper->getApsObject($episode);

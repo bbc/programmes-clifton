@@ -2,7 +2,6 @@
 
 namespace Tests\BBC\CliftonBundle\ApsMapper;
 
-use BBC\ProgrammesPagesService\Domain\Enumeration\IsPodcastableEnum;
 use BBC\ProgrammesPagesService\Domain\Enumeration\MediaTypeEnum;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Series;
@@ -13,6 +12,7 @@ use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use BBC\CliftonBundle\ApsMapper\ProgrammeChildrenProgrammeMapper;
 use DateTime;
 use DateTimeImmutable;
+use InvalidArgumentException;
 use PHPUnit_Framework_TestCase;
 
 class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
@@ -89,8 +89,8 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
             null,
             [],
             [],
+            new DateTimeImmutable('1970-01-01 00:00:00'),
             new PartialDate(2015, 02, 00),
-            new \DateTimeImmutable('1970-01-01 00:00:00'),
             1001,
             $streamableFrom,
             $streamableUntil
