@@ -18,6 +18,7 @@ use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\PartialDate;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use BBC\CliftonBundle\ApsMapper\FindByPidProgrammeMapper;
+use DateTime;
 use DateTimeImmutable;
 use InvalidArgumentException;
 use PHPUnit_Framework_TestCase;
@@ -48,6 +49,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             null,
             [],
             [],
+            new DateTimeImmutable('1970-01-01 00:00:00'),
             1001
         );
 
@@ -62,7 +64,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             'short_synopsis' => 'Short Synopsis',
             'medium_synopsis' => 'Medium Synopsis',
             'long_synopsis' => ' ',
-            'first_broadcast_date' => null,
+            'first_broadcast_date' => '1970-01-01T00:00:00Z',
             'display_title' => (object) [
                 'title' => 'Doctor Who',
                 'subtitle' => '',
@@ -100,6 +102,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             null,
             [],
             [],
+            new DateTimeImmutable('1970-01-01 00:00:00'),
             1001
         );
 
@@ -125,6 +128,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             null,
             [],
             [],
+            new DateTimeImmutable('1970-01-01 00:00:00'),
             1001
         );
 
@@ -139,7 +143,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             'short_synopsis' => 'Short Synopsis',
             'medium_synopsis' => 'Medium Synopsis',
             'long_synopsis' => ' ',
-            'first_broadcast_date' => null,
+            'first_broadcast_date' => '1970-01-01T00:00:00Z',
             'display_title' => (object) [
                 'title' => 'Series 9 - Omnibus',
                 'subtitle' => '',
@@ -156,7 +160,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
                     'image' => (object) ['pid' => 'p01m5mss'],
                     'title' => 'Doctor Who',
                     'short_synopsis' => 'Short Synopsis',
-                    'first_broadcast_date' => null,
+                    'first_broadcast_date' => '1970-01-01T00:00:00Z',
                 ],
             ],
             'peers' => (object) ['previous' => null, 'next' => null],
@@ -191,6 +195,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             null,
             [],
             [],
+            new DateTimeImmutable('1970-01-01 00:00:00'),
             new PartialDate(2015, 02, 00),
             1001,
             $streamableFrom,
@@ -208,7 +213,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             'short_synopsis' => 'Short Synopsis',
             'medium_synopsis' => 'Medium Synopsis',
             'long_synopsis' => ' ',
-            'first_broadcast_date' => '2015-02-01T12:00:00Z',
+            'first_broadcast_date' => '1970-01-01T00:00:00Z',
             'display_title' => (object) [
                 'title' => 'The Husbands of River Song',
                 'subtitle' => '',
@@ -245,6 +250,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             null,
             [],
             [],
+            new DateTimeImmutable('1970-01-01 00:00:00'),
             new PartialDate(2015, 02, 00),
             1001,
             $streamableFrom,
@@ -262,7 +268,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             'short_synopsis' => 'Short Synopsis',
             'medium_synopsis' => 'Medium Synopsis',
             'long_synopsis' => ' ',
-            'first_broadcast_date' => '2015-02-01T12:00:00Z',
+            'first_broadcast_date' => '1970-01-01T00:00:00Z',
             'display_title' => (object) [
                 'title' => 'The Husbands of River Song',
                 'subtitle' => '',
@@ -439,6 +445,28 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
         ];
 
         $this->assertEquals($expectedDisplayTitle, $apsObject->{'display_title'});
+    }
+
+    public function testMappingFirstBroadcastDateGMT()
+    {
+        $episode = $this->createMock(Episode::CLASS);
+        $episode->method('getFirstBroadcastDate')->willReturn(new DateTime('1999-02-15T21:30:00Z'));
+
+        $mapper = new FindByPidProgrammeMapper();
+        $apsObject = $mapper->getApsObject($episode);
+
+        $this->assertEquals('1999-02-15T21:30:00Z', $apsObject->{'first_broadcast_date'});
+    }
+
+    public function testMappingFirstBroadcastDateBST()
+    {
+        $episode = $this->createMock(Episode::CLASS);
+        $episode->method('getFirstBroadcastDate')->willReturn(new DateTime('2007-05-18T22:55:00+01:00'));
+
+        $mapper = new FindByPidProgrammeMapper();
+        $apsObject = $mapper->getApsObject($episode);
+
+        $this->assertEquals('2007-05-18T22:55:00+01:00', $apsObject->{'first_broadcast_date'});
     }
 
     public function testMappingDefaultImageResultsInAbsentImageField()
@@ -636,6 +664,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             ),
             [],
             [],
+            new \DateTimeImmutable('1970-01-01 00:00:00'),
             1001
         );
 
@@ -673,6 +702,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             ),
             [],
             [],
+            new \DateTimeImmutable('1970-01-01 00:00:00'),
             1001
         );
 
@@ -689,7 +719,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
                 'image' => (object) ['pid' => 'p01m5mss'],
                 'title' => 'Doctor Who',
                 'short_synopsis' => 'Short Synopsis',
-                'first_broadcast_date' => null,
+                'first_broadcast_date' => '1970-01-01T00:00:00Z',
                 'ownership' => (object) [
                     'service' => (object) [
                         'type' => 'tv',
@@ -710,7 +740,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
                 'image' => (object) ['pid' => 'p01m5mss'],
                 'title' => 'Series 9 - Omnibus',
                 'short_synopsis' => 'Short Synopsis',
-                'first_broadcast_date' => null,
+                'first_broadcast_date' => '1970-01-01T00:00:00Z',
                 'ownership' => (object) [
                     'service' => (object) [
                         'type' => 'tv',

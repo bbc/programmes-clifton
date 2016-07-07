@@ -2,7 +2,7 @@
 
 namespace BBC\CliftonBundle\ApsMapper;
 
-use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\VersionType;
+use BBC\ProgrammesPagesService\Domain\Entity\VersionType;
 use BBC\ProgrammesPagesService\Domain\Entity\Genre;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;

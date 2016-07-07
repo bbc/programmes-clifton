@@ -5,6 +5,8 @@ namespace BBC\CliftonBundle\Controller;
 use BBC\CliftonBundle\ApsMapper\FindByPidProgrammeMapper;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
+use BBC\ProgrammesPagesService\Service\ProgrammesService;
+use DateTimeZone;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -46,6 +48,7 @@ class FindByPidController extends BaseApsController
         $nextSibling = null;
         $previousSibling = null;
         if ($programme->getParent()) {
+            /** @var ProgrammesService $ps */
             $ps = $this->get('pps.programmes_service');
             $nextSibling = $ps->findNextSiblingByProgramme($programme);
             $previousSibling = $ps->findPreviousSiblingByProgramme($programme);

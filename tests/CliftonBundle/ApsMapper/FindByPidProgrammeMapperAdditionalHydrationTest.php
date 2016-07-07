@@ -11,12 +11,10 @@ use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\RelatedLink;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use BBC\ProgrammesPagesService\Domain\Entity\VersionType;
-use BBC\ProgrammesPagesService\Domain\ValueObject\Mid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\PartialDate;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use BBC\CliftonBundle\ApsMapper\FindByPidProgrammeMapper;
-use DateTime;
 use DateTimeImmutable;
 use PHPUnit_Framework_TestCase;
 
@@ -81,6 +79,7 @@ class FindByPidProgrammeMapperAdditionalHydrationTest extends PHPUnit_Framework_
             null,
             [],
             [],
+            new DateTimeImmutable('1970-01-01 00:00:00'),
             1001
         );
 
@@ -104,6 +103,7 @@ class FindByPidProgrammeMapperAdditionalHydrationTest extends PHPUnit_Framework_
             null,
             [],
             [],
+            new DateTimeImmutable('1970-01-01 01:00:00'),
             new PartialDate(2015, 02, 00),
             1001,
             $streamableFrom,
@@ -115,7 +115,7 @@ class FindByPidProgrammeMapperAdditionalHydrationTest extends PHPUnit_Framework_
                 'type' => 'series',
                 'title' => 'Series 9 - Omnibus',
                 'pid' => 'b06hgxtt',
-                'first_broadcast_date' => null,
+                'first_broadcast_date' => '1970-01-01T00:00:00Z',
                 'position' => 101,
                 'media_type' => null,
             ],
@@ -123,7 +123,7 @@ class FindByPidProgrammeMapperAdditionalHydrationTest extends PHPUnit_Framework_
                 'type' => 'episode',
                 'title' => 'The Husbands of River Song',
                 'pid' => 'b06tl32t',
-                'first_broadcast_date' => '2015-02-01T12:00:00Z',
+                'first_broadcast_date' => '1970-01-01T01:00:00Z',
                 'position' => 103,
                 'media_type' => 'audio_video',
             ],
@@ -138,9 +138,7 @@ class FindByPidProgrammeMapperAdditionalHydrationTest extends PHPUnit_Framework_
 
     public function testMappingVersions()
     {
-        // TODO
         $episode = $this->createMock(Episode::CLASS);
-
 
         $versions = [
             new Version(

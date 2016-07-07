@@ -10,6 +10,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Series;
 use BBC\ProgrammesPagesService\Domain\Enumeration\MediaTypeEnum;
+use DateTimeInterface;
 use InvalidArgumentException;
 
 abstract class AbstractProgrammeMapper implements MapperInterface
@@ -79,28 +80,18 @@ abstract class AbstractProgrammeMapper implements MapperInterface
 
     protected function getFirstBroadcastDate(Programme $programme)
     {
-        // Previously first_broadcast_date was based upon broadcasts of
-        // episodes. As that info is expensive to calculate and we don't need it
-        // elsewhere we're now going to base this off ReleaseDate which should
-        // be good enough
-        if (!($programme instanceof ProgrammeItem) || is_null($programme->getReleaseDate())) {
-            return null;
-        }
-
-        // ReleaseDate is a PartialDate, so set to the first day/month if they were zeroes
-        list($year, $month, $day) = explode('-', (string) $programme->getReleaseDate());
-        $iso8601Date = sprintf(
-            '%s-%s-%sT12:00:00Z',
-            $year,
-            $this->validDatePoint($month),
-            $this->validDatePoint($day)
-        );
-        return $iso8601Date;
+        $dateTime = $programme->getFirstBroadcastDate();
+        return $dateTime ? $this->formatDateTime($dateTime) : null;
     }
 
-    private function validDatePoint(int $point)
+    private function formatDateTime(DateTimeInterface $dateTime): string
     {
-        $point = $point ?: 1;
-        return str_pad($point, '2', '0', STR_PAD_LEFT);
+        if ($dateTime->getOffset()) {
+            // 2002-10-19T21:00:00+01:00
+            return $dateTime->format(DATE_ATOM);
+        } else {
+            // 2016-02-01T21:00:00Z
+            return $dateTime->format('Y-m-d\TH:i:s\Z');
+        }
     }
 }
