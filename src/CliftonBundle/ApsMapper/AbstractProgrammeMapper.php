@@ -10,7 +10,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Series;
 use BBC\ProgrammesPagesService\Domain\Enumeration\MediaTypeEnum;
-use DateTimeInterface;
+use DateTimeZone;
 use InvalidArgumentException;
 
 abstract class AbstractProgrammeMapper implements MapperInterface
@@ -84,14 +84,15 @@ abstract class AbstractProgrammeMapper implements MapperInterface
         return $dateTime ? $this->formatDateTime($dateTime) : null;
     }
 
-    private function formatDateTime(DateTimeInterface $dateTime): string
+    private function formatDateTime(\DateTimeImmutable $dateTimeImmutable): string
     {
-        if ($dateTime->getOffset()) {
+        $dateTimeImmutable = $dateTimeImmutable->setTimezone(new DateTimeZone('Europe/London'));
+        if ($dateTimeImmutable->getOffset()) {
             // 2002-10-19T21:00:00+01:00
-            return $dateTime->format(DATE_ATOM);
+            return $dateTimeImmutable->format(DATE_ATOM);
         } else {
             // 2016-02-01T21:00:00Z
-            return $dateTime->format('Y-m-d\TH:i:s\Z');
+            return $dateTimeImmutable->format('Y-m-d\TH:i:s\Z');
         }
     }
 }
