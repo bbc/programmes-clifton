@@ -37,7 +37,12 @@ class ProgrammeChildrenProgrammeMapper extends AbstractProgrammeMapper
         }
 
         if ($programme instanceof ProgrammeItem) {
-            $output['has_segment_events'] = false; // This isn't used any more
+            $hasSegmentEvents = !!$programme->getSegmentEventCount();
+            $output['has_segment_events'] = $hasSegmentEvents;
+
+            if ($hasSegmentEvents) {
+                $output['segments_title'] = 'Featured items';
+            }
 
             if ($programme->isStreamable()) {
                 if ($programme->getStreamableUntil()) {

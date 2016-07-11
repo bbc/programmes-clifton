@@ -175,6 +175,18 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
         ];
     }
 
+    public function testMappingHasSegments()
+    {
+        $episode = $this->createMock(Episode::CLASS);
+        $episode->method('getSegmentEventCount')->willReturn(1);
+
+        $mapper = new ProgrammeChildrenProgrammeMapper();
+        $apsObject = $mapper->getApsObject($episode);
+
+        $this->assertSame(true, $apsObject->{'has_segment_events'});
+        $this->assertSame('Featured items', $apsObject->{'segments_title'});
+    }
+
     /**
      * @expectedException InvalidArgumentException
      */
