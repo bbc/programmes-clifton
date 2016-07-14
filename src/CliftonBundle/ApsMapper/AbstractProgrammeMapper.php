@@ -59,7 +59,7 @@ abstract class AbstractProgrammeMapper implements MapperInterface
         return $dateTime ? $this->formatDateTime($dateTime) : null;
     }
 
-    private function formatDateTime(\DateTimeImmutable $dateTimeImmutable): string
+    protected function formatDateTime(\DateTimeImmutable $dateTimeImmutable): string
     {
         $dateTimeImmutable = $dateTimeImmutable->setTimezone(new DateTimeZone('Europe/London'));
         if ($dateTimeImmutable->getOffset()) {

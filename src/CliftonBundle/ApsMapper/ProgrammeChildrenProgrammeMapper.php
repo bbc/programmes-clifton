@@ -46,10 +46,10 @@ class ProgrammeChildrenProgrammeMapper extends AbstractProgrammeMapper
 
             if ($programme->isStreamable()) {
                 if ($programme->getStreamableUntil()) {
-                    $output['available_until'] = $programme->getStreamableUntil() ? $programme->getStreamableUntil()->format(DateTime::ISO8601) : null;
+                    $output['available_until'] = $programme->getStreamableUntil() ? $this->formatDateTime($programme->getStreamableUntil()) : null;
                 }
 
-                $output['actual_start'] = $programme->getStreamableFrom() ? $programme->getStreamableFrom()->format(DateTime::ISO8601) : null;
+                $output['actual_start'] = $programme->getStreamableFrom() ? $this->formatDateTime($programme->getStreamableFrom()) : null;
             }
 
             $output['is_available_mediaset_pc_sd'] = $programme->isStreamable();

@@ -66,8 +66,8 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
 
     public function testMappingEpisode()
     {
-        $streamableFrom = new DateTimeImmutable();
-        $streamableUntil = new DateTimeImmutable();
+        $streamableFrom = new DateTimeImmutable('2000-01-02T00:00:00Z');
+        $streamableUntil = new DateTimeImmutable('2000-01-03T00:00:00Z');
 
         $series = new Episode(
             1,
@@ -90,7 +90,7 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
             null,
             [],
             [],
-            new DateTimeImmutable('2000-01-01 00:00:00'),
+            new DateTimeImmutable('2000-01-01 00:00:00Z'),
             new PartialDate(2015, 02, 00),
             1001,
             $streamableFrom,
@@ -111,8 +111,8 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
             'has_related_links' => true,
             'has_clips' => true,
             'has_segment_events' => false,
-            'available_until' => $streamableUntil->format(DateTime::ISO8601),
-            'actual_start' => $streamableFrom->format(DateTime::ISO8601),
+            'available_until' => '2000-01-03T00:00:00Z',
+            'actual_start' => '2000-01-02T00:00:00Z',
             'is_available_mediaset_pc_sd' => true,
             'is_legacy_media' => false,
         ];
@@ -185,6 +185,38 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame(true, $apsObject->{'has_segment_events'});
         $this->assertSame('Featured items', $apsObject->{'segments_title'});
+    }
+
+    public function testMappingDatesGMT()
+    {
+        $episode = $this->createMock(Episode::CLASS);
+        $episode->method('isStreamable')->willReturn(true);
+        $episode->method('getFirstBroadcastDate')->willReturn(new DateTimeImmutable('1999-02-15T21:30:00Z'));
+        $episode->method('getStreamableUntil')->willReturn(new DateTimeImmutable('1999-02-15T21:30:00Z'));
+        $episode->method('getStreamableFrom')->willReturn(new DateTimeImmutable('1999-02-15T21:30:00Z'));
+
+        $mapper = new ProgrammeChildrenProgrammeMapper();
+        $apsObject = $mapper->getApsObject($episode);
+
+        $this->assertEquals('1999-02-15T21:30:00Z', $apsObject->{'first_broadcast_date'});
+        $this->assertEquals('1999-02-15T21:30:00Z', $apsObject->{'available_until'});
+        $this->assertEquals('1999-02-15T21:30:00Z', $apsObject->{'actual_start'});
+    }
+
+    public function testMappingDatesBST()
+    {
+        $episode = $this->createMock(Episode::CLASS);
+        $episode->method('isStreamable')->willReturn(true);
+        $episode->method('getFirstBroadcastDate')->willReturn(new DateTimeImmutable('2007-05-18T22:55:00+01:00'));
+        $episode->method('getStreamableUntil')->willReturn(new DateTimeImmutable('2007-05-18T22:55:00+01:00'));
+        $episode->method('getStreamableFrom')->willReturn(new DateTimeImmutable('2007-05-18T22:55:00+01:00'));
+
+        $mapper = new ProgrammeChildrenProgrammeMapper();
+        $apsObject = $mapper->getApsObject($episode);
+
+        $this->assertEquals('2007-05-18T22:55:00+01:00', $apsObject->{'first_broadcast_date'});
+        $this->assertEquals('2007-05-18T22:55:00+01:00', $apsObject->{'available_until'});
+        $this->assertEquals('2007-05-18T22:55:00+01:00', $apsObject->{'actual_start'});
     }
 
     /**
