@@ -143,6 +143,7 @@ class FindByPidProgrammeMapperAdditionalHydrationTest extends PHPUnit_Framework_
 
         $versions = [
             new Version(
+                0,
                 new Pid('v0000001'),
                 $episode,
                 100,
@@ -154,6 +155,7 @@ class FindByPidProgrammeMapperAdditionalHydrationTest extends PHPUnit_Framework_
                 ]
             ),
             new Version(
+                0,
                 new Pid('v0000002'),
                 $episode,
                 200,

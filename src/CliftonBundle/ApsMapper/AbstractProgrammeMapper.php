@@ -15,6 +15,8 @@ use InvalidArgumentException;
 
 abstract class AbstractProgrammeMapper implements MapperInterface
 {
+    use Traits\ProgrammeUtilitiesTrait;
+
     abstract public function getApsObject($entity);
 
     protected function assertIsProgramme($item)
@@ -26,33 +28,6 @@ abstract class AbstractProgrammeMapper implements MapperInterface
                 (is_object($item) ? get_class($item) : gettype($item))
             ));
         }
-    }
-
-    protected function getProgrammeType($entity): string
-    {
-        if ($entity instanceof Brand) {
-            return 'brand';
-        }
-        if ($entity instanceof Series) {
-            return 'series';
-        }
-        if ($entity instanceof Episode) {
-            return 'episode';
-        }
-        if ($entity instanceof Clip) {
-            return 'clip';
-        }
-
-        throw new InvalidArgumentException('Could not find type for entity "' . get_class($entity) . '"');
-    }
-
-    protected function getTitle(Programme $programme)
-    {
-        // Mimic a dumb bug in APS: If the Title is a numeric string, then APS
-        // outputs the value as a number, rather than a string
-        // e.g. http://open.live.bbc.co.uk/aps/programmes/b008hskr.json
-        $title = $programme->getTitle();
-        return is_numeric($title) ? (int) $title : $title;
     }
 
     protected function getMediaType(Programme $programme)

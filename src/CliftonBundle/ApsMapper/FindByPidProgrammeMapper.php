@@ -24,7 +24,7 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
             'position' => $programme->getPosition(),
             'image' => $this->getImageObject($programme->getImage()),
             'media_type' => $this->getMediaType($programme),
-            'title' => $this->getTitle($programme),
+            'title' => $this->getProgrammeTitle($programme),
             'short_synopsis' => $this->nullableSynopsis($programme->getSynopses()->getShortSynopsis()),
             'medium_synopsis' => $this->nullableSynopsis($programme->getSynopses()->getMediumSynopsis()),
             'long_synopsis' => $this->nullableSynopsis($programme->getSynopses()->getLongSynopsis()),
@@ -85,7 +85,7 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
         $output = [
             'type' => $this->getProgrammeType($programme),
             'pid' => (string) $programme->getPid(),
-            'title' => $this->getTitle($programme),
+            'title' => $this->getProgrammeTitle($programme),
             // Only synopses at the top level coerce empty strings to null
             'short_synopsis' => $programme->getShortSynopsis(),
             'position' => $programme->getPosition(),
@@ -115,14 +115,14 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
 
         $titles = [];
         if ($this->isContainer($programme)) {
-            $titles[] = $this->getTitle($programme);
+            $titles[] = $this->getProgrammeTitle($programme);
         } else {
             foreach ($this->getHierarchy($programme) as $entity) {
                 if ($this->isContainer($entity)) {
-                    $titles[] = $this->getTitle($entity);
+                    $titles[] = $this->getProgrammeTitle($entity);
                 }
             }
-            $titles[] = $this->getTitle($programme);
+            $titles[] = $this->getProgrammeTitle($programme);
         }
 
         return (object) [
