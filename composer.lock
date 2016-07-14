@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.18.25",
+            "version": "3.18.28",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "37a8ce927a69de3d821c21b64674a2b3b9d1d247"
+                "reference": "c75d3ba185d5db6998124fa1a99a63e5d529b247"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/37a8ce927a69de3d821c21b64674a2b3b9d1d247",
-                "reference": "37a8ce927a69de3d821c21b64674a2b3b9d1d247",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c75d3ba185d5db6998124fa1a99a63e5d529b247",
+                "reference": "c75d3ba185d5db6998124fa1a99a63e5d529b247",
                 "shasum": ""
             },
             "require": {
@@ -85,7 +85,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2016-07-05 19:25:06"
+            "time": "2016-07-13 20:34:06"
         },
         {
             "name": "bbc-rmp/cloudwatch-monitoringhandler",
@@ -226,12 +226,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:bbc/programmes-pages-service.git",
-                "reference": "3d3d89be9788cbb53447f225fc315181a833cdab"
+                "reference": "d8014afce28bc894ac7dde04acb22f75994eddec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/3d3d89be9788cbb53447f225fc315181a833cdab",
-                "reference": "3d3d89be9788cbb53447f225fc315181a833cdab",
+                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/d8014afce28bc894ac7dde04acb22f75994eddec",
+                "reference": "d8014afce28bc894ac7dde04acb22f75994eddec",
                 "shasum": ""
             },
             "require": {
@@ -264,7 +264,7 @@
                 "source": "https://github.com/bbc/programmes-pages-service/tree/master",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2016-07-14 13:43:00"
+            "time": "2016-07-14 22:00:54"
         },
         {
             "name": "behat/transliterator",
@@ -3741,16 +3741,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "2.6.1",
+            "version": "2.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "fb72ed32f8418db5e7770be1653e62e0d6f5dd3d"
+                "reference": "4edb770cb853def6e60c93abb088ad5ac2010c83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/fb72ed32f8418db5e7770be1653e62e0d6f5dd3d",
-                "reference": "fb72ed32f8418db5e7770be1653e62e0d6f5dd3d",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/4edb770cb853def6e60c93abb088ad5ac2010c83",
+                "reference": "4edb770cb853def6e60c93abb088ad5ac2010c83",
                 "shasum": ""
             },
             "require": {
@@ -3815,7 +3815,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2016-05-30 22:24:32"
+            "time": "2016-07-13 23:29:13"
         },
         {
             "name": "symfony/phpunit-bridge",

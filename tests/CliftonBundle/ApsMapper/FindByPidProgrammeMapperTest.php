@@ -18,7 +18,6 @@ use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\PartialDate;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use BBC\CliftonBundle\ApsMapper\FindByPidProgrammeMapper;
-use DateTime;
 use DateTimeImmutable;
 use InvalidArgumentException;
 use PHPUnit_Framework_TestCase;
