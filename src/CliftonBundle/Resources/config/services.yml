@@ -23,6 +23,10 @@ services:
             - '@doctrine.orm.default_entity_manager'
             - '@pps.mapper_factory'
 
+    pps.contributions_service:
+        class: BBC\ProgrammesPagesService\Service\ContributionsService
+        factory: [ '@pps.service_factory', 'getContributionsService']
+
     pps.contributors_service:
         class: BBC\ProgrammesPagesService\Service\ContributorsService
         factory: [ '@pps.service_factory', 'getContributorsService']

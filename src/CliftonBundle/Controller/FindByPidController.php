@@ -3,8 +3,10 @@
 namespace BBC\CliftonBundle\Controller;
 
 use BBC\CliftonBundle\ApsMapper\FindByPidProgrammeMapper;
+use BBC\CliftonBundle\ApsMapper\FindByPidVersionMapper;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
+use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,8 +24,11 @@ class FindByPidController extends BaseApsController
             return $this->programmeResponse($programme);
         }
 
-        // TODO
         // Attempt to find a Version
+        $version = $this->get('pps.versions_service')->findByPidFull($pid);
+        if ($version) {
+            return $this->versionResponse($version);
+        }
 
         // TODO
         // Attempt to find a Segment
@@ -34,7 +39,7 @@ class FindByPidController extends BaseApsController
         throw $this->createNotFoundException(sprintf('The item with PID "%s" was not found', $pid));
     }
 
-    private function programmeResponse(Programme $programme)
+    private function programmeResponse(Programme $programme): JsonResponse
     {
         // Related Links
         $relatedLinks = [];
@@ -71,6 +76,39 @@ class FindByPidController extends BaseApsController
 
         return $this->json([
             'programme' => $apsProgramme,
+        ]);
+    }
+
+    private function versionResponse(Version $version): JsonResponse
+    {
+        // Contributors
+        $cs = $this->get('pps.contributions_service');
+        $contributions = $cs->findByContributionToVersion($version);
+        if (!$contributions) {
+            // If no contributions on Version, try on the Programme
+            $contributions = $cs->findByContributionToProgramme(
+                $version->getProgrammeItem()
+            );
+        }
+
+        // Segment Events
+        $segmentEvents = [];
+        // TODO
+
+        // Broadcasts
+        $broadcasts = [];
+        // TODO
+
+        $apsVersion = $this->mapSingleApsObject(
+            new FindByPidVersionMapper(),
+            $version,
+            $contributions,
+            $segmentEvents,
+            $broadcasts
+        );
+
+        return $this->json([
+            'version' => $apsVersion,
         ]);
     }
 }
