@@ -24,7 +24,7 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
             'position' => $programme->getPosition(),
             'image' => $this->getImageObject($programme->getImage()),
             'media_type' => $this->getMediaType($programme),
-            'title' => $this->getProgrammeTitle($programme),
+            'title' => $this->formatProgrammeTitle($programme->getTitle()),
             'short_synopsis' => $this->nullableSynopsis($programme->getSynopses()->getShortSynopsis()),
             'medium_synopsis' => $this->nullableSynopsis($programme->getSynopses()->getMediumSynopsis()),
             'long_synopsis' => $this->nullableSynopsis($programme->getSynopses()->getLongSynopsis()),
@@ -169,7 +169,7 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
         return (object) [
             'type' => $this->getProgrammeType($programme),
             'pid' => (string) $programme->getPid(),
-            'title' => $programme->getTitle(),
+            'title' => $this->formatProgrammeTitle($programme->getTitle()),
             'first_broadcast_date' => $this->getFirstBroadcastDate($programme),
             'position' => $programme->getPosition(),
             'media_type' => $this->getMediaType($programme),
