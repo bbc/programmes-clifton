@@ -29,11 +29,12 @@ trait ProgrammeUtilitiesTrait
         throw new InvalidArgumentException('Could not find type for entity "' . get_class($entity) . '"');
     }
 
-    protected function formatProgrammeTitle(string $title)
+    protected function getProgrammeTitle(Programme $programme)
     {
         // Mimic a dumb bug in APS: If the Title is a numeric string, then APS
         // outputs the value as a number, rather than a string
         // e.g. http://open.live.bbc.co.uk/aps/programmes/b008hskr.json
+        $title = $programme->getTitle();
         return is_numeric($title) ? (int) $title : $title;
     }
 }

@@ -24,7 +24,7 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
             'position' => $programme->getPosition(),
             'image' => $this->getImageObject($programme->getImage()),
             'media_type' => $this->getMediaType($programme),
-            'title' => $this->formatProgrammeTitle($programme->getTitle()),
+            'title' => $this->getProgrammeTitle($programme),
             'short_synopsis' => $this->nullableSynopsis($programme->getSynopses()->getShortSynopsis()),
             'medium_synopsis' => $this->nullableSynopsis($programme->getSynopses()->getMediumSynopsis()),
             'long_synopsis' => $this->nullableSynopsis($programme->getSynopses()->getLongSynopsis()),
@@ -93,6 +93,11 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
             'expected_child_count' => ($programme instanceof ProgrammeContainer) ? $programme->getExpectedChildCount() : null,
             'first_broadcast_date' => $this->getFirstBroadcastDate($programme),
         ];
+
+        // If Image is null then remove it from the feed
+        if (is_null($output['image'])) {
+            unset($output['image']);
+        }
 
         // Ownership is only added if it is present
         $ownership = $this->getOwnership($programme);
@@ -169,7 +174,7 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
         return (object) [
             'type' => $this->getProgrammeType($programme),
             'pid' => (string) $programme->getPid(),
-            'title' => $this->formatProgrammeTitle($programme->getTitle()),
+            'title' => $this->getProgrammeTitle($programme),
             'first_broadcast_date' => $this->getFirstBroadcastDate($programme),
             'position' => $programme->getPosition(),
             'media_type' => $this->getMediaType($programme),
