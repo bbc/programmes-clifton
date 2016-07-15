@@ -174,17 +174,6 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testMappingEmptySynopsisToNull()
-    {
-        $series = $this->createMock(Series::CLASS);
-        $series->method('getSynopses')->willReturn(new Synopses('', '', ''));
-
-        $mapper = new ProgrammeChildrenProgrammeMapper();
-        $apsObject = $mapper->getApsObject($series);
-
-        $this->assertNull($apsObject->{'short_synopsis'});
-    }
-
     public function testMappingHasSegments()
     {
         $episode = $this->createMock(Episode::CLASS);
