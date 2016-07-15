@@ -30,6 +30,11 @@ abstract class AbstractProgrammeMapper implements MapperInterface
         }
     }
 
+    protected function nullableSynopsis(string $synopsis)
+    {
+        return $synopsis === '' ? null : $synopsis;
+    }
+
     protected function getMediaType(Programme $programme)
     {
         if (!($programme instanceof ProgrammeItem)) {

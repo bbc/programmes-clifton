@@ -75,11 +75,6 @@ class FindByPidProgrammeMapper extends AbstractProgrammeMapper
         return (object) $output;
     }
 
-    private function nullableSynopsis(string $synopsis)
-    {
-        return $synopsis === '' ? null : $synopsis;
-    }
-
     private function getParent(Programme $programme)
     {
         $output = [

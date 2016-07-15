@@ -21,7 +21,7 @@ class ProgrammeChildrenProgrammeMapper extends AbstractProgrammeMapper
             'pid' => (string) $programme->getPid(),
             'media_type' => $this->getMediaType($programme),
             'title' => $this->getProgrammeTitle($programme),
-            'short_synopsis' => $programme->getShortSynopsis(),
+            'short_synopsis' => $this->nullableSynopsis($programme->getShortSynopsis()),
             'image' => $this->getImageObject($programme->getImage()),
             'position' => $programme->getPosition(),
             'expected_child_count' => ($programme instanceof ProgrammeContainer) ? $programme->getExpectedChildCount() : null,
