@@ -3,10 +3,10 @@
 namespace BBC\CliftonBundle\Controller;
 
 use BBC\CliftonBundle\ApsMapper\FindByPidProgrammeMapper;
+use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
-use DateTimeZone;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -34,7 +34,7 @@ class FindByPidController extends BaseApsController
         throw $this->createNotFoundException(sprintf('The item with PID "%s" was not found', $pid));
     }
 
-    private function programmeResponse($programme)
+    private function programmeResponse(Programme $programme)
     {
         $dbId = $programme->getDbId();
         // Related Links
