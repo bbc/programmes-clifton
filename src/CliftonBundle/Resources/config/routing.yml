@@ -6,13 +6,19 @@ aps.find_by_pid:
     path: /aps/programmes/{pid}.json
     methods:  [GET]
     defaults: { _controller: CliftonBundle:FindByPid:findByPid }
-    requirements: { pid: '[0-9|b-d|f-h|j-n|p-t|v-z]{8,15}' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
 aps.programme_children:
     path: /aps/programmes/{pid}/children.json
     methods:  [GET]
     defaults: { _controller: CliftonBundle:ProgrammeChildren:children }
-    requirements: { pid: '[0-9|b-d|f-h|j-n|p-t|v-z]{8,15}' }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
+aps.music_artist:
+    path: /aps/programmes/music/artists/{musicBrainzId}.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:MusicArtists:show }
+    requirements: { musicBrainzId: '[a-f0-9\-]{36}' }
 
 home:
     path: /
