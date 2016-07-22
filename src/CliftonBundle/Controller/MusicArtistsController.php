@@ -24,8 +24,8 @@ class MusicArtistsController extends BaseApsController
             throw $this->createNotFoundException('Artist not found');
         }
 
-        $segmentEventsResult = $segmentEventsService->findLatestBroadcastedForContributorDbId(
-            $contributor->getDbId(),
+        $segmentEventsResult = $segmentEventsService->findLatestBroadcastedForContributor(
+            $contributor,
             50
         );
 

@@ -36,12 +36,11 @@ class FindByPidController extends BaseApsController
 
     private function programmeResponse(Programme $programme)
     {
-        $dbId = $programme->getDbId();
         // Related Links
         $relatedLinks = [];
         if ($programme->getRelatedLinksCount()) {
             $rls = $this->get('pps.related_links_service');
-            $relatedLinks = $rls->findByRelatedToProgrammeDbId($dbId);
+            $relatedLinks = $rls->findByRelatedToProgramme($programme);
         }
 
         // Peers
@@ -58,7 +57,7 @@ class FindByPidController extends BaseApsController
         $versions = [];
         if ($programme instanceof ProgrammeItem) {
             $vs = $this->get('pps.versions_service');
-            $versions = $vs->findByProgrammeItemDbId($dbId);
+            $versions = $vs->findByProgrammeItem($programme);
         }
 
         $apsProgramme = $this->mapSingleApsObject(
