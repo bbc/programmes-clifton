@@ -20,6 +20,12 @@ aps.music_artist:
     defaults: { _controller: CliftonBundle:MusicArtists:show }
     requirements: { musicBrainzId: '[a-f0-9\-]{36}' }
 
+test.availability:
+    path: /availability/{pid}.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:Availability:findByPid }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
 home:
     path: /
     methods:  [GET]
