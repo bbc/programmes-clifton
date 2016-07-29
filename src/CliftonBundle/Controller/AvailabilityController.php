@@ -2,6 +2,8 @@
 
 namespace BBC\CliftonBundle\Controller;
 
+use BBC\ProgrammesPagesService\Domain\Entity\Clip;
+use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
@@ -39,11 +41,19 @@ class AvailabilityController extends BaseApsController
             $res['isPodcastable'] = $programme->isPodcastable();
         }
         if ($programme instanceof ProgrammeItem) {
-            /** ProgrammeItem $programme */
+            $res['streamableFrom'] = $this->format($programme->getStreamableFrom());
+            $res['streamableUntil'] = $this->format($programme->getStreamableUntil());
+        }
+        if ($programme instanceof Episode) {
+            /** Episode $programme */
             $res['availableClipCount'] = $programme->getAvailableClipsCount();
-            $res['streamableFrom'] = $programme->getStreamableFrom()->format(DATE_ISO8601);
-            $res['streamableUntil'] = $programme->getStreamableUntil()->format(DATE_ISO8601);
+            $res['availableGalleriesCount'] = $programme->getAvailableGalleriesCount();
         }
         return $this->json($res);
+    }
+
+    private function format($date)
+    {
+        return $date instanceof \DateTime ? $date->format(DATE_ISO8601) : null;
     }
 }
