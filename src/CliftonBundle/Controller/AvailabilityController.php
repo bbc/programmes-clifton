@@ -54,6 +54,6 @@ class AvailabilityController extends BaseApsController
 
     private function format($date)
     {
-        return $date instanceof \DateTime ? $date->format(DATE_ISO8601) : null;
+        return $date instanceof \DateTimeInterface ? $date->format(DATE_ISO8601) : null;
     }
 }
