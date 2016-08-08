@@ -10,6 +10,9 @@ services:
         arguments:
             - { region: '%aws_s3_region%', version: '2010-08-01' }
 
+    clifton.application_time:
+        class: DateTimeImmutable
+
     pps.mapper_factory:
         class: BBC\ProgrammesPagesService\Mapper\ProgrammesDbToDomain\MapperFactory
         public: false
@@ -23,6 +26,10 @@ services:
     pps.contributors_service:
         class: BBC\ProgrammesPagesService\Service\ContributorsService
         factory: [ '@pps.service_factory', 'getContributorsService']
+
+    pps.networks_service:
+        class: BBC\ProgrammesPagesService\Service\NetworksService
+        factory: [ '@pps.service_factory', 'getNetworksService']
 
     pps.programmes_service:
         class: BBC\ProgrammesPagesService\Service\ProgrammesService

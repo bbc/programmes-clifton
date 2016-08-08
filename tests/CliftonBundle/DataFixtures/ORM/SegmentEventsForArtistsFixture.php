@@ -18,6 +18,7 @@ class SegmentEventsForArtistsFixture extends AbstractFixture implements Dependen
     public function getDependencies()
     {
         return [
+            NetworksFixture::class,
             ContributorsFixture::class,
             SegmentsFixture::class,
             MongrelsFixture::class,
@@ -70,19 +71,25 @@ class SegmentEventsForArtistsFixture extends AbstractFixture implements Dependen
         $version1 = $this->buildVersion('v0000001', $episode1);
         $version2 = $this->buildVersion('v0000002', $episode2);
 
+        // services
+        $service1 = $this->getReference('p00fzl7j');
+        $service2 = $this->getReference('p00fzl8v');
+
         // build a broadcast
         $broadcast1 = $this->buildBroadcast(
             'brdcst01',
             $version1,
             new \DateTime('2016-07-01T12:00:00Z'),
-            new \DateTime('2016-07-01T13:00:00Z')
+            new \DateTime('2016-07-01T13:00:00Z'),
+            $service1
         );
 
         $broadcast2 = $this->buildBroadcast(
             'brdcst02',
             $version2,
             new \DateTime('2016-07-02T12:00:00Z'),
-            new \DateTime('2016-07-02T13:00:00Z')
+            new \DateTime('2016-07-02T13:00:00Z'),
+            $service2
         );
 
         // build the segment events
@@ -93,9 +100,10 @@ class SegmentEventsForArtistsFixture extends AbstractFixture implements Dependen
         $this->manager->flush();
     }
 
-    private function buildBroadcast($pid, $version, $start, $end)
+    private function buildBroadcast($pid, $version, $start, $end, $service)
     {
         $entity = new Broadcast($pid, $version, $start, $end);
+        $entity->setService($service);
         $this->manager->persist($entity);
         return $entity;
     }

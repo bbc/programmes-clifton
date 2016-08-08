@@ -24,13 +24,15 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
     public function testMappingSegmentEvents()
     {
         $cMusicBrainz = '9c9f1380-2516-4fc9-a3e6-f9f61941d090';
-        $cName = 'Muse';
+        $cName = 'The Muse';
+        $cSortName = 'Muse, The';
 
         $contrbutor = new Contributor(
             0,
             new Pid('cntrbp1d'),
             'person',
             $cName,
+            $cSortName,
             $cMusicBrainz
         );
 
@@ -75,7 +77,7 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
         $expectedOutput = (object) [
             'gid' => $cMusicBrainz,
             'name' => $cName,
-            'sort_name' => $cName,
+            'sort_name' => $cSortName,
             'tleos_played_on' => [],
             'brands_played_on' => [],
             'services_played_on' => [],

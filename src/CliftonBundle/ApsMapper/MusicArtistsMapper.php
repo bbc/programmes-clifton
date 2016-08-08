@@ -20,7 +20,7 @@ class MusicArtistsMapper implements MapperInterface
         /** @var Contributor $artist */
         $musicBrainzId = $artist->getMusicBrainzId();
         $name = $artist->getName();
-        $sortName = $name;
+        $sortName = $artist->getSortName();
 
         return (object) [
             'gid' => $musicBrainzId,

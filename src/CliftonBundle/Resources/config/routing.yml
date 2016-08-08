@@ -20,6 +20,16 @@ aps.music_artist:
     defaults: { _controller: CliftonBundle:MusicArtists:show }
     requirements: { musicBrainzId: '[a-f0-9\-]{36}' }
 
+aps.music_artist_chart_service:
+    path: /aps/{networkKey}/programmes/music/artists/charts.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:MusicArtists:chartService }
+
+aps.music_artist_chart:
+    path: /aps/programmes/music/artists/charts.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:MusicArtists:chart }
+
 test.availability:
     path: /availability/{pid}.json
     methods:  [GET]
