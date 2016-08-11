@@ -35,6 +35,6 @@ trait ProgrammeUtilitiesTrait
         // outputs the value as a number, rather than a string
         // e.g. http://open.live.bbc.co.uk/aps/programmes/b008hskr.json
         $title = $programme->getTitle();
-        return is_numeric($title) ? (int) $title : $title;
+        return is_numeric($title) ? (float) $title : $title;
     }
 }

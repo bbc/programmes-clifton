@@ -147,7 +147,16 @@ class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
         $mapper = new ProgrammeChildrenProgrammeMapper();
         $apsObject = $mapper->getApsObject($series);
 
-        $this->assertSame(2008, $apsObject->title);
+        $this->assertEquals(2008, $apsObject->title);
+
+        // Even for floats
+        $series2 = $this->createMock(Series::CLASS);
+        $series2->method('getTitle')->willReturn('3.1');
+        $this->assertEquals(3.1, $mapper->getApsObject($series2)->title);
+
+        $series3 = $this->createMock(Series::CLASS);
+        $series3->method('getTitle')->willReturn('3.0');
+        $this->assertEquals(3, $mapper->getApsObject($series3)->title);
     }
 
     /**

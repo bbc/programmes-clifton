@@ -490,6 +490,8 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
         // If the Title is a numeric string, then APS outputs the value as a
         // number, rather than a string
         // e.g. http://open.live.bbc.co.uk/aps/programmes/b008hskr.json
+        // http://open.live.bbc.co.uk/aps/programmes/p00tbzym.json
+        // http://open.live.bbc.co.uk/aps/programmes/p02qc4m5.json
         $brand = $this->createMock(Brand::CLASS);
         $brand->method('getTitle')->willReturn('2007');
 
@@ -500,9 +502,18 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
         $mapper = new FindByPidProgrammeMapper();
         $apsObject = $mapper->getApsObject($series);
 
-        $this->assertSame(2008, $apsObject->title);
-        $this->assertSame(2008, $apsObject->{'display_title'}->title);
-        $this->assertSame(2007, $apsObject->parent->programme->title);
+        $this->assertEquals(2008, $apsObject->title);
+        $this->assertEquals(2008, $apsObject->{'display_title'}->title);
+        $this->assertEquals(2007, $apsObject->parent->programme->title);
+
+        // Even for floats
+        $brand2 = $this->createMock(Brand::CLASS);
+        $brand2->method('getTitle')->willReturn('3.1');
+        $this->assertEquals(3.1, $mapper->getApsObject($brand2)->title);
+
+        $brand3 = $this->createMock(Brand::CLASS);
+        $brand3->method('getTitle')->willReturn('3.0');
+        $this->assertEquals(3, $mapper->getApsObject($brand3)->title);
     }
 
     public function testMappingEmptySynopsisToNull()
