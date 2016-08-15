@@ -73,6 +73,12 @@ class MusicArtistsController extends BaseApsController
         $now = $this->get('clifton.application_time');
         $oneWeekAgo = $now->sub(new \DateInterval('P7D'));
 
+        // one week ago should start at midnight
+        $oneWeekAgo = $oneWeekAgo->setTime(0, 0, 0);
+
+        // today should end at the end of the day
+        $now = $now->setTime(23, 59, 59);
+
         $service = null;
         if ($network) {
             $service = $network->getDefaultService();

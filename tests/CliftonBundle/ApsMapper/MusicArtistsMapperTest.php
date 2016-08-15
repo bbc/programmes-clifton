@@ -33,6 +33,8 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
             'person',
             $cName,
             $cSortName,
+            $cName,
+            $cName,
             $cMusicBrainz
         );
 
@@ -46,6 +48,7 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
         $duration = 100;
 
         $segment1 = new Segment(
+            0,
             new Pid($sPid1),
             'speech',
             $sTitle1,
@@ -60,6 +63,7 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
         );
 
         $segment2 = new MusicSegment(
+            0,
             new Pid($sPid2),
             'music',
             $sTitle2,

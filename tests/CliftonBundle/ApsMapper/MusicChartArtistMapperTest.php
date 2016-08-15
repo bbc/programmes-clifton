@@ -21,6 +21,8 @@ class MusicChartArtistMapperTest extends PHPUnit_Framework_TestCase
             'person',
             $cName,
             $cSortName,
+            $cName,
+            $cName,
             $cMusicBrainz
         );
 
