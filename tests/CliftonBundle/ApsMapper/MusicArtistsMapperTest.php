@@ -170,6 +170,7 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
             0,
             false,
             false,
+            false,
             0,
             0,
             0,
@@ -192,6 +193,7 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
             0,
             false,
             false,
+            false,
             'audio',
             0,
             0,
@@ -203,7 +205,9 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
         return new Version(
             0,
             new Pid('vrsnpd01'),
-            $episode
+            $episode,
+            false,
+            false
         );
     }
 }
