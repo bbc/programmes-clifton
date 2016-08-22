@@ -33,12 +33,12 @@ class AvailabilityController extends BaseApsController
         $res = [
             'pid' => $programme->getPid(),
             'isStreamable' => $programme->isStreamable(),
+            'isStreamableAlternate' => $programme->isStreamableAlternatate(),
         ];
         if ($programme instanceof ProgrammeContainer) {
             /** ProgrammeContainer $programme */
             $res['availableClipCount'] = $programme->getAvailableClipsCount();
             $res['availableEpisodesCount'] = $programme->getAvailableEpisodesCount();
-            $res['isPodcastable'] = $programme->isPodcastable();
         }
         if ($programme instanceof ProgrammeItem) {
             $res['streamableFrom'] = $this->format($programme->getStreamableFrom());
