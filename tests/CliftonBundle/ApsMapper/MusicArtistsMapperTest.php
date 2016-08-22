@@ -13,8 +13,6 @@ use BBC\ProgrammesPagesService\Domain\Entity\Segment;
 use BBC\ProgrammesPagesService\Domain\Entity\SegmentEvent;
 use BBC\ProgrammesPagesService\Domain\Entity\Unfetched\UnfetchedImage;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
-use BBC\ProgrammesPagesService\Domain\ValueObject\Mid;
-use BBC\ProgrammesPagesService\Domain\ValueObject\Nid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use PHPUnit_Framework_TestCase;

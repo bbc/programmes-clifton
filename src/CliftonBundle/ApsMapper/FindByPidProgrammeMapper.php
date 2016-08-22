@@ -11,8 +11,10 @@ use BBC\ProgrammesPagesService\Domain\Entity\RelatedLink;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use stdClass;
 
-class FindByPidProgrammeMapper extends AbstractProgrammeMapper
+class FindByPidProgrammeMapper implements MapperInterface
 {
+    use Traits\ProgrammeUtilitiesTrait;
+
     public function getApsObject($programme, $relatedLinks = [], $nextSibling = null, $previousSibling = null, $versions = []): stdClass
     {
         /** @var ProgrammeContainer $programme */

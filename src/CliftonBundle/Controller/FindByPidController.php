@@ -4,9 +4,11 @@ namespace BBC\CliftonBundle\Controller;
 
 use BBC\CliftonBundle\ApsMapper\FindByPidProgrammeMapper;
 use BBC\CliftonBundle\ApsMapper\FindByPidVersionMapper;
+use BBC\CliftonBundle\ApsMapper\FindByPidSegmentMapper;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
+use BBC\ProgrammesPagesService\Domain\Entity\Segment;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,8 +32,11 @@ class FindByPidController extends BaseApsController
             return $this->versionResponse($version);
         }
 
-        // TODO
         // Attempt to find a Segment
+        $segment = $this->get('pps.segments_service')->findByPid($pid);
+        if ($segment) {
+            return $this->segmentResponse($segment);
+        }
 
         // TODO
         // Attempt to find a SegmentEvent
@@ -109,6 +114,26 @@ class FindByPidController extends BaseApsController
 
         return $this->json([
             'version' => $apsVersion,
+        ]);
+    }
+
+    private function segmentResponse(Segment $segment): JsonResponse
+    {
+        $contributionsService = $this->get('pps.contributions_service');
+        $segmentEventsService = $this->get('pps.segment_events_service');
+
+        $contributions = $contributionsService->findByContributionToSegment($segment);
+        $segmentEvents = $segmentEventsService->findBySegment($segment);
+
+        $apsSegment = $this->mapSingleApsObject(
+            new FindByPidSegmentMapper(),
+            $segment,
+            $contributions,
+            $segmentEvents
+        );
+
+        return $this->json([
+            'segment' => $apsSegment,
         ]);
     }
 }

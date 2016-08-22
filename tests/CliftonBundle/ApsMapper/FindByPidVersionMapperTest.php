@@ -86,7 +86,7 @@ class FindByPidVersionMapperTest extends PHPUnit_Framework_TestCase
         $mapper = new FindByPidVersionMapper();
         $apsObject = $mapper->getApsObject($version);
 
-        $this->assertEquals(2007, $apsObject->parent->programme->title);
+        $this->assertSame(2007.0, $apsObject->parent->programme->title);
     }
 
     /**

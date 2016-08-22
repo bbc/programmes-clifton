@@ -2,16 +2,15 @@
 
 namespace BBC\CliftonBundle\ApsMapper;
 
-use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
-use BBC\ProgrammesPagesService\Domain\Entity\Image;
-use DateTime;
 use stdClass;
 
-class ProgrammeChildrenProgrammeMapper extends AbstractProgrammeMapper
+class ProgrammeChildrenProgrammeMapper implements MapperInterface
 {
+    use Traits\ProgrammeUtilitiesTrait;
+
     public function getApsObject($programme): stdClass
     {
         $this->assertIsProgramme($programme);

@@ -23,6 +23,7 @@ services:
             - '@doctrine.orm.default_entity_manager'
             - '@pps.mapper_factory'
 
+
     pps.contributions_service:
         class: BBC\ProgrammesPagesService\Service\ContributionsService
         factory: [ '@pps.service_factory', 'getContributionsService']
@@ -42,6 +43,10 @@ services:
     pps.related_links_service:
         class: BBC\ProgrammesPagesService\Service\RelatedLinksService
         factory: [ '@pps.service_factory', 'getRelatedLinksService']
+
+    pps.segments_service:
+        class: BBC\ProgrammesPagesService\Service\SegmentsService
+        factory: [ '@pps.service_factory', 'getSegmentsService']
 
     pps.segment_events_service:
         class: BBC\ProgrammesPagesService\Service\SegmentEventsService
