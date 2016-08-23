@@ -129,7 +129,8 @@ class FindByPidController extends BaseApsController
             new FindByPidSegmentMapper(),
             $segment,
             $contributions,
-            $segmentEvents
+            $segmentEvents,
+            true
         );
 
         return $this->json([

@@ -88,7 +88,7 @@ class FindByPidSegmentMapperTest extends PHPUnit_Framework_TestCase
             'catalogue_number' => 'CHAN10361',
             'record_label' => 'Chandos',
             'publisher' => 'Sony Music Entertainment',
-            'track_number' => 18,
+            'track_number' => 18.0,
             'has_snippet' => false,
             'isrc' => null,
         ];

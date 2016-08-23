@@ -1,20 +1,14 @@
 <?php
-    namespace BBC\CliftonBundle\ApsMapper\Traits;
-
-    use BBC\ProgrammesPagesService\Domain\Entity\Segment;
+namespace BBC\CliftonBundle\ApsMapper\Traits;
 
 trait SegmentUtilitiesTrait
 {
-    protected function getSegmentTitle(Segment $segment)
+    protected function getAsNumberOrString(string $string = null)
     {
-
-        $title = $segment->getTitle();
-        if ($title === null) {
-            return "Untitled";
+        if ($string == null) {
+            return "";
         }
 
-        // Mimics an APS bug: if the title is purely numeric, the output is a number
-        // instead of a string. e.g. http://open.live.bbc.co.uk/aps/programmes/b008hskr.json
-        return is_numeric($title) ? (float) $title : $title;
+        return is_numeric($string) ? (float) $string : $string;
     }
 }

@@ -23,21 +23,28 @@ class FindByPidSegmentMapper implements MapperInterface
 
         $output = [
             'pid' => (string) $segment->getPid(),
-            'type' => $segment->getType(),
+            'type' => $this->getAsNumberOrString($segment->getType()),
             'duration' => $segment->getDuration(),
-            'title' => $this->getSegmentTitle($segment),
-            'short_synopsis' => $segment->getSynopses()->getShortSynopsis(),
-            'medium_synopsis' => $segment->getSynopses()->getMediumSynopsis(),
-            'long_synopsis' => $segment->getSynopses()->getLongSynopsis(),
+            'title' => $this->getAsNumberOrString($segment->getTitle()),
+            'short_synopsis' => $this->getAsNumberOrString($segment->getSynopses()->getShortSynopsis()),
+            'medium_synopsis' => $this->getAsNumberOrString($segment->getSynopses()->getMediumSynopsis()),
+            'long_synopsis' => $this->getAsNumberOrString($segment->getSynopses()->getLongSynopsis()),
             'segment_events' => array_map([$this, 'getSegmentEvent'], $segmentEvents),
-            'track_title' => $this->getSegmentTitle($segment),
+            'track_title' => $this->getAsNumberOrString($segment->getTitle()),
             'primary_contributor' => count($contributions) ? $this->getPrimaryContributor($contributions[0]) : null,
             'contributions' => array_map([$this, 'getContribution'], $contributions),
-            'release_title' => $segment instanceof MusicSegment ? $segment->getReleaseTitle() : null,
-            'catalogue_number' => $segment instanceof MusicSegment ? $segment->getCatalogueNumber() : null,
-            'record_label' => $segment instanceof MusicSegment ? $segment->getRecordLabel() : null,
-            'publisher' => $segment instanceof MusicSegment ? $segment->getPublisher() : null,
-            'track_number' => $segment instanceof MusicSegment ? $segment->getTrackNumber() : null,
+            'release_title' =>
+                $segment instanceof MusicSegment ? $this->getAsNumberOrString($segment->getReleaseTitle()) : null,
+            'catalogue_number' =>
+                $segment instanceof MusicSegment ?
+                    $this->getAsNumberOrString($segment->getCatalogueNumber()) :
+                    null,
+            'record_label' =>
+                $segment instanceof MusicSegment ? $this->getAsNumberOrString($segment->getRecordLabel()) : null,
+            'publisher' =>
+                $segment instanceof MusicSegment ? $this->getAsNumberOrString($segment->getPublisher()) : null,
+            'track_number' =>
+                $segment instanceof MusicSegment ? $this->getAsNumberOrString($segment->getTrackNumber()) : null,
             'has_snippet' => false,
             'isrc' => null,
         ];
@@ -64,14 +71,10 @@ class FindByPidSegmentMapper implements MapperInterface
     {
         $output = [
             'pid' => (string) $contribution->getContributor()->getPid(),
-            'name' => $contribution->getContributor()->getName(),
-            'sort_name' => $contribution->getContributor()->getSortName(),
+            'name' => $this->getAsNumberOrString($contribution->getContributor()->getName()),
+            'sort_name' => $this->getAsNumberOrString($contribution->getContributor()->getSortName()),
+            'musicbrainz_gid' => $musicBrainzId = $contribution->getContributor()->getMusicBrainzId(),
         ];
-        $musicBrainzId = $contribution->getContributor()->getMusicBrainzId();
-
-        if ($musicBrainzId) {
-            $output['musicbrainz_gid'] = $musicBrainzId;
-        }
 
         return (object) $output;
     }
@@ -80,15 +83,10 @@ class FindByPidSegmentMapper implements MapperInterface
     {
         $output = [
             'pid' => (string) $contribution->getContributor()->getPid(),
-            'name' => $contribution->getContributor()->getName(),
-            'role' => $contribution->getCreditRole(),
+            'name' => $this->getAsNumberOrString($contribution->getContributor()->getName()),
+            'role' => $this->getAsNumberOrString($contribution->getCreditRole()),
+            'musicbrainz_gid' => $contribution->getContributor()->getMusicBrainzId(),
         ];
-
-        $musicBrainzId = $contribution->getContributor()->getMusicBrainzId();
-
-        if ($musicBrainzId) {
-            $output['musicbrainz_gid'] = $musicBrainzId;
-        }
 
         return (object) $output;
     }
@@ -97,10 +95,10 @@ class FindByPidSegmentMapper implements MapperInterface
     {
         $output = [
             'pid' => (string) $segmentEvent->getPid(),
-            'title' => $segmentEvent->getTitle(),
-            'short_synopsis' => $segmentEvent->getSynopses()->getShortSynopsis(),
-            'medium_synopsis' => $segmentEvent->getSynopses()->getMediumSynopsis(),
-            'long_synopsis' => $segmentEvent->getSynopses()->getLongSynopsis(),
+            'title' => $this->getAsNumberOrString($segmentEvent->getTitle()),
+            'short_synopsis' => $this->getAsNumberOrString($segmentEvent->getSynopses()->getShortSynopsis()),
+            'medium_synopsis' => $this->getAsNumberOrString($segmentEvent->getSynopses()->getMediumSynopsis()),
+            'long_synopsis' => $this->getAsNumberOrString($segmentEvent->getSynopses()->getLongSynopsis()),
             'version_offset' => $segmentEvent->getOffset(),
             'position' => $segmentEvent->getPosition(),
             'is_chapter' => $segmentEvent->isChapter(),
@@ -124,11 +122,11 @@ class FindByPidSegmentMapper implements MapperInterface
     private function getParent(Programme $programme)
     {
         $output = [
-            'type' => $this->getProgrammeType($programme),
+            'type' => $this->getAsNumberOrString($this->getProgrammeType($programme)),
             'pid' => (string) $programme->getPid(),
-            'title' => $programme->getTitle(),
+            'title' => $this->getAsNumberOrString($programme->getTitle()),
             'image' => $this->getImageObject($programme->getImage()),
-            'short_synopsis' => $programme->getShortSynopsis(),
+            'short_synopsis' => $this->getAsNumberOrString($programme->getShortSynopsis()),
             'media_type' => $this->getMediaType($programme),
         ];
 
