@@ -65,7 +65,7 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
             new Pid($sPid2),
             'music',
             $sTitle2,
-            new Synopses('', '', ''),
+            new Synopses('A short synopsis', '', ''),
             $duration
         );
 
@@ -88,7 +88,9 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
                 $this->getExpectedSegmentEvent(
                     $sePid1,
                     $sPid1,
-                    'SpeechSegment'
+                    'SpeechSegment',
+                    null,
+                    $sTitle1
                 ),
                 $this->getExpectedSegmentEvent(
                     $sePid2,
@@ -96,7 +98,8 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
                     'MusicSegment',
                     $duration,
                     $sTitle2,
-                    'A segment event title'
+                    'A segment event title',
+                    'A short synopsis'
                 ),
             ],
         ];
@@ -114,7 +117,8 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
         $type,
         $duration = null,
         $title = null,
-        $segmentEventTitle = null
+        $segmentEventTitle = null,
+        $segmentShortSynopsis = null
     ) {
         $segmentEvent = (object) [
             'pid' => $sePid,
@@ -149,6 +153,10 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
             $segmentEvent->segment->duration = $duration;
             $segmentEvent->segment->isrc = null;
             $segmentEvent->segment->has_snippet = 'true';
+        }
+
+        if ($segmentShortSynopsis) {
+            $segmentEvent->segment->short_synopsis = $segmentShortSynopsis;
         }
 
         return $segmentEvent;

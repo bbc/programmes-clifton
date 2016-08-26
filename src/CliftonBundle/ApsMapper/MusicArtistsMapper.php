@@ -74,6 +74,12 @@ class MusicArtistsMapper implements MapperInterface
             $segmentData['isrc'] = null;
             $segmentData['has_snippet'] = 'true';
         }
+
+        $shortSynopsis = $segment->getSynopses()->getShortSynopsis();
+        if (!empty($shortSynopsis)) {
+            $segmentData['short_synopsis'] = $segment->getSynopses()->getShortSynopsis();
+        }
+
         return (object) $segmentData;
     }
 
