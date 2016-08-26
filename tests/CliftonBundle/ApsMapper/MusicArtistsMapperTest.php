@@ -73,7 +73,8 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
             new Pid($sePid2),
             $this->getExampleVersion(),
             $segment2,
-            new Synopses('', '', '')
+            new Synopses('', '', ''),
+            'A segment event title'
         );
 
         $expectedOutput = (object) [
@@ -94,7 +95,8 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
                     $sPid2,
                     'MusicSegment',
                     $duration,
-                    $sTitle2
+                    $sTitle2,
+                    'A segment event title'
                 ),
             ],
         ];
@@ -111,10 +113,12 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
         $sPid,
         $type,
         $duration = null,
-        $title = null
+        $title = null,
+        $segmentEventTitle = null
     ) {
         $segmentEvent = (object) [
             'pid' => $sePid,
+            'title' => $segmentEventTitle,
             'segment' =>  (object) [
                 'pid' => $sPid,
                 'type' => $type,
@@ -135,6 +139,10 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
                 'short_synopsis' => 'Brand Synopsis',
             ],
         ];
+
+        if (!$segmentEventTitle) {
+            unset($segmentEvent->title);
+        }
 
         if ($type == 'MusicSegment') {
             $segmentEvent->segment->track_title = $title;

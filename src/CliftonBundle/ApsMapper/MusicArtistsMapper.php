@@ -38,21 +38,28 @@ class MusicArtistsMapper implements MapperInterface
 
     private function mapSegmentEvent(SegmentEvent $segmentEvent): stdClass
     {
-        return (object) [
-            'pid' => (string) $segmentEvent->getPid(),
-            'segment' => $this->mapSegment(
-                $segmentEvent->getSegment()
-            ),
-            'version' => $this->mapVersion(
-                $segmentEvent->getVersion()
-            ),
-            'episode' => $this->mapEpisode(
-                $segmentEvent->getVersion()->getProgrammeItem()
-            ),
-            'tleo' => $this->mapTleo(
-                $segmentEvent->getVersion()->getProgrammeItem()
-            ),
+        $data = [
+            'pid' => (string) $segmentEvent->getPid()
         ];
+
+        if ($segmentEvent->getTitle()) {
+            $data['title'] = $segmentEvent->getTitle();
+        }
+
+        $data['segment'] = $this->mapSegment(
+            $segmentEvent->getSegment()
+        );
+        $data['version'] = $this->mapVersion(
+            $segmentEvent->getVersion()
+        );
+        $data['episode'] = $this->mapEpisode(
+            $segmentEvent->getVersion()->getProgrammeItem()
+        );
+        $data['tleo'] = $this->mapTleo(
+            $segmentEvent->getVersion()->getProgrammeItem()
+        );
+
+        return (object) $data;
     }
 
     private function mapSegment(Segment $segment): stdClass
