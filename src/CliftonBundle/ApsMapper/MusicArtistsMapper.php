@@ -38,9 +38,7 @@ class MusicArtistsMapper implements MapperInterface
 
     private function mapSegmentEvent(SegmentEvent $segmentEvent): stdClass
     {
-        $data = [
-            'pid' => (string) $segmentEvent->getPid()
-        ];
+        $data = ['pid' => (string) $segmentEvent->getPid()];
 
         if ($segmentEvent->getTitle()) {
             $data['title'] = $segmentEvent->getTitle();
