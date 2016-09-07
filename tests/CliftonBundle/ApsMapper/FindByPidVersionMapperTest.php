@@ -71,24 +71,6 @@ class FindByPidVersionMapperTest extends PHPUnit_Framework_TestCase
         $this->assertSame(0, $apsObject->canonical);
     }
 
-    public function testMappingNumericTitleResultsInNumericData()
-    {
-        // This is a dumb bug in APS, but we want to mimic it's behaviour
-        // If the Title is a numeric string, then APS outputs the value as a
-        // number, rather than a string
-        // e.g. http://open.live.bbc.co.uk/aps/programmes/b008hshb.json
-        $episode = $this->createMock(Episode::CLASS);
-        $episode->method('getTitle')->willReturn(2007);
-
-        $version = $this->createMock(Version::CLASS);
-        $version->method('getProgrammeItem')->willReturn($episode);
-
-        $mapper = new FindByPidVersionMapper();
-        $apsObject = $mapper->getApsObject($version);
-
-        $this->assertSame(2007.0, $apsObject->parent->programme->title);
-    }
-
     /**
      * @expectedException InvalidArgumentException
      */

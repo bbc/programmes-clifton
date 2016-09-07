@@ -67,18 +67,6 @@ trait ProgrammeUtilitiesTrait
         return $mediaType != MediaTypeEnum::UNKNOWN ? $mediaType : null;
     }
 
-    protected function getProgrammeTitle(Programme $programme)
-    {
-        // Mimic a dumb bug in APS: If the Title is a numeric string, then APS
-        // outputs the value as a number, rather than a string
-        // e.g. http://open.live.bbc.co.uk/aps/programmes/b008hskr.json
-        $title = $programme->getTitle();
-        if (is_numeric($title) && strpos($title, "0") !== 0) {
-            return (float) $title;
-        }
-        return $title;
-    }
-
     protected function getProgrammeType($entity): string
     {
         if ($entity instanceof Brand) {

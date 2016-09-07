@@ -97,22 +97,6 @@ class FindByPidSegmentMapperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedSegment, $mapper->getApsObject($segment));
     }
 
-    public function testMappingNumericTitleResultsInNumericData()
-    {
-        // This is a dumb bug in APS, but we want to mimic it's behaviour
-        // If the Title is a numeric string, then APS outputs the value as a
-        // number, rather than a string
-        // e.g. http://open.live.bbc.co.uk/aps/programmes/p002d9g3.json
-        $segment = $this->createMock(Segment::CLASS);
-        $segment->method('getTitle')->willReturn('1989');
-
-        $mapper = new FindByPidSegmentMapper();
-        $apsObject = $mapper->getApsObject($segment);
-
-        $this->assertSame(1989.0, $apsObject->title);
-        $this->assertSame(1989.0, $apsObject->{'track_title'});
-    }
-
     /**
      * @expectedException InvalidArgumentException
      */

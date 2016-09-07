@@ -50,7 +50,7 @@ class FindByPidVersionMapper implements MapperInterface
         $output = [
             'type' => $this->getProgrammeType($programme),
             'pid' => (string) $programme->getPid(),
-            'title' => $this->getProgrammeTitle($programme),
+            'title' => $programme->getTitle(),
         ];
 
         return (object) ['programme' => (object) $output];

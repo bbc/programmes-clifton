@@ -26,7 +26,7 @@ class FindByPidProgrammeMapper implements MapperInterface
             'position' => $programme->getPosition(),
             'image' => $this->getImageObject($programme->getImage()),
             'media_type' => $this->getMediaType($programme),
-            'title' => $this->getProgrammeTitle($programme),
+            'title' => $programme->getTitle(),
             'short_synopsis' => $this->nullableSynopsis($programme->getSynopses()->getShortSynopsis()),
             'medium_synopsis' => $this->nullableSynopsis($programme->getSynopses()->getMediumSynopsis()),
             'long_synopsis' => $this->nullableSynopsis($programme->getSynopses()->getLongSynopsis()),
@@ -87,7 +87,7 @@ class FindByPidProgrammeMapper implements MapperInterface
         $output = [
             'type' => $this->getProgrammeType($programme),
             'pid' => (string) $programme->getPid(),
-            'title' => $this->getProgrammeTitle($programme),
+            'title' => $programme->getTitle(),
             // Only synopses at the top level coerce empty strings to null
             'short_synopsis' => $programme->getShortSynopsis(),
             'position' => $programme->getPosition(),
@@ -122,14 +122,14 @@ class FindByPidProgrammeMapper implements MapperInterface
 
         $titles = [];
         if ($this->isContainer($programme)) {
-            $titles[] = $this->getProgrammeTitle($programme);
+            $titles[] = $programme->getTitle();
         } else {
             foreach ($this->getHierarchy($programme) as $entity) {
                 if ($this->isContainer($entity)) {
-                    $titles[] = $this->getProgrammeTitle($entity);
+                    $titles[] = $entity->getTitle();
                 }
             }
-            $titles[] = $this->getProgrammeTitle($programme);
+            $titles[] = $programme->getTitle();
         }
 
         return (object) [
@@ -176,7 +176,7 @@ class FindByPidProgrammeMapper implements MapperInterface
         return (object) [
             'type' => $this->getProgrammeType($programme),
             'pid' => (string) $programme->getPid(),
-            'title' => $this->getProgrammeTitle($programme),
+            'title' => $programme->getTitle(),
             'first_broadcast_date' => $this->getFirstBroadcastDate($programme),
             'position' => $programme->getPosition(),
             'media_type' => $this->getMediaType($programme),
