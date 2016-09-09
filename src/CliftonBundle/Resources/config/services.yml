@@ -23,6 +23,9 @@ services:
             - '@doctrine.orm.default_entity_manager'
             - '@pps.mapper_factory'
 
+    pps.broadcasts_service:
+        class: BBC\ProgrammesPagesService\Service\BroadcastsService
+        factory: [ '@pps.service_factory', 'getBroadcastsService']
 
     pps.contributions_service:
         class: BBC\ProgrammesPagesService\Service\ContributionsService

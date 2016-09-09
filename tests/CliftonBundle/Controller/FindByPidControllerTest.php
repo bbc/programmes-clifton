@@ -211,6 +211,43 @@ class FindByPidControllerTest extends BaseWebTestCase
         $this->assertEquals(0, count($jsonContent['segment']['contributions']));
     }
 
+    public function testFindByPidVersion()
+    {
+        $this->loadFixtures(['EastendersFixture']);
+
+        $client = static::createClient();
+        $client->request('GET', '/aps/programmes/b06khpr0.json');
+
+        $jsonContent = $this->getDecodedJsonContent($client);
+
+        $this->assertArrayHasKey('version', $jsonContent);
+        $this->assertEquals('b06khpr0', $jsonContent['version']['pid']);
+        $this->assertEquals(null, $jsonContent['version']['duration']);
+
+        // Parent Tree
+        $this->assertArrayHasKey('parent', $jsonContent['version']);
+        $this->assertArrayHasKey('pid', $jsonContent['version']['parent']['programme']);
+        $this->assertArrayHasKey('pid', $jsonContent['version']['parent']['programme']);
+        $this->assertEquals('b06khpq0', $jsonContent['version']['parent']['programme']['pid']);
+
+        // Types
+        $this->assertArrayHasKey('types', $jsonContent['version']);
+
+        // Contributors
+        $this->assertArrayHasKey('contributors', $jsonContent['version']);
+
+        // Segment Events
+        $this->assertArrayHasKey('segment_events', $jsonContent['version']);
+
+        // Broadcasts
+        $this->assertArrayHasKey('broadcasts', $jsonContent['version']);
+
+        // Availabilities
+        $this->assertArrayHasKey('availabilities', $jsonContent['version']);
+
+        $this->assertResponseStatusCode($client, 200);
+    }
+
     public function testFindByPidActionWithEmptyResult()
     {
         $this->loadFixtures([]);

@@ -3,9 +3,12 @@
 namespace Tests\BBC\CliftonBundle\ApsMapper;
 
 use BBC\CliftonBundle\ApsMapper\FindByPidSegmentMapper;
+use BBC\ProgrammesPagesService\Domain\Entity\Contribution;
+use BBC\ProgrammesPagesService\Domain\Entity\Contributor;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\MusicSegment;
 use BBC\ProgrammesPagesService\Domain\Entity\Segment;
+use BBC\ProgrammesPagesService\Domain\Entity\Unfetched\UnfetchedProgramme;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use InvalidArgumentException;
@@ -61,6 +64,14 @@ class FindByPidSegmentMapperTest extends PHPUnit_Framework_TestCase
             'Battle of Britain; March introduction – excerpt',
             new Synopses('', '', ''),
             167,
+            [
+              new Contribution(
+                  new Pid('c0000001'),
+                  new Contributor(1, new Pid('cp0000001'), 'Performer', 'Name'),
+                  new UnfetchedProgramme(),
+                  'Performer'
+              ),
+            ],
             'n3hxrj',
             'Dornik',
             'CHAN10361',
