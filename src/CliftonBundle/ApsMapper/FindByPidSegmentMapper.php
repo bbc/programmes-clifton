@@ -22,7 +22,7 @@ class FindByPidSegmentMapper implements MapperInterface
 
         $output = [
             'pid' => (string) $segment->getPid(),
-            'type' => $segment->getType(),
+            'type' => $this->getType($segment->getType()),
             'duration' => $segment->getDuration(),
             'title' => $segment->getTitle(),
             'short_synopsis' => $segment->getSynopses()->getShortSynopsis(),
@@ -57,6 +57,17 @@ class FindByPidSegmentMapper implements MapperInterface
                 (is_object($item) ? get_class($item) : gettype($item))
             ));
         }
+    }
+
+    private function getType(string $type)
+    {
+        //APS only knows about the types 'classical', 'music', 'speech' (and 'deleted', but we don't use that).
+        //Therefore, we have to map the values to the ones APS knows. If APS doesn't recognize the type, it outputs
+        //an empty string
+        if ($type == "music" || $type == "speech" || $type == "classical") {
+            return $type;
+        }
+        return "";
     }
 
     private function getPrimaryContributor(Contribution $contribution)
