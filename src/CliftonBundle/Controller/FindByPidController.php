@@ -87,28 +87,28 @@ class FindByPidController extends BaseApsController
     private function versionResponse(Version $version): JsonResponse
     {
         // Contributors
-        $cs = $this->get('pps.contributions_service');
-        $contributions = $cs->findByContributionToVersion($version);
+        $contributionsService = $this->get('pps.contributions_service');
+        $contributions = $contributionsService->findByContributionToVersion($version);
         if (!$contributions) {
             // If no contributions on Version, try on the Programme
-            $contributions = $cs->findByContributionToProgramme(
+            $contributions = $contributionsService->findByContributionToProgramme(
                 $version->getProgrammeItem()
             );
         }
 
-        // Segment Events
-        $segmentEvents = [];
-        // TODO
+        // Segment Events with the contributions
+        $segmentEventsService = $this->get('pps.segmentevents_service');
+        $segmentEventsWithContributions = $segmentEventsService->findByVersionWithContributions($version);
 
         // Broadcasts
-        $broadcasts = [];
-        // TODO
+        $broadcastsService = $this->get('pps.broadcasts_service');
+        $broadcasts = $broadcastsService->findByVersion($version, 100);
 
         $apsVersion = $this->mapSingleApsObject(
             new FindByPidVersionMapper(),
             $version,
             $contributions,
-            $segmentEvents,
+            $segmentEventsWithContributions,
             $broadcasts
         );
 
