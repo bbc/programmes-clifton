@@ -185,7 +185,7 @@ class FindByPidControllerTest extends BaseWebTestCase
 
         $this->assertArrayHasKey('segment', $jsonContent);
         $this->assertEquals('p00wx0df', $jsonContent['segment']['pid']);
-        $this->assertEquals('chapter', $jsonContent['segment']['type']);
+        $this->assertEquals('', $jsonContent['segment']['type']);
 
         //Segment Events
         $this->assertArrayHasKey('segment_events', $jsonContent['segment']);

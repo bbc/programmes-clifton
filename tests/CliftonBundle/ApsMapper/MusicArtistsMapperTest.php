@@ -49,8 +49,8 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
             0,
             new Pid($sPid1),
             'speech',
-            $sTitle1,
-            new Synopses('', '', '')
+            new Synopses('', '', ''),
+            $sTitle1
         );
 
         $segmentEvent1 = new SegmentEvent(
@@ -64,8 +64,8 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
             0,
             new Pid($sPid2),
             'music',
-            $sTitle2,
             new Synopses('A short synopsis', '', ''),
+            $sTitle2,
             $duration
         );
 

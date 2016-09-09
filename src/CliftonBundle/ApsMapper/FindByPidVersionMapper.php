@@ -17,7 +17,6 @@ use stdClass;
 
 class FindByPidVersionMapper implements MapperInterface
 {
-    use Traits\SegmentUtilitiesTrait;
     use Traits\ProgrammeUtilitiesTrait;
 
     /**

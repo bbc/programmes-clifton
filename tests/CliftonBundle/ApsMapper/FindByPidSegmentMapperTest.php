@@ -22,18 +22,18 @@ class FindByPidSegmentMapperTest extends PHPUnit_Framework_TestCase
             0,
             new Pid('p00gp1d3'),
             'chapter',
-            'Female conductors',
             new Synopses(
                 'short',
                 'medium',
                 'long'
             ),
+            'Female conductors',
             1380
         );
 
         $expectedSegment = (object) [
             'pid' => 'p00gp1d3',
-            'type' => 'chapter',
+            'type' => '',
             'duration' => 1380,
             'title' => 'Female conductors',
             'short_synopsis' => 'short',
@@ -61,8 +61,8 @@ class FindByPidSegmentMapperTest extends PHPUnit_Framework_TestCase
             2688563,
             new Pid('p03g4kqr'),
             'classical',
-            'Battle of Britain; March introduction – excerpt',
             new Synopses('', '', ''),
+            'Battle of Britain; March introduction – excerpt',
             167,
             [
               new Contribution(

@@ -129,8 +129,8 @@ class FindByPidVersionMapperAdditionalHydrationTest extends PHPUnit_Framework_Te
             1,
             new Pid('sg0000001'),
             'Music',
-            'Segment Title',
             new Synopses('Segment synopses'),
+            'Segment Title',
             180,
             [
                 $contribution,
@@ -198,8 +198,8 @@ class FindByPidVersionMapperAdditionalHydrationTest extends PHPUnit_Framework_Te
             1,
             new Pid('sg0000001'),
             'Music',
-            'Segment Title',
             new Synopses('Segment synopses'),
+            'Segment Title',
             180,
             [] // Empty contributions
         );
