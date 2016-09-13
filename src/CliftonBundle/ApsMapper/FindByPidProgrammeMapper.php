@@ -26,7 +26,7 @@ class FindByPidProgrammeMapper implements MapperInterface
             'position' => $programme->getPosition(),
             'image' => $this->getImageObject($programme->getImage()),
             'media_type' => $this->getMediaType($programme),
-            'title' => $programme->getTitle(),
+            'title' => ($programme->getTitle() == '') ? "Untitled" : $programme->getTitle(),
             'short_synopsis' => $this->nullableSynopsis($programme->getSynopses()->getShortSynopsis()),
             'medium_synopsis' => $this->nullableSynopsis($programme->getSynopses()->getMediumSynopsis()),
             'long_synopsis' => $this->nullableSynopsis($programme->getSynopses()->getLongSynopsis()),

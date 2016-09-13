@@ -24,7 +24,7 @@ class FindByPidSegmentMapper implements MapperInterface
             'pid' => (string) $segment->getPid(),
             'type' => $this->getType($segment->getType()),
             'duration' => $segment->getDuration(),
-            'title' => $segment->getTitle(),
+            'title' => (is_null($segment->getTitle()) || $segment->getTitle() == '') ? "Untitled" : $segment->getTitle(),
             'short_synopsis' => $segment->getSynopses()->getShortSynopsis(),
             'medium_synopsis' => $segment->getSynopses()->getMediumSynopsis(),
             'long_synopsis' => $segment->getSynopses()->getLongSynopsis(),
