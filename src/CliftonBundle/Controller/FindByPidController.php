@@ -123,7 +123,7 @@ class FindByPidController extends BaseApsController
         $segmentEventsService = $this->get('pps.segment_events_service');
 
         $contributions = $contributionsService->findByContributionToSegment($segment);
-        $segmentEvents = $segmentEventsService->findBySegment($segment);
+        $segmentEvents = $segmentEventsService->findBySegment($segment, true);
 
         $apsSegment = $this->mapSingleApsObject(
             new FindByPidSegmentMapper(),
