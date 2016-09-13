@@ -33,7 +33,7 @@ class FindByPidSegmentMapperTest extends PHPUnit_Framework_TestCase
 
         $expectedSegment = (object) [
             'pid' => 'p00gp1d3',
-            'type' => '',
+            'type' => 'speech',
             'duration' => 1380,
             'title' => 'Female conductors',
             'short_synopsis' => 'short',
@@ -115,11 +115,6 @@ class FindByPidSegmentMapperTest extends PHPUnit_Framework_TestCase
         //an empty string
 
         //Stuff APS doesn't know about
-        $segment = $this->createMock(Segment::class);
-        $segment->method('getType')->willReturn('chapter');
-        $mapper = new FindByPidSegmentMapper();
-        $mappedSegment = $mapper->getApsObject($segment);
-        $this->assertEquals($mappedSegment->type, '');
 
         $segment = $this->createMock(Segment::class);
         $segment->method('getType')->willReturn('highlight');
@@ -134,6 +129,12 @@ class FindByPidSegmentMapperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($mappedSegment->type, '');
 
         //Stuff APS knows about
+        $segment = $this->createMock(Segment::class);
+        $segment->method('getType')->willReturn('chapter');
+        $mapper = new FindByPidSegmentMapper();
+        $mappedSegment = $mapper->getApsObject($segment);
+        $this->assertEquals($mappedSegment->type, 'speech');
+
         $segment = $this->createMock(Segment::class);
         $segment->method('getType')->willReturn('music');
         $mapper = new FindByPidSegmentMapper();
