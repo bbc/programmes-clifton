@@ -38,6 +38,12 @@ trait ProgrammeUtilitiesTrait
         }
     }
 
+    protected function formatDate(\DateTimeImmutable $dateTimeImmutable): string
+    {
+        $dateTimeImmutable = $dateTimeImmutable->setTimezone(new \DateTimeZone('Europe/London'));
+        return $dateTimeImmutable->format('Y-m-d');
+    }
+
     protected function getFirstBroadcastDate(Programme $programme)
     {
         $dateTime = $programme->getFirstBroadcastDate();

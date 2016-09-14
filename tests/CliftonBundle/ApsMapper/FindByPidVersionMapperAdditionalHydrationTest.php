@@ -167,10 +167,11 @@ class FindByPidVersionMapperAdditionalHydrationTest extends PHPUnit_Framework_Te
                         'primary_contributor' => (object) [
                             'pid' => 'p02z9mdz',
                             'name' => 'Benjamin Fry',
+                            'musicbrainz_gid' => null,
                         ],
                         'contributions' => [
                             (object) [
-                                'pid' => 'p02zc3p4',
+                                'pid' => 'p02z9mdz',
                                 'name' => 'Benjamin Fry',
                                 'role' => 'Presenter',
                                 'musicbrainz_gid' => null,

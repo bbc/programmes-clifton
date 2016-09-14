@@ -4,7 +4,6 @@ namespace BBC\CliftonBundle\ApsMapper;
 
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Contribution;
-use BBC\ProgrammesPagesService\Domain\Entity\Contributor;
 use BBC\ProgrammesPagesService\Domain\Entity\MusicSegment;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Segment;
@@ -110,7 +109,7 @@ class FindByPidVersionMapper implements MapperInterface
             'is_repeat' => $broadcast->isRepeat(),
             'is_blanked' => $broadcast->isBlanked(),
             'pid' => $broadcast->getPid(),
-            'schedule_date' => $broadcast->getStartAt()->format('Y-m-d'),
+            'schedule_date' => $this->formatDate($broadcast->getStartAt()),
             'start' => $this->formatDateTime($broadcast->getStartAt()),
             'end' =>  $this->formatDateTime($broadcast->getEndAt()),
             'duration' => $broadcast->getDuration(),
@@ -122,7 +121,7 @@ class FindByPidVersionMapper implements MapperInterface
     {
         return (object) [
             'id' => $service->getSid(),
-            'key' => $service->getNetwork()->getUrlKey(),
+            'key' => $service->getNetwork()->getUrlKey() ?: "",
             'title' => $service->getShortName(),
         ];
     }
@@ -147,6 +146,8 @@ class FindByPidVersionMapper implements MapperInterface
                 $primaryContribution = $contributions[0];
                 $output['primary_contributor'] = $this->getPrimaryContributor($primaryContribution);
                 $output['artist'] = $primaryContribution->getContributor()->getName();
+            } else {
+                $output['artist'] = null;
             }
 
             $output['track_title'] = $segment->getTitle();
@@ -160,7 +161,7 @@ class FindByPidVersionMapper implements MapperInterface
 
         $output['contributions'] = array_map([$this, 'getContribution'], $contributions);
         $output['title'] = $segment->getTitle();
-        $output['short_synopsis'] = $segment->getSynopses()->getShortSynopsis();
+        $output['short_synopsis'] = $segment->getSynopses()->getShortSynopsis() ?: null;
         $output['medium_synopsis'] = $segment->getSynopses()->getMediumSynopsis() ?: null;
         $output['long_synopsis'] = $segment->getSynopses()->getLongSynopsis() ?: null;
 
@@ -170,10 +171,10 @@ class FindByPidVersionMapper implements MapperInterface
     private function getContribution(Contribution $contribution)
     {
         $output = [
-            'pid' => $contribution->getPid(),
+            'pid' => $contribution->getContributor()->getPid(),
             'name' => $contribution->getContributor()->getName(),
             'role' => $contribution->getCreditRole(),
-            'musicbrainz_gid' => $contribution->getContributor()->getMusicBrainzId(),
+            'musicbrainz_gid' => $contribution->getContributor()->getMusicBrainzId() ?: null,
         ];
 
         return (object) $output;
@@ -183,15 +184,9 @@ class FindByPidVersionMapper implements MapperInterface
     {
         $output = [
             'pid' => (string) $contribution->getContributor()->getPid(),
+            'musicbrainz_gid' => $contribution->getContributor()->getMusicBrainzId() ?: null,
+            'name' => $contribution->getContributor()->getName(),
         ];
-
-        $musicBrainzId = $contribution->getContributor()->getMusicBrainzId();
-
-        if ($musicBrainzId) {
-            $output['musicbrainz_gid'] = $musicBrainzId;
-        }
-
-        $output['name'] = $contribution->getContributor()->getName();
 
         return (object) $output;
     }
