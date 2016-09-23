@@ -115,42 +115,23 @@ class FindByPidSegmentMapperTest extends PHPUnit_Framework_TestCase
         //an empty string
 
         //Stuff APS doesn't know about
-
-        $segment = $this->createMock(Segment::class);
-        $segment->method('getType')->willReturn('highlight');
-        $mapper = new FindByPidSegmentMapper();
-        $mappedSegment = $mapper->getApsObject($segment);
+        $mappedSegment = $this->setupSegmentWithType('highlight');
         $this->assertEquals($mappedSegment->type, '');
 
-        $segment = $this->createMock(Segment::class);
-        $segment->method('getType')->willReturn('other');
-        $mapper = new FindByPidSegmentMapper();
-        $mappedSegment = $mapper->getApsObject($segment);
+        $mappedSegment = $this->setupSegmentWithType('other');
         $this->assertEquals($mappedSegment->type, '');
 
         //Stuff APS knows about
-        $segment = $this->createMock(Segment::class);
-        $segment->method('getType')->willReturn('chapter');
-        $mapper = new FindByPidSegmentMapper();
-        $mappedSegment = $mapper->getApsObject($segment);
+        $mappedSegment = $this->setupSegmentWithType('chapter');
         $this->assertEquals($mappedSegment->type, 'speech');
 
-        $segment = $this->createMock(Segment::class);
-        $segment->method('getType')->willReturn('music');
-        $mapper = new FindByPidSegmentMapper();
-        $mappedSegment = $mapper->getApsObject($segment);
+        $mappedSegment = $this->setupSegmentWithType('music');
         $this->assertEquals($mappedSegment->type, 'music');
 
-        $segment = $this->createMock(Segment::class);
-        $segment->method('getType')->willReturn('classical');
-        $mapper = new FindByPidSegmentMapper();
-        $mappedSegment = $mapper->getApsObject($segment);
+        $mappedSegment = $this->setupSegmentWithType('classical');
         $this->assertEquals($mappedSegment->type, 'classical');
 
-        $segment = $this->createMock(Segment::class);
-        $segment->method('getType')->willReturn('speech');
-        $mapper = new FindByPidSegmentMapper();
-        $mappedSegment = $mapper->getApsObject($segment);
+        $mappedSegment = $this->setupSegmentWithType('speech');
         $this->assertEquals($mappedSegment->type, 'speech');
     }
 
@@ -163,5 +144,13 @@ class FindByPidSegmentMapperTest extends PHPUnit_Framework_TestCase
 
         $mapper = new FindByPidSegmentMapper();
         $mapper->getApsObject($image);
+    }
+
+    private function setupSegmentWithType(string $type)
+    {
+        $segment = $this->createMock(Segment::CLASS);
+        $segment->method('getType')->willReturn($type);
+        $mapper = new FindByPidSegmentMapper();
+        return $mapper->getApsObject($segment);
     }
 }

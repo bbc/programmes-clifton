@@ -5,12 +5,15 @@ namespace BBC\CliftonBundle\Controller;
 use BBC\CliftonBundle\ApsMapper\FindByPidProgrammeMapper;
 use BBC\CliftonBundle\ApsMapper\FindByPidVersionMapper;
 use BBC\CliftonBundle\ApsMapper\FindByPidSegmentMapper;
+use BBC\CliftonBundle\ApsMapper\FindByPidSegmentEventMapper;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use BBC\ProgrammesPagesService\Domain\Entity\Segment;
+use BBC\ProgrammesPagesService\Domain\Entity\SegmentEvent;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
+use BBC\ProgrammesPagesService\Service\Util\ServiceConstants;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -38,8 +41,11 @@ class FindByPidController extends BaseApsController
             return $this->segmentResponse($segment);
         }
 
-        // TODO
         // Attempt to find a SegmentEvent
+        $segmentEvent = $this->get('pps.segment_events_service')->findByPidFull($pid);
+        if ($segmentEvent) {
+            return $this->segmentEventResponse($segmentEvent);
+        }
 
         throw $this->createNotFoundException(sprintf('The item with PID "%s" was not found', $pid));
     }
@@ -123,7 +129,7 @@ class FindByPidController extends BaseApsController
         $segmentEventsService = $this->get('pps.segment_events_service');
 
         $contributions = $contributionsService->findByContributionToSegment($segment);
-        $segmentEvents = $segmentEventsService->findBySegment($segment, true);
+        $segmentEvents = $segmentEventsService->findBySegmentFull($segment, true, ServiceConstants::NO_LIMIT);
 
         $apsSegment = $this->mapSingleApsObject(
             new FindByPidSegmentMapper(),
@@ -135,6 +141,31 @@ class FindByPidController extends BaseApsController
 
         return $this->json([
             'segment' => $apsSegment,
+        ]);
+    }
+
+    private function segmentEventResponse(SegmentEvent $segmentEvent): JsonResponse
+    {
+        $contributionsService = $this->get('pps.contributions_service');
+        $segmentEventsBySegmentService = $this->get('pps.segment_events_service');
+
+        $contributions = $contributionsService->findByContributionToSegment($segmentEvent->getSegment());
+        $segmentEventsBySegment = $segmentEventsBySegmentService->findBySegmentFull(
+            $segmentEvent->getSegment(),
+            true,
+            ServiceConstants::NO_LIMIT
+        );
+
+        $apsSegmentEvent = $this->mapSingleApsObject(
+            new FindByPidSegmentEventMapper(),
+            $segmentEvent,
+            $contributions,
+            $segmentEventsBySegment
+        );
+
+
+        return $this->json([
+            'segment_event' => $apsSegmentEvent,
         ]);
     }
 }

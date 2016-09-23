@@ -17,6 +17,7 @@ use stdClass;
 class FindByPidVersionMapper implements MapperInterface
 {
     use Traits\ProgrammeUtilitiesTrait;
+    use Traits\SegmentUtilitiesTrait;
 
     /**
      * @param Version $version
@@ -63,7 +64,7 @@ class FindByPidVersionMapper implements MapperInterface
         $output = [
             'type' => $this->getProgrammeType($programme),
             'pid' => (string) $programme->getPid(),
-            'title' => $programme->getTitle(),
+            'title' => $this->getProgrammeTitle($programme->getTitle()),
         ];
 
         return (object) ['programme' => (object) $output];
@@ -150,7 +151,7 @@ class FindByPidVersionMapper implements MapperInterface
                 $output['artist'] = null;
             }
 
-            $output['track_title'] = $segment->getTitle();
+            $output['track_title'] = $this->getSegmentTitle($segment->getTitle());
             $output['track_number'] = $segment->getTrackNumber();
             $output['publisher'] = $segment->getPublisher();
             $output['record_label'] = $segment->getRecordLabel();
@@ -160,7 +161,7 @@ class FindByPidVersionMapper implements MapperInterface
         }
 
         $output['contributions'] = array_map([$this, 'getContribution'], $contributions);
-        $output['title'] = $segment->getTitle();
+        $output['title'] = $this->getSegmentTitle($segment->getTitle());
         $output['short_synopsis'] = $segment->getSynopses()->getShortSynopsis() ?: null;
         $output['medium_synopsis'] = $segment->getSynopses()->getMediumSynopsis() ?: null;
         $output['long_synopsis'] = $segment->getSynopses()->getLongSynopsis() ?: null;

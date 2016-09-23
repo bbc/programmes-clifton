@@ -123,10 +123,20 @@ class FindByPidSegmentMapperAdditionalHydrationTest extends PHPUnit_Framework_Te
     {
         $segment = $this->createMock(Segment::CLASS);
         $episode = $this->createMock(Episode::CLASS);
+
         $contributions = [
             new Contribution(
                 new Pid('p01w0t6b'),
-                new Contributor(0, new Pid('p00sx484'), '', 'Cornershop', null, null, null, '92046be7-0927-4835-a4ed-a90416747d53'),
+                new Contributor(
+                    0,
+                    new Pid('p00sx484'),
+                    '',
+                    'Cornershop',
+                    null,
+                    null,
+                    null,
+                    '92046be7-0927-4835-a4ed-a90416747d53'
+                ),
                 $episode,
                 'Performer'
             ),

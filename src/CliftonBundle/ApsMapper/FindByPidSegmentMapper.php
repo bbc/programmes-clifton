@@ -5,8 +5,6 @@ namespace BBC\CliftonBundle\ApsMapper;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\SegmentEvent;
 use BBC\ProgrammesPagesService\Domain\Entity\Segment;
-use BBC\ProgrammesPagesService\Domain\Entity\MusicSegment;
-use BBC\ProgrammesPagesService\Domain\Entity\Contribution;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use InvalidArgumentException;
 use stdClass;
@@ -14,36 +12,16 @@ use stdClass;
 class FindByPidSegmentMapper implements MapperInterface
 {
     use Traits\ProgrammeUtilitiesTrait;
+    use Traits\SegmentUtilitiesTrait;
 
     public function getApsObject($segment, array $contributions = [], array $segmentEvents = []): stdClass
     {
         /** @var Segment $segment */
         $this->assertIsSegment($segment);
 
-        $output = [
-            'pid' => (string) $segment->getPid(),
-            'type' => $this->getType($segment->getType()),
-            'duration' => $segment->getDuration(),
-            'title' => (is_null($segment->getTitle()) || $segment->getTitle() == '') ? "Untitled" : $segment->getTitle(),
-            'short_synopsis' => $segment->getSynopses()->getShortSynopsis(),
-            'medium_synopsis' => $segment->getSynopses()->getMediumSynopsis(),
-            'long_synopsis' => $segment->getSynopses()->getLongSynopsis(),
-            'segment_events' => array_map([$this, 'getSegmentEvent'], $segmentEvents),
-            'track_title' => $segment->getTitle(),
-            'primary_contributor' => count($contributions) ? $this->getPrimaryContributor($contributions[0]) : null,
-            'contributions' => array_map([$this, 'getContribution'], $contributions),
-            'release_title' => $segment instanceof MusicSegment ? $segment->getReleaseTitle() : null,
-            'catalogue_number' => $segment instanceof MusicSegment ? $segment->getCatalogueNumber() : null,
-            'record_label' => $segment instanceof MusicSegment ? $segment->getRecordLabel() : null,
-            'publisher' => $segment instanceof MusicSegment ? $segment->getPublisher() : null,
-            'track_number' => $segment instanceof MusicSegment ? $segment->getTrackNumber() : null,
-            'has_snippet' => false,
-            'isrc' => null,
-        ];
-
-        if (is_null($output['primary_contributor'])) {
-            unset($output['primary_contributor']);
-        }
+        $output = $this->mapSegment($segment, $contributions);
+        $output['segment_events'] = array_map([$this, 'getSegmentEvent'], $segmentEvents);
+        $output['type'] = $this->getType($segment->getType());
 
         return (object) $output;
     }
@@ -70,31 +48,7 @@ class FindByPidSegmentMapper implements MapperInterface
             return 'speech';
         }
 
-        return "";
-    }
-
-    private function getPrimaryContributor(Contribution $contribution)
-    {
-        $output = [
-            'pid' => (string) $contribution->getContributor()->getPid(),
-            'name' => $contribution->getContributor()->getName(),
-            'sort_name' => $contribution->getContributor()->getSortName(),
-            'musicbrainz_gid' => $musicBrainzId = $contribution->getContributor()->getMusicBrainzId(),
-        ];
-
-        return (object) $output;
-    }
-
-    private function getContribution(Contribution $contribution)
-    {
-        $output = [
-            'pid' => (string) $contribution->getContributor()->getPid(),
-            'name' => $contribution->getContributor()->getName(),
-            'role' => $contribution->getCreditRole(),
-            'musicbrainz_gid' => $contribution->getContributor()->getMusicBrainzId(),
-        ];
-
-        return (object) $output;
+        return '';
     }
 
     private function getSegmentEvent(SegmentEvent $segmentEvent)
@@ -130,7 +84,7 @@ class FindByPidSegmentMapper implements MapperInterface
         $output = [
             'type' => $this->getProgrammeType($programme),
             'pid' => (string) $programme->getPid(),
-            'title' => $programme->getTitle(),
+            'title' => $this->getProgrammeTitle($programme->getTitle()),
             'image' => $this->getImageObject($programme->getImage()),
             'short_synopsis' => $programme->getShortSynopsis(),
             'media_type' => $this->getMediaType($programme),
@@ -146,41 +100,10 @@ class FindByPidSegmentMapper implements MapperInterface
             $output['parent'] = (object) ['programme' => $this->getParent($programme->getParent())];
         }
 
-        if ($this->getOwnership($programme)) {
-            $output['ownership'] = $this->getOwnership($programme);
+        if ($this->getSegmentOwnership($programme)) {
+            $output['ownership'] = $this->getSegmentOwnership($programme);
         }
 
         return (object) $output;
-    }
-
-    private function getOwnership(Programme $programme)
-    {
-        $mb = $programme->getMasterBrand();
-        if (!$mb) {
-            return null;
-        }
-
-        $network = $mb->getNetwork();
-
-        $output = [
-            'type' => !empty($network->getMedium()) ? $network->getMedium() : null,
-            'id' => (string) $network->getNid(),
-            'key' => (string) $network->getUrlKey(),
-            'title' => $network->getName(),
-        ];
-
-        // The values assigned here are technically wrong, as in APS world an
-        // outlet is a mixture of a MasterBrand and a Service, whereas in the
-        // ProgrammesDB world we have a Network as a denormed entity that is
-        // a umbrella for Services. However we don't use the outlet for anything anyway.
-        // The top-level 'service' is correct based upon the Network and that's what we care about.
-        if ((string) $mb->getMid() != (string) $network->getNid()) {
-            $output['outlet'] = (object) [
-                'key' => $mb->getMid(),
-                'title' => $mb->getName(),
-            ];
-        }
-
-        return (object) ['service' => (object) $output];
     }
 }

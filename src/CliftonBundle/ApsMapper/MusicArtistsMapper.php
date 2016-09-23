@@ -14,6 +14,7 @@ use stdClass;
 class MusicArtistsMapper implements MapperInterface
 {
     use ProgrammeUtilitiesTrait;
+    use Traits\SegmentUtilitiesTrait;
 
     public function getApsObject($artist, $segmentEvents = []): stdClass
     {
@@ -30,13 +31,13 @@ class MusicArtistsMapper implements MapperInterface
             'brands_played_on' => [],
             'services_played_on' => [],
             'latest_segment_events' => array_map(
-                [$this, 'mapSegmentEvent'],
+                [$this, 'getSegmentEvent'],
                 $segmentEvents
             ),
         ];
     }
 
-    private function mapSegmentEvent(SegmentEvent $segmentEvent): stdClass
+    private function getSegmentEvent(SegmentEvent $segmentEvent): stdClass
     {
         $data = ['pid' => (string) $segmentEvent->getPid()];
 
@@ -44,23 +45,23 @@ class MusicArtistsMapper implements MapperInterface
             $data['title'] = $segmentEvent->getTitle();
         }
 
-        $data['segment'] = $this->mapSegment(
+        $data['segment'] = $this->getSegment(
             $segmentEvent->getSegment()
         );
-        $data['version'] = $this->mapVersion(
+        $data['version'] = $this->getVersion(
             $segmentEvent->getVersion()
         );
-        $data['episode'] = $this->mapEpisode(
+        $data['episode'] = $this->getEpisode(
             $segmentEvent->getVersion()->getProgrammeItem()
         );
-        $data['tleo'] = $this->mapTleo(
+        $data['tleo'] = $this->getTleo(
             $segmentEvent->getVersion()->getProgrammeItem()
         );
 
         return (object) $data;
     }
 
-    private function mapSegment(Segment $segment): stdClass
+    private function getSegment(Segment $segment): stdClass
     {
         $segmentData = [
             'pid' => (string) $segment->getPid(),
@@ -69,7 +70,7 @@ class MusicArtistsMapper implements MapperInterface
 
         if ($segment instanceof MusicSegment) {
             $segmentData['type'] = 'MusicSegment';
-            $segmentData['track_title'] = $segment->getTitle();
+            $segmentData['track_title'] = $this->getSegmentTitle($segment->getTitle());
             $segmentData['duration'] = $segment->getDuration();
             $segmentData['isrc'] = null;
             $segmentData['has_snippet'] = 'true';
@@ -83,12 +84,12 @@ class MusicArtistsMapper implements MapperInterface
         return (object) $segmentData;
     }
 
-    private function mapVersion(Version $version): stdClass
+    private function getVersion(Version $version): stdClass
     {
         return (object) ['pid' => (string) $version->getPid()];
     }
 
-    private function mapEpisode(ProgrammeItem $episode): stdClass
+    private function getEpisode(ProgrammeItem $episode): stdClass
     {
         return (object) [
             'pid' => (string) $episode->getPid(),
@@ -97,7 +98,7 @@ class MusicArtistsMapper implements MapperInterface
         ];
     }
 
-    private function mapTleo(ProgrammeItem $episode): stdClass
+    private function getTleo(ProgrammeItem $episode): stdClass
     {
         $tleo = $episode->getTleo();
 

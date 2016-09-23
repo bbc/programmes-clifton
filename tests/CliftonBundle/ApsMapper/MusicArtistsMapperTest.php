@@ -166,10 +166,10 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
     {
         $eTitle = 'Episode title';
 
-        $network = $this->createMock(Network::class);
+        $network = $this->createMock(Network::CLASS);
         $network->method('getUrlKey')->willReturn('radio2');
 
-        $masterBrand = $this->createMock(MasterBrand::class);
+        $masterBrand = $this->createMock(MasterBrand::CLASS);
         $masterBrand->method('getNetwork')->willReturn($network);
 
         // Needs full brand, as it needs to match the instance type

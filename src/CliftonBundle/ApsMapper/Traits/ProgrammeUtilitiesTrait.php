@@ -90,4 +90,9 @@ trait ProgrammeUtilitiesTrait
 
         throw new InvalidArgumentException('Could not find type for entity "' . get_class($entity) . '"');
     }
+
+    protected function getProgrammeTitle(string $title)
+    {
+        return ($title === '') ? "Untitled" : $title;
+    }
 }

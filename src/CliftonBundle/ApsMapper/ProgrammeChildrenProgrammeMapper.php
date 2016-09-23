@@ -19,7 +19,7 @@ class ProgrammeChildrenProgrammeMapper implements MapperInterface
             'type' => $this->getProgrammeType($programme),
             'pid' => (string) $programme->getPid(),
             'media_type' => $this->getMediaType($programme),
-            'title' => $programme->getTitle(),
+            'title' => $this->getProgrammeTitle($programme->getTitle()),
             'short_synopsis' => $programme->getShortSynopsis(),
             'image' => $this->getImageObject($programme->getImage()),
             'position' => $programme->getPosition(),
