@@ -10,7 +10,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-class SegmentEventsForFindByPidSegmentFixture extends AbstractFixture implements DependentFixtureInterface
+class SegmentEventsFixture extends AbstractFixture implements DependentFixtureInterface
 {
     private $manager;
 

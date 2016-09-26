@@ -134,7 +134,7 @@ class FindByPidControllerTest extends BaseWebTestCase
 
     public function testFindByPidMusicSegment()
     {
-        $this->loadFixtures(['SegmentEventsForFindByPidSegmentFixture']);
+        $this->loadFixtures(['SegmentEventsFixture']);
 
         $client = static::createClient();
         $client->request('GET', '/aps/programmes/p002d8dd.json');
@@ -174,7 +174,7 @@ class FindByPidControllerTest extends BaseWebTestCase
 
     public function testFindByPidSegment()
     {
-        $this->loadFixtures(['SegmentEventsForFindByPidSegmentFixture']);
+        $this->loadFixtures(['SegmentEventsFixture']);
 
         $client = static::createClient();
         $client->request('GET', '/aps/programmes/p00wx0df.json');
@@ -209,6 +209,41 @@ class FindByPidControllerTest extends BaseWebTestCase
         //Contributions
         $this->assertArrayHasKey('contributions', $jsonContent['segment']);
         $this->assertEquals(0, count($jsonContent['segment']['contributions']));
+    }
+    public function testFindByPidSegmentEvent()
+    {
+        $this->loadFixtures(['SegmentEventsFixture']);
+
+        $client = static::createClient();
+        $client->request('GET', '/aps/programmes/sv000001.json');
+
+        $this->assertResponseStatusCode($client, 200);
+
+        $jsonContent = $this->getDecodedJsonContent($client);
+
+        $this->assertArrayHasKey('segment_event', $jsonContent);
+        $this->assertEquals('sv000001', $jsonContent['segment_event']['pid']);
+
+        //Segment
+        $this->assertArrayHasKey('segment', $jsonContent['segment_event']);
+        $this->assertEquals('p002d8dd', $jsonContent['segment_event']['segment']['pid']);
+        $this->assertArrayHasKey('type', $jsonContent['segment_event']['segment']);
+        $this->assertEquals('MusicSegment', $jsonContent['segment_event']['segment']['type']);
+
+        //Segment Events for Segment
+        $this->assertArrayHasKey('segment_events', $jsonContent['segment_event']['segment']);
+        $this->assertEquals(1, count($jsonContent['segment_event']['segment']['segment_events']));
+        $this->assertEquals('sv000001', $jsonContent['segment_event']['segment']['segment_events'][0]['pid']);
+
+
+        //Segment Primary Contributor
+        $this->assertArrayHasKey('primary_contributor', $jsonContent['segment_event']['segment']);
+        $this->assertEquals('cntrbtr1', $jsonContent['segment_event']['segment']['primary_contributor']['pid']);
+
+        //Segment Contributions
+        $this->assertArrayHasKey('contributions', $jsonContent['segment_event']['segment']);
+        $this->assertEquals(1, count($jsonContent['segment_event']['segment']['contributions']));
+        $this->assertEquals('cntrbtr1', $jsonContent['segment_event']['segment']['contributions'][0]['pid']);
     }
 
     public function testFindByPidVersion()
