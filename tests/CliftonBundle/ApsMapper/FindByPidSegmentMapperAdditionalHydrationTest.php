@@ -101,7 +101,7 @@ class FindByPidSegmentMapperAdditionalHydrationTest extends PHPUnit_Framework_Te
                     'programme' => (object) [
                         'type' => 'episode',
                         'pid' => 'b00hvw8w',
-                        'title' => '',
+                        'title' => 'Untitled',
                         'image' => (object) [
                             'pid' => 'p01gdp18',
                         ],
