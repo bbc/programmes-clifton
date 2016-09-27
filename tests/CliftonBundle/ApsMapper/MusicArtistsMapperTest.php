@@ -221,7 +221,8 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
             new Pid('vrsnpd01'),
             $episode,
             false,
-            false
+            false,
+            0
         );
     }
 }

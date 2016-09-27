@@ -42,6 +42,7 @@ class FindByPidSegmentEventMapperTest extends PHPUnit_Framework_TestCase
                 ),
                 true,
                 true,
+                0,
                 4
             ),
             new Segment(
