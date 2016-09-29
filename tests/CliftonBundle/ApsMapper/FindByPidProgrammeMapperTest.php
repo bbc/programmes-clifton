@@ -27,7 +27,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
     public function testMappingBrand()
     {
         $brand = new Brand(
-            1,
+            [1],
             new Pid('b006q2x0'),
             'Doctor Who',
             'Search Title',
@@ -81,7 +81,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
     public function testMappingSeries()
     {
         $brand = new Brand(
-            1,
+            [1],
             new Pid('b006q2x0'),
             'Doctor Who',
             'Search Title',
@@ -108,7 +108,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
         );
 
         $series = new Series(
-            1,
+            [1],
             new Pid('b06hgxtt'),
             'Series 9 - Omnibus',
             'Search Title',
@@ -178,7 +178,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
         $streamableUntil = new DateTimeImmutable();
 
         $episode = new Episode(
-            1,
+            [1],
             new Pid('b06tl32t'),
             'The Husbands of River Song',
             'Search Title',
@@ -238,7 +238,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
         $streamableUntil = new DateTimeImmutable();
 
         $clip = new Clip(
-            1,
+            [1],
             new Pid('b06tl32t'),
             'The Husbands of River Song',
             'Search Title',
@@ -648,7 +648,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
     public function testMappingParents()
     {
         $brand = new Brand(
-            1,
+            [1],
             new Pid('b006q2x0'),
             'Doctor Who',
             'Search Title',
@@ -687,7 +687,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
         );
 
         $series = new Series(
-            1,
+            [1],
             new Pid('b06hgxtt'),
             'Series 9 - Omnibus',
             'Search Title',

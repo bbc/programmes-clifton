@@ -14,14 +14,14 @@ class FindByPidSegmentMapper implements MapperInterface
     use Traits\ProgrammeUtilitiesTrait;
     use Traits\SegmentUtilitiesTrait;
 
-    public function getApsObject($segment, array $contributions = [], array $segmentEvents = []): stdClass
+    public function getApsObject($segment, array $segmentEvents = []): stdClass
     {
         /** @var Segment $segment */
         $this->assertIsSegment($segment);
 
-        $output = $this->mapSegment($segment, $contributions);
-        $output['segment_events'] = array_map([$this, 'getSegmentEvent'], $segmentEvents);
-        $output['type'] = $this->getType($segment->getType());
+        $mappedSegmentEvents = array_map([$this, 'getSegmentEvent'], $segmentEvents);
+
+        $output = $this->mapSegment($segment, $mappedSegmentEvents);
 
         return (object) $output;
     }
@@ -35,20 +35,6 @@ class FindByPidSegmentMapper implements MapperInterface
                 (is_object($item) ? get_class($item) : gettype($item))
             ));
         }
-    }
-
-    private function getType(string $type)
-    {
-        //APS only knows about the types 'classical', 'music', 'speech' (and 'deleted', but we don't use that).
-        //Therefore, we have to map the values to the ones APS knows. If APS doesn't recognize the type, it outputs
-        //an empty string
-        if ($type == 'music' || $type == 'speech' || $type == 'classical') {
-            return $type;
-        } elseif ($type == 'chapter') {
-            return 'speech';
-        }
-
-        return '';
     }
 
     private function getSegmentEvent(SegmentEvent $segmentEvent)
@@ -100,8 +86,8 @@ class FindByPidSegmentMapper implements MapperInterface
             $output['parent'] = (object) ['programme' => $this->getParent($programme->getParent())];
         }
 
-        if ($this->getSegmentOwnership($programme)) {
-            $output['ownership'] = $this->getSegmentOwnership($programme);
+        if ($this->mapSegmentOwnership($programme)) {
+            $output['ownership'] = $this->mapSegmentOwnership($programme);
         }
 
         return (object) $output;

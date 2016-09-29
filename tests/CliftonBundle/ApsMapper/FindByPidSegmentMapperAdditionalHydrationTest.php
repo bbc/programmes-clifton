@@ -33,6 +33,8 @@ class FindByPidSegmentMapperAdditionalHydrationTest extends PHPUnit_Framework_Te
             ),
         ];
 
+        $segment->method('getContributions')->willReturn($contributions);
+
         $expectedContributions = [
             (object) [
                 'pid' => 'p012djx0',
@@ -43,7 +45,7 @@ class FindByPidSegmentMapperAdditionalHydrationTest extends PHPUnit_Framework_Te
         ];
 
         $mapper = new FindByPidSegmentMapper();
-        $apsObject = $mapper->getApsObject($segment, $contributions, []);
+        $apsObject = $mapper->getApsObject($segment, []);
 
         $this->assertObjectHasAttribute('segment_events', $apsObject);
         $this->assertEquals($expectedContributions, $apsObject->contributions);
@@ -60,7 +62,7 @@ class FindByPidSegmentMapperAdditionalHydrationTest extends PHPUnit_Framework_Te
                     0,
                     new Pid('b00hvw0s'),
                     new Episode( //Programme
-                        0,
+                        [0],
                         new Pid('b00hvw8w'),
                         '',
                         '',
@@ -114,7 +116,7 @@ class FindByPidSegmentMapperAdditionalHydrationTest extends PHPUnit_Framework_Te
         ];
 
         $mapper = new FindByPidSegmentMapper();
-        $apsObject = $mapper->getApsObject($segment, [], $segmentEvents);
+        $apsObject = $mapper->getApsObject($segment, $segmentEvents);
 
         $this->assertObjectHasAttribute('segment_events', $apsObject);
         $this->assertEquals($expectedSegmentEvents, $apsObject->{'segment_events'});
@@ -150,8 +152,10 @@ class FindByPidSegmentMapperAdditionalHydrationTest extends PHPUnit_Framework_Te
                 'musicbrainz_gid' => '92046be7-0927-4835-a4ed-a90416747d53',
         ];
 
+        $segment->method('getContributions')->willReturn($contributions);
+
         $mapper = new FindByPidSegmentMapper();
-        $apsObject = $mapper->getApsObject($segment, $contributions, []);
+        $apsObject = $mapper->getApsObject($segment, []);
 
         $this->assertObjectHasAttribute('primary_contributor', $apsObject);
         $this->assertEquals($expectedPrimaryContributor, $apsObject->{'primary_contributor'});
@@ -191,7 +195,7 @@ class FindByPidSegmentMapperAdditionalHydrationTest extends PHPUnit_Framework_Te
         ];
 
         $mapper = new FindByPidSegmentMapper();
-        $apsObject = $mapper->getApsObject($segment, [], [$segmentEvent]);
+        $apsObject = $mapper->getApsObject($segment, [$segmentEvent]);
 
         $this->assertObjectHasAttribute('segment_events', $apsObject);
         $this->assertEquals($expectedOwnership, $apsObject->{'segment_events'}[0]->version->programme->ownership);

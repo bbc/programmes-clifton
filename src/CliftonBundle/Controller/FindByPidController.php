@@ -13,7 +13,6 @@ use BBC\ProgrammesPagesService\Domain\Entity\Segment;
 use BBC\ProgrammesPagesService\Domain\Entity\SegmentEvent;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
-use BBC\ProgrammesPagesService\Service\Util\ServiceConstants;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -36,7 +35,7 @@ class FindByPidController extends BaseApsController
         }
 
         // Attempt to find a Segment
-        $segment = $this->get('pps.segments_service')->findByPid($pid);
+        $segment = $this->get('pps.segments_service')->findByPidFull($pid);
         if ($segment) {
             return $this->segmentResponse($segment);
         }
@@ -128,22 +127,13 @@ class FindByPidController extends BaseApsController
 
     private function segmentResponse(Segment $segment): JsonResponse
     {
-        // Contributors
-        $contributionsService = $this->get('pps.contributions_service');
-        $contributions = $contributionsService->findByContributionToSegment($segment);
-
-        // Segment Events with the contributions
         $segmentEventsService = $this->get('pps.segment_events_service');
-        $segmentEvents = $segmentEventsService->findBySegmentFull(
-            $segment,
-            true,
-            ServiceConstants::NO_LIMIT
-        );
+
+        $segmentEvents = $segmentEventsService->findBySegmentFull($segment, true, $segmentEventsService::NO_LIMIT);
 
         $apsSegment = $this->mapSingleApsObject(
             new FindByPidSegmentMapper(),
             $segment,
-            $contributions,
             $segmentEvents,
             true
         );
@@ -155,22 +145,17 @@ class FindByPidController extends BaseApsController
 
     private function segmentEventResponse(SegmentEvent $segmentEvent): JsonResponse
     {
-        // Contributors
-        $contributionsService = $this->get('pps.contributions_service');
-        $contributions = $contributionsService->findByContributionToSegment($segmentEvent->getSegment());
-
-        // Segment Events with the contributions
         $segmentEventsService = $this->get('pps.segment_events_service');
+
         $segmentEventsBySegment = $segmentEventsService->findBySegmentFull(
             $segmentEvent->getSegment(),
             true,
-            ServiceConstants::NO_LIMIT
+            $segmentEventsService::NO_LIMIT
         );
 
         $apsSegmentEvent = $this->mapSingleApsObject(
             new FindByPidSegmentEventMapper(),
             $segmentEvent,
-            $contributions,
             $segmentEventsBySegment
         );
 

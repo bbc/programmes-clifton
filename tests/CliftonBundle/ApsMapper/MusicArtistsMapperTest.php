@@ -174,7 +174,7 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
 
         // Needs full brand, as it needs to match the instance type
         $brand = new Brand(
-            0,
+            [0],
             new Pid('brndpd01'),
             'The Brand',
             '',
@@ -197,7 +197,7 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
         );
 
         $episode = new Episode(
-            0,
+            [0],
             new Pid('prg1tm01'),
             $eTitle,
             $eTitle,

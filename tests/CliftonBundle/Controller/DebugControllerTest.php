@@ -15,7 +15,7 @@ class DebugControllerTest extends BaseWebTestCase
         $this->assertResponseStatusCode($client, 200);
 
         // 7 Items dumped out
-        $this->assertEquals(7, $crawler->filter('.sf-dump-index')->count());
+        $this->assertEquals(7, $crawler->filter('.sf-dump > samp > .sf-dump-index')->count());
     }
 
     public function testDebugWithArguments()
@@ -27,7 +27,7 @@ class DebugControllerTest extends BaseWebTestCase
         $this->assertResponseStatusCode($client, 200);
 
         // 2 Items dumped out
-        $this->assertEquals(2, $crawler->filter('.sf-dump-index')->count());
+        $this->assertEquals(2, $crawler->filter('.sf-dump > samp > .sf-dump-index')->count());
     }
 
     public function testDebugWithPidCastingArguments()

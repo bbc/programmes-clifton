@@ -23,7 +23,7 @@ class FindByPidSegmentEventMapperTest extends PHPUnit_Framework_TestCase
                 0,
                 new Pid('b0193zsv'),
                 new Episode(
-                    1,
+                    [1],
                     new Pid('b0193zvj'),
                     'programme title',
                     'search title',

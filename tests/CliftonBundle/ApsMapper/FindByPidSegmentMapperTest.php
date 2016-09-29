@@ -28,7 +28,8 @@ class FindByPidSegmentMapperTest extends PHPUnit_Framework_TestCase
                 'long'
             ),
             'Female conductors',
-            1380
+            1380,
+            []
         );
 
         $expectedSegment = (object) [
@@ -57,6 +58,15 @@ class FindByPidSegmentMapperTest extends PHPUnit_Framework_TestCase
 
     public function testMappingMusicSegment()
     {
+        $contributions = [
+            new Contribution(
+                new Pid('c0000001'),
+                new Contributor(1, new Pid('cp0000001'), 'Performer', 'Name'),
+                new UnfetchedProgramme(),
+                'Performer'
+            ),
+        ];
+
         $segment = new MusicSegment(
             2688563,
             new Pid('p03g4kqr'),
@@ -64,14 +74,7 @@ class FindByPidSegmentMapperTest extends PHPUnit_Framework_TestCase
             new Synopses('', '', ''),
             'Battle of Britain; March introduction – excerpt',
             167,
-            [
-              new Contribution(
-                  new Pid('c0000001'),
-                  new Contributor(1, new Pid('cp0000001'), 'Performer', 'Name'),
-                  new UnfetchedProgramme(),
-                  'Performer'
-              ),
-            ],
+            $contributions,
             'n3hxrj',
             'Dornik',
             'CHAN10361',
@@ -94,14 +97,27 @@ class FindByPidSegmentMapperTest extends PHPUnit_Framework_TestCase
             'long_synopsis' => '',
             'segment_events' => [],
             'track_title' => 'Battle of Britain; March introduction – excerpt',
-            'contributions' => [],
+            'contributions' => [
+                (object) [
+                    'pid' => 'cp0000001',
+                    'name' => 'Name',
+                    'role' => 'Performer',
+                    'musicbrainz_gid' => null,
+                ],
+            ],
             'release_title' => 'Dornik',
             'catalogue_number' => 'CHAN10361',
             'record_label' => 'Chandos',
             'publisher' => 'Sony Music Entertainment',
-            'track_number' => 18.0,
+            'track_number' => '18',
             'has_snippet' => false,
             'isrc' => null,
+            'primary_contributor' => (object) [
+                'pid' => 'cp0000001',
+                'name' => 'Name',
+                'sort_name' => null,
+                'musicbrainz_gid' => null,
+            ],
         ];
 
         $mapper = new FindByPidSegmentMapper();

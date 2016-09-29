@@ -134,6 +134,7 @@ class FindByPidVersionMapper implements MapperInterface
             'pid' => $segment->getPid(),
             'duration' => $segment->getDuration(),
         ];
+
         $contributions = $segment->getContributions();
 
         if (!empty($contributions)) {
@@ -151,7 +152,7 @@ class FindByPidVersionMapper implements MapperInterface
                 $output['artist'] = null;
             }
 
-            $output['track_title'] = $this->getSegmentTitle($segment->getTitle());
+            $output['track_title'] = $this->mapSegmentTitle($segment->getTitle());
             $output['track_number'] = $segment->getTrackNumber();
             $output['publisher'] = $segment->getPublisher();
             $output['record_label'] = $segment->getRecordLabel();
@@ -161,7 +162,7 @@ class FindByPidVersionMapper implements MapperInterface
         }
 
         $output['contributions'] = array_map([$this, 'getContribution'], $contributions);
-        $output['title'] = $this->getSegmentTitle($segment->getTitle());
+        $output['title'] = $this->mapSegmentTitle($segment->getTitle());
         $output['short_synopsis'] = $segment->getSynopses()->getShortSynopsis() ?: null;
         $output['medium_synopsis'] = $segment->getSynopses()->getMediumSynopsis() ?: null;
         $output['long_synopsis'] = $segment->getSynopses()->getLongSynopsis() ?: null;

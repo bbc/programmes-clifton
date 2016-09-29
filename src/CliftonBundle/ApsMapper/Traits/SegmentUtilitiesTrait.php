@@ -9,20 +9,22 @@ use BBC\ProgrammesPagesService\Domain\Entity\Segment;
 
 trait SegmentUtilitiesTrait
 {
-    public function mapSegment(Segment $segment, array $contributions)
+    public function mapSegment(Segment $segment, array $segmentEvents, string $overrideType = null)
     {
+        $contributions = $segment->getContributions();
+
         $output = [
             'pid' => (string) $segment->getPid(),
-            'type' => '',
+            'type' => is_null($overrideType) ? $this->mapSegmentType($segment->getType()) : $overrideType,
             'duration' => $segment->getDuration(),
-            'title' => $this->getSegmentTitle($segment->getTitle()),
+            'title' => $this->mapSegmentTitle($segment->getTitle()),
             'short_synopsis' => $segment->getSynopses()->getShortSynopsis(),
             'medium_synopsis' => $segment->getSynopses()->getMediumSynopsis(),
             'long_synopsis' => $segment->getSynopses()->getLongSynopsis(),
-            'segment_events' => [],
-            'track_title' => $this->getSegmentTitle($segment->getTitle()),
-            'primary_contributor' => count($contributions) ? $this->getSegmentPrimaryContributor($contributions[0]) : null,
-            'contributions' => array_map([$this, 'getSegmentContribution'], $contributions),
+            'segment_events' => $segmentEvents,
+            'track_title' => $segment->getTitle(),
+            'primary_contributor' => count($contributions) ? $this->mapSegmentPrimaryContributor($contributions[0]) : null,
+            'contributions' => array_map([$this, 'mapSegmentContribution'], $contributions),
             'release_title' => $segment instanceof MusicSegment ? $segment->getReleaseTitle() : null,
             'catalogue_number' => $segment instanceof MusicSegment ? $segment->getCatalogueNumber() : null,
             'record_label' => $segment instanceof MusicSegment ? $segment->getRecordLabel() : null,
@@ -36,16 +38,16 @@ trait SegmentUtilitiesTrait
             unset($output['primary_contributor']);
         }
 
-        return $output;
+        return (object) $output;
     }
 
-    public function getSegmentTitle(string $title = null)
+    public function mapSegmentTitle(string $title = null)
     {
         return (is_null($title) || $title === '') ? "Untitled" : $title;
     }
 
 
-    public function getSegmentPrimaryContributor(Contribution $contribution)
+    public function mapSegmentPrimaryContributor(Contribution $contribution)
     {
         $output = [
             'pid' => (string) $contribution->getContributor()->getPid(),
@@ -57,7 +59,7 @@ trait SegmentUtilitiesTrait
         return (object) $output;
     }
 
-    public function getSegmentContribution(Contribution $contribution)
+    public function mapSegmentContribution(Contribution $contribution)
     {
         $output = [
             'pid' => (string) $contribution->getContributor()->getPid(),
@@ -69,7 +71,7 @@ trait SegmentUtilitiesTrait
         return (object) $output;
     }
 
-    public function getSegmentOwnership(Programme $programme)
+    public function mapSegmentOwnership(Programme $programme)
     {
         $mb = $programme->getMasterBrand();
         if (!$mb) {
@@ -98,5 +100,19 @@ trait SegmentUtilitiesTrait
         }
 
         return (object) ['service' => (object) $output];
+    }
+
+    public function mapSegmentType(string $type)
+    {
+        //APS only knows about the types 'classical', 'music', 'speech' (and 'deleted', but we don't use that).
+        //Therefore, we have to map the values to the ones APS knows. If APS doesn't recognize the type, it outputs
+        //an empty string
+        if ($type == 'music' || $type == 'speech' || $type == 'classical') {
+            return $type;
+        } elseif ($type == 'chapter') {
+            return 'speech';
+        }
+
+        return '';
     }
 }

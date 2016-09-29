@@ -4,7 +4,6 @@ namespace BBC\CliftonBundle\ApsMapper;
 
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Entity\SegmentEvent;
-use BBC\ProgrammesPagesService\Domain\Entity\Segment;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use InvalidArgumentException;
 use stdClass;
@@ -14,10 +13,13 @@ class FindByPidSegmentEventMapper implements MapperInterface
     use Traits\ProgrammeUtilitiesTrait;
     use Traits\SegmentUtilitiesTrait;
 
-    public function getApsObject($segmentEvent, array $contributions = [], array $segmentEventsBySegment = []): stdClass
+    public function getApsObject($segmentEvent, array $segmentEventsBySegment = []): stdClass
     {
-        /** @var SegmentEvent $segment */
+        /** @var SegmentEvent $segmentEvent */
         $this->assertIsSegmentEvent($segmentEvent);
+
+        $segment = $segmentEvent->getSegment();
+        $mappedSegmentEventsBySegment = array_map([$this, 'getSegmentEvent'], $segmentEventsBySegment);
 
          $output = [
             'is_chapter' => $segmentEvent->isChapter(),
@@ -28,7 +30,7 @@ class FindByPidSegmentEventMapper implements MapperInterface
             'long_synopsis' => $segmentEvent->getSynopses()->getLongSynopsis(),
             'position' => $segmentEvent->getPosition(),
             'version_offset' => $segmentEvent->getOffset(),
-            'segment' => $this->getSegment($segmentEvent->getSegment(), $contributions, $segmentEventsBySegment),
+            'segment' => $this->mapSegment($segment, $mappedSegmentEventsBySegment, $this->getType($segment->getType())),
             'version' => $this->getVersion($segmentEvent->getVersion()),
          ];
 
@@ -46,15 +48,6 @@ class FindByPidSegmentEventMapper implements MapperInterface
         }
     }
 
-    private function getSegment(Segment $segment, array $contributions, array $segmentEventsBySegment)
-    {
-        $output = $this->mapSegment($segment, $contributions);
-        $output['type'] = $this->getSegmentType($segment->getType());
-        $output['segment_events'] = array_map([$this, 'getSegmentEvent'], $segmentEventsBySegment);
-
-        return (object) $output;
-    }
-
     private function getVersion(Version $version)
     {
         $output = [
@@ -63,7 +56,7 @@ class FindByPidSegmentEventMapper implements MapperInterface
             'parent' => $this->getParent($version->getProgrammeItem()),
         ];
 
-        $ownership = $this->getSegmentOwnership($version->getProgrammeItem());
+        $ownership = $this->mapSegmentOwnership($version->getProgrammeItem());
         $output['ownership'] = (object) [];
 
         if ($ownership) {
@@ -101,7 +94,7 @@ class FindByPidSegmentEventMapper implements MapperInterface
         return (object) $output;
     }
 
-    private function getSegmentType(string $type) : string
+    private function getType(string $type) : string
     {
         // This piece of code replicates this from tapp:
         // https://github.com/bbc/programmes-tapp/blob/master/lib/tapp/np_builder.rb#L326-L338

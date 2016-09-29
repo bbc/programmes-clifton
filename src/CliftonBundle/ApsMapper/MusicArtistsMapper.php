@@ -70,7 +70,7 @@ class MusicArtistsMapper implements MapperInterface
 
         if ($segment instanceof MusicSegment) {
             $segmentData['type'] = 'MusicSegment';
-            $segmentData['track_title'] = $this->getSegmentTitle($segment->getTitle());
+            $segmentData['track_title'] = $this->mapSegmentTitle($segment->getTitle());
             $segmentData['duration'] = $segment->getDuration();
             $segmentData['isrc'] = null;
             $segmentData['has_snippet'] = 'true';

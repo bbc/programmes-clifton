@@ -58,7 +58,7 @@ class FindByPidSegmentFixture extends AbstractFixture
         $segment->setShortSynopsis($shortSynopsis);
 
         $this->manager->persist($segment);
-        $this->addReference('p00wx0df', $segment);
+        $this->addReference($pid, $segment);
 
         return $segment;
     }

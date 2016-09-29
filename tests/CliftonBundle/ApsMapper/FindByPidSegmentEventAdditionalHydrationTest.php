@@ -55,8 +55,10 @@ class FindByPidSegmentEventMapperAdditionalHydrationTest extends PHPUnit_Framewo
         $version->method('getProgrammeItem')->willReturn($this->createMock(Episode::CLASS));
         $segmentEvent->method('getSegment')->willReturn($segment);
         $segmentEvent->method('getVersion')->willReturn($version);
+        $segment->method('getContributions')->willReturn($contributions);
+
         $mapper = new FindByPidSegmentEventMapper();
-        $apsObject = $mapper->getApsObject($segmentEvent, $contributions, []);
+        $apsObject = $mapper->getApsObject($segmentEvent);
 
         $this->assertObjectHasAttribute('segment', $apsObject);
         $this->assertObjectHasAttribute('primary_contributor', $apsObject->{'segment'});
@@ -138,12 +140,13 @@ class FindByPidSegmentEventMapperAdditionalHydrationTest extends PHPUnit_Framewo
         $segmentEvent = $this->createMock(SegmentEvent::CLASS);
         $segment = $this->createMock(Segment::CLASS);
         $version = $this->createMock(Version::CLASS);
+        $segment->method('getContributions')->willReturn($contributions);
         $version->method('getProgrammeItem')->willReturn($episode);
         $segmentEvent->method('getSegment')->willReturn($segment);
         $segmentEvent->method('getVersion')->willReturn($version);
 
         $mapper = new FindByPidSegmentEventMapper();
-        $apsObject = $mapper->getApsObject($segmentEvent, $contributions);
+        $apsObject = $mapper->getApsObject($segmentEvent);
 
         $this->assertObjectHasAttribute('segment', $apsObject);
         $this->assertObjectHasAttribute('contributions', $apsObject->{'segment'});
@@ -226,7 +229,7 @@ class FindByPidSegmentEventMapperAdditionalHydrationTest extends PHPUnit_Framewo
         $segmentEvent->method('getSegment')->willReturn($segment);
         $segmentEvent->method('getVersion')->willReturn($version);
         $mapper = new FindByPidSegmentEventMapper();
-        $apsObject = $mapper->getApsObject($segmentEvent, [], $segmentEventsBySegment);
+        $apsObject = $mapper->getApsObject($segmentEvent, $segmentEventsBySegment);
 
         $this->assertObjectHasAttribute('segment', $apsObject);
         $this->assertObjectHasAttribute('segment_events', $apsObject->{'segment'});
@@ -268,7 +271,7 @@ class FindByPidSegmentEventMapperAdditionalHydrationTest extends PHPUnit_Framewo
         ];
 
         $mapper = new FindByPidSegmentEventMapper();
-        $apsObject = $mapper->getApsObject($segmentEvent, [], [$segmentEvent]);
+        $apsObject = $mapper->getApsObject($segmentEvent);
 
         $this->assertObjectHasAttribute('version', $apsObject);
         $this->assertEquals($expectedOwnership, $apsObject->{'version'}->{'ownership'});

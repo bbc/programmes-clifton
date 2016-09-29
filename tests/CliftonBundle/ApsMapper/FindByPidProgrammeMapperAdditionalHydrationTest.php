@@ -58,7 +58,7 @@ class FindByPidProgrammeMapperAdditionalHydrationTest extends PHPUnit_Framework_
         $series->method('getParent')->willReturn($brand);
 
         $previousSibling = new Series(
-            1,
+            [1],
             new Pid('b06hgxtt'),
             'Series 9 - Omnibus',
             'Search Title',
@@ -85,7 +85,7 @@ class FindByPidProgrammeMapperAdditionalHydrationTest extends PHPUnit_Framework_
         );
 
         $nextSibling = new Episode(
-            1,
+            [1],
             new Pid('b06tl32t'),
             'The Husbands of River Song',
             'Search Title',
