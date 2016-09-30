@@ -5,7 +5,7 @@ namespace Tests\BBC\CliftonBundle\Controller;
 use Tests\BBC\CliftonBundle\BaseWebTestCase;
 
 /**
- * @covers BBC\CliftonBundle\Controller\FindByPidController
+ * @covers BBC\CliftonBundle\Controller\MusicArtistsController
  */
 class MusicArtistsControllerTest extends BaseWebTestCase
 {
