@@ -71,6 +71,12 @@ doctrine:
             embargoed_filter:
                 class: BBC\ProgrammesPagesService\Data\ProgrammesDb\Filter\EmbargoedFilter
                 enabled: true
+        dql:
+            string_functions:
+                MATCH_AGAINST: BBC\ProgrammesPagesService\Data\ProgrammesDb\Functions\MatchAgainst
+            datetime_functions:
+                YEAR: BBC\ProgrammesPagesService\Data\ProgrammesDb\Functions\Year
+                MONTH: BBC\ProgrammesPagesService\Data\ProgrammesDb\Functions\Month
 
 stof_doctrine_extensions:
     orm:

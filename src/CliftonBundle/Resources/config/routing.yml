@@ -14,6 +14,12 @@ aps.programme_children:
     defaults: { _controller: CliftonBundle:ProgrammeChildren:children }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
+aps.episodes:
+    path: /aps/programmes/{pid}/episodes.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:BroadcastYearsAndMonths:yearsAndMonths }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
 aps.music_artist:
     path: /aps/programmes/music/artists/{musicBrainzId}.json
     methods:  [GET]

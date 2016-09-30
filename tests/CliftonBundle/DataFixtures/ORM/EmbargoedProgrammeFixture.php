@@ -39,6 +39,7 @@ class EmbargoedProgrammeFixture extends AbstractFixture
     {
         $entity = new Brand($pid, $title);
         $entity->setIsEmbargoed($embargoed);
+        $this->addReference($pid, $entity);
         $this->manager->persist($entity);
         return $entity;
     }
@@ -48,6 +49,7 @@ class EmbargoedProgrammeFixture extends AbstractFixture
         $entity = new Episode($pid, $title);
         $entity->setParent($parent);
         $entity->setIsEmbargoed($embargoed);
+        $this->addReference($pid, $entity);
         $this->manager->persist($entity);
         return $entity;
     }
