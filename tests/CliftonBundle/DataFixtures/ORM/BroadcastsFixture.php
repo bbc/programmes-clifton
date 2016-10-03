@@ -37,13 +37,16 @@ class BroadcastsFixture extends AbstractFixture implements DependentFixtureInter
         $version2Embargoed = $this->buildVersion('v0000012', $episode2Embargoed);
 
         // build broadcasts
-        $broadcast1 = $this->buildBroadcast('brdcst001', $version1, $service, '2015-08-01 00:00:00', '2015-08-01 01:00:00');
-        $broadcast2 = $this->buildBroadcast('brdcst002', $version1, $service, '2015-08-02 00:00:00', '2015-08-02 01:00:00');
-        $broadcast3 = $this->buildBroadcast('brdcst003', $version1, $service, '2015-08-03 00:00:00', '2015-08-03 01:00:00');
-        $broadcast4 = $this->buildBroadcast('brdcst004', $version1, $service, '2015-10-01 00:00:00', '2015-10-01 01:00:00');
-        $broadcast5 = $this->buildBroadcast('brdcst005', $version1, $service, '2016-01-18 00:00:00', '2015-01-18 01:00:00');
-        $broadcast6 = $this->buildBroadcast('brdcst006', $version2Embargoed, $service, '2016-01-20 00:00:00', '2015-01-20 01:00:00');
-        $broadcast6 = $this->buildBroadcast('brdcst007', $version2Embargoed, $service, '2016-03-03 00:00:00', '2015-03-03 01:00:00');
+        $this->buildBroadcast('brdcst001', $version1, $service, '2015-08-01 00:00:00', '2015-08-01 01:00:00');
+        $this->buildBroadcast('brdcst002', $version1, $service, '2015-08-02 00:00:00', '2015-08-02 01:00:00');
+        $this->buildBroadcast('brdcst003', $version1, $service, '2015-08-03 00:00:00', '2015-08-03 01:00:00');
+        $this->buildBroadcast('brdcst004', $version1, $service, '2015-10-01 00:00:00', '2015-10-01 01:00:00');
+        $this->buildBroadcast('brdcst005', $version1, $service, '2016-01-18 00:00:00', '2015-01-18 01:00:00');
+        $this->buildBroadcast('brdcst006', $version2Embargoed, $service, '2016-01-20 00:00:00', '2015-01-20 01:00:00');
+        $this->buildBroadcast('brdcst007', $version2Embargoed, $service, '2016-03-03 00:00:00', '2015-03-03 01:00:00');
+
+        // build webcasts
+        $this->buildBroadcast('brdcst008', $version1, null, '2016-07-02 00:00:00', '2016-07-02 01:00:00');
 
         $this->manager->flush();
     }
@@ -53,6 +56,7 @@ class BroadcastsFixture extends AbstractFixture implements DependentFixtureInter
         $entity = new Broadcast($pid, $version, new DateTime($start), new DateTime($end));
         $entity->setProgrammeItem($version->getProgrammeItem());
         $entity->setService($service);
+        $entity->setIsWebcast(is_null($service));
         $this->manager->persist($entity);
         return $entity;
     }

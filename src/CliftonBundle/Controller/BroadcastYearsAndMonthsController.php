@@ -19,8 +19,8 @@ class BroadcastYearsAndMonthsController extends BaseApsController
             throw $this->createNotFoundException('ProgrammeContainer Not Found');
         }
 
-        $broadcastsService = $this->get('pps.broadcasts_service');
-        $yearsAndMonths = $broadcastsService->findAllYearsAndMonthsByProgramme($programme);
+        $bs = $this->get('pps.broadcasts_service');
+        $yearsAndMonths = $bs->findBroadcastYearsAndMonthsByProgramme($programme);
 
         $years = [];
         foreach ($yearsAndMonths as $year => $months) {
