@@ -6,6 +6,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Contribution;
 use BBC\ProgrammesPagesService\Domain\Entity\Contributor;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
+use BBC\ProgrammesPagesService\Domain\Entity\MusicSegment;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\Segment;
 use BBC\ProgrammesPagesService\Domain\Entity\SegmentEvent;
@@ -125,7 +126,7 @@ class FindByPidVersionMapperAdditionalHydrationTest extends PHPUnit_Framework_Te
             null
         );
 
-        $segment = new Segment(
+        $segment = new MusicSegment(
             1,
             new Pid('sg0000001'),
             'Music',
@@ -146,7 +147,7 @@ class FindByPidVersionMapperAdditionalHydrationTest extends PHPUnit_Framework_Te
         );
 
         $mapper = new FindByPidVersionMapper();
-        $apsObject = $mapper->getApsObject($version, [], [$segmentEvent], [], []);
+        $apsObject = $mapper->getApsObject($version, [], [$segmentEvent], []);
 
         $expectedSegmentEvents = [
             (object) [
@@ -159,29 +160,36 @@ class FindByPidVersionMapperAdditionalHydrationTest extends PHPUnit_Framework_Te
                 'position' => null,
                 'is_chapter' => false,
                 'has_snippet' => false,
-                'segment' =>
-                    (object) [
-                        'type' => 'Music',
-                        'pid' => 'sg0000001',
-                        'duration' => 180,
-                        'primary_contributor' => (object) [
+                'segment' => (object) [
+                    'type' => 'Music',
+                    'pid' => 'sg0000001',
+                    'duration' => 180,
+                    'primary_contributor' => (object) [
+                        'pid' => 'p02z9mdz',
+                        'name' => 'Benjamin Fry',
+                        'musicbrainz_gid' => null,
+                    ],
+                    'contributions' => [
+                        (object) [
                             'pid' => 'p02z9mdz',
                             'name' => 'Benjamin Fry',
+                            'role' => 'Presenter',
                             'musicbrainz_gid' => null,
                         ],
-                        'contributions' => [
-                            (object) [
-                                'pid' => 'p02z9mdz',
-                                'name' => 'Benjamin Fry',
-                                'role' => 'Presenter',
-                                'musicbrainz_gid' => null,
-                            ],
-                        ],
-                        'title' => 'Segment Title',
-                        'short_synopsis' => 'Segment synopses',
-                        'medium_synopsis' => null,
-                        'long_synopsis' => null,
                     ],
+                    'title' => 'Segment Title',
+                    'short_synopsis' => 'Segment synopses',
+                    'medium_synopsis' => null,
+                    'long_synopsis' => null,
+                    'artist' => 'Benjamin Fry',
+                    'track_title' => 'Segment Title',
+                    'track_number' => null,
+                    'publisher' => null,
+                    'record_label' => null,
+                    'release_title' => null,
+                    'record_id' => null,
+                    'catalogue_number' => null,
+                ],
             ],
         ];
 

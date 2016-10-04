@@ -4,10 +4,7 @@ namespace BBC\CliftonBundle\ApsMapper;
 
 use BBC\ProgrammesPagesService\Domain\Entity\Broadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Contribution;
-use BBC\ProgrammesPagesService\Domain\Entity\MusicSegment;
 use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
-use BBC\ProgrammesPagesService\Domain\Entity\Segment;
-use BBC\ProgrammesPagesService\Domain\Entity\SegmentEvent;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use BBC\ProgrammesPagesService\Domain\Entity\VersionType;
@@ -17,7 +14,7 @@ use stdClass;
 class FindByPidVersionMapper implements MapperInterface
 {
     use Traits\ProgrammeUtilitiesTrait;
-    use Traits\SegmentUtilitiesTrait;
+    use Traits\VersionUtilitiesTrait;
 
     /**
      * @param Version $version
@@ -51,7 +48,7 @@ class FindByPidVersionMapper implements MapperInterface
                 return $vt->getName();
             }, $version->getVersionTypes()),
             'contributors' => array_map([$this, 'getContributor'], $contributions),
-            'segment_events' => array_map([$this, 'getSegmentEvent'], $segmentEvents),
+            'segment_events' => array_map([$this, 'mapVersionSegmentEvent'], $segmentEvents),
             'broadcasts' => array_map([$this, 'getBroadcast'], $broadcasts),
             'availabilities' => [], // Not used anymore
         ];
@@ -88,22 +85,6 @@ class FindByPidVersionMapper implements MapperInterface
         return (object) $output;
     }
 
-    private function getSegmentEvent(SegmentEvent $segmentEvent)
-    {
-        return (object) [
-            'title' => $segmentEvent->getTitle(),
-            'pid' => $segmentEvent->getPid(),
-            'short_synopsis' => $segmentEvent->getSynopses()->getShortSynopsis(),
-            'medium_synopsis' => $segmentEvent->getSynopses()->getMediumSynopsis(),
-            'long_synopsis' => $segmentEvent->getSynopses()->getLongSynopsis(),
-            'version_offset' => $segmentEvent->getOffset(),
-            'position' => $segmentEvent->getPosition(),
-            'is_chapter' => $segmentEvent->isChapter(),
-            'has_snippet' => false,
-            'segment' => $this->getSegment($segmentEvent->getSegment()),
-        ];
-    }
-
     private function getBroadcast(Broadcast $broadcast)
     {
         return (object) [
@@ -125,72 +106,6 @@ class FindByPidVersionMapper implements MapperInterface
             'key' => $service->getNetwork()->getUrlKey() ?: "",
             'title' => $service->getShortName(),
         ];
-    }
-
-    private function getSegment(Segment $segment)
-    {
-        $output = [
-            'type' => $segment->getType(),
-            'pid' => $segment->getPid(),
-            'duration' => $segment->getDuration(),
-        ];
-
-        $contributions = $segment->getContributions();
-
-        if (!empty($contributions)) {
-            $output['primary_contributor'] = $this->getPrimaryContributor($contributions[0]);
-        }
-
-        if ($segment instanceof MusicSegment) {
-            /** @var MusicSegment $segment */
-
-            if (!empty($contributions)) {
-                $primaryContribution = $contributions[0];
-                $output['primary_contributor'] = $this->getPrimaryContributor($primaryContribution);
-                $output['artist'] = $primaryContribution->getContributor()->getName();
-            } else {
-                $output['artist'] = null;
-            }
-
-            $output['track_title'] = $this->mapSegmentTitle($segment->getTitle());
-            $output['track_number'] = $segment->getTrackNumber();
-            $output['publisher'] = $segment->getPublisher();
-            $output['record_label'] = $segment->getRecordLabel();
-            $output['release_title'] = $segment->getReleaseTitle();
-            $output['record_id'] = $segment->getMusicRecordId();
-            $output['catalogue_number'] = $segment->getCatalogueNumber();
-        }
-
-        $output['contributions'] = array_map([$this, 'getContribution'], $contributions);
-        $output['title'] = $this->mapSegmentTitle($segment->getTitle());
-        $output['short_synopsis'] = $segment->getSynopses()->getShortSynopsis() ?: null;
-        $output['medium_synopsis'] = $segment->getSynopses()->getMediumSynopsis() ?: null;
-        $output['long_synopsis'] = $segment->getSynopses()->getLongSynopsis() ?: null;
-
-        return (object) $output;
-    }
-
-    private function getContribution(Contribution $contribution)
-    {
-        $output = [
-            'pid' => $contribution->getContributor()->getPid(),
-            'name' => $contribution->getContributor()->getName(),
-            'role' => $contribution->getCreditRole(),
-            'musicbrainz_gid' => $contribution->getContributor()->getMusicBrainzId() ?: null,
-        ];
-
-        return (object) $output;
-    }
-
-    private function getPrimaryContributor(Contribution $contribution)
-    {
-        $output = [
-            'pid' => (string) $contribution->getContributor()->getPid(),
-            'musicbrainz_gid' => $contribution->getContributor()->getMusicBrainzId() ?: null,
-            'name' => $contribution->getContributor()->getName(),
-        ];
-
-        return (object) $output;
     }
 
     private function assertIsVersion($item)

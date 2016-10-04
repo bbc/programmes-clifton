@@ -20,7 +20,6 @@ class FindByPidSegmentMapper implements MapperInterface
         $this->assertIsSegment($segment);
 
         $mappedSegmentEvents = array_map([$this, 'getSegmentEvent'], $segmentEvents);
-
         $output = $this->mapSegment($segment, $mappedSegmentEvents);
 
         return (object) $output;

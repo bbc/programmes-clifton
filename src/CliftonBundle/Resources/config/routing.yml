@@ -8,6 +8,12 @@ aps.find_by_pid:
     defaults: { _controller: CliftonBundle:FindByPid:findByPid }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
+aps.version_segment_events:
+    path: /aps/programmes/{pid}/segments.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:VersionSegmentEvents:segmentEvents }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
 aps.programme_children:
     path: /aps/programmes/{pid}/children.json
     methods:  [GET]
