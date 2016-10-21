@@ -31,7 +31,6 @@ def create_cronjob(frequency, user, cronjob_command):
 
 def substitute_data(data):
     return {
-        'database_host': data["configuration"]["database_host"],
         'database_name': data["configuration"]["database_name"],
         'database_user': data["configuration"]["database_user"],
         'database_password': data["secure_configuration"]["database_password"],

@@ -7,6 +7,7 @@
             "install": false
         },
         "requires": [
+            "programmes-rds-loadbalancer",
             "php70u-mbstring",
             "php70u-mysqlnd",
             "php70u-pdo",

@@ -26,12 +26,24 @@ log_group_name = $environment-clifton/php-error
 log_stream_name = $component_name-{instance_id}
 datetime_format = %d-%b-%Y %H:%M:%S
 
-
 [clifton/app-error]
 file = /var/www/programmes-clifton/tmp/logs/prod.log
 log_group_name = $environment-clifton/app-error
 log_stream_name = $component_name-{instance_id}
 datetime_format = %Y-%m-%d %H:%M:%S
+
+[clifton/haproxy]
+file = /var/log/haproxy.log
+log_group_name = $environment-clifton/haproxy
+log_stream_name = $component_name-{instance_id}
+datetime_format = %b %d %H:%M:%S
+
+[clifton/programmes-rds-loadbalancer]
+file = /var/log/programmes-rds-loadbalancer/main.log
+log_group_name = $environment-clifton/rds-loadbalancer
+log_stream_name = $component_name-{instance_id}
+datetime_format = %d-%b-%Y %H:%M:%S
+time_zone=UTC
 """
 
 
