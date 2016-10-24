@@ -26,6 +26,15 @@ aps.episodes:
     defaults: { _controller: CliftonBundle:BroadcastYearsAndMonths:yearsAndMonths }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
+aps.broadcasts_for_month:
+    path: /aps/programmes/{pid}/episodes/{year}/{month}.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:CollapsedBroadcastsForMonth:collapsedBroadcastsForMonth }
+    requirements:
+        pid: '[0-9b-df-hj-np-tv-z]{8,15}'
+        year: '[1-2][0-9]{3}'
+        month: '0?[1-9]|1[0-2]'
+
 aps.music_artist:
     path: /aps/programmes/music/artists/{musicBrainzId}.json
     methods:  [GET]

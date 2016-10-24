@@ -115,29 +115,6 @@ class FindByPidProgrammeMapper implements MapperInterface
         return (object) ['programme' => (object) $output];
     }
 
-    private function getDisplayTitle(Programme $programme)
-    {
-        // Nasty but copying logic from:
-        // https://repo.dev.bbc.co.uk/services/aps/trunk/lib/Helpers/Application.pm
-
-        $titles = [];
-        if ($this->isContainer($programme)) {
-            $titles[] = $this->getProgrammeTitle($programme->getTitle());
-        } else {
-            foreach ($this->getHierarchy($programme) as $entity) {
-                if ($this->isContainer($entity)) {
-                    $titles[] = $entity->getTitle();
-                }
-            }
-            $titles[] = $this->getProgrammeTitle($programme->getTitle());
-        }
-
-        return (object) [
-            'title' => array_shift($titles),
-            'subtitle' => implode(', ', $titles),
-        ];
-    }
-
     private function getOwnership(Programme $programme)
     {
         $mb = $programme->getMasterBrand();
@@ -240,19 +217,5 @@ class FindByPidProgrammeMapper implements MapperInterface
         $output['sameAs'] = null;
 
         return (object) $output;
-    }
-
-    private function isContainer(Programme $programme): bool
-    {
-        return in_array($this->getProgrammeType($programme), ['brand', 'series']);
-    }
-
-    private function getHierarchy(Programme $programme): array
-    {
-        $hierarchy = [$programme];
-        while ($hierarchy[0]->getParent()) {
-            array_unshift($hierarchy, $hierarchy[0]->getParent());
-        }
-        return $hierarchy;
     }
 }

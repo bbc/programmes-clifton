@@ -14,7 +14,6 @@ use InvalidArgumentException;
 
 trait ProgrammeUtilitiesTrait
 {
-
     protected function assertIsProgramme($item)
     {
         if (!($item instanceof Programme)) {
@@ -71,6 +70,44 @@ trait ProgrammeUtilitiesTrait
 
         $mediaType = $programme->getMediaType();
         return $mediaType != MediaTypeEnum::UNKNOWN ? $mediaType : null;
+    }
+
+    protected function getDisplayTitle(Programme $programme)
+    {
+        // Nasty but copying logic from:
+        // https://repo.dev.bbc.co.uk/services/aps/trunk/lib/Helpers/Application.pm
+
+        $titles = [];
+        if ($this->isContainer($programme)) {
+            $titles[] = $this->getProgrammeTitle($programme->getTitle());
+        } else {
+            foreach ($this->getHierarchy($programme) as $entity) {
+                if ($this->isContainer($entity)) {
+                    $titles[] = $entity->getTitle();
+                }
+            }
+            $titles[] = $this->getProgrammeTitle($programme->getTitle());
+        }
+
+        return (object) [
+            'title'    => array_shift($titles),
+            'subtitle' => implode(', ', $titles),
+        ];
+    }
+
+    protected function isContainer(Programme $programme): bool
+    {
+        return in_array($this->getProgrammeType($programme), ['brand', 'series']);
+    }
+
+    protected function getHierarchy(Programme $programme): array
+    {
+        $hierarchy = [$programme];
+        while ($hierarchy[0]->getParent()) {
+            array_unshift($hierarchy, $hierarchy[0]->getParent());
+        }
+
+        return $hierarchy;
     }
 
     protected function getProgrammeType($entity): string
