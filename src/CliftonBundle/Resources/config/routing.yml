@@ -51,6 +51,12 @@ aps.music_artist_chart:
     methods:  [GET]
     defaults: { _controller: CliftonBundle:MusicArtists:chart }
 
+aps.children_series_of_container:
+    path: /aps/programmes/{pid}/series.json
+    methods: [GET]
+    defaults: { _controller: CliftonBundle:ChildrenSeriesOfContainer:childrenSeriesOfContainer }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
 test.availability:
     path: /availability/{pid}.json
     methods:  [GET]

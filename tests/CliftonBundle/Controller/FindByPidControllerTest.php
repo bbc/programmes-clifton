@@ -210,6 +210,7 @@ class FindByPidControllerTest extends BaseWebTestCase
         $this->assertArrayHasKey('contributions', $jsonContent['segment']);
         $this->assertEquals(0, count($jsonContent['segment']['contributions']));
     }
+
     public function testFindByPidSegmentEvent()
     {
         $this->loadFixtures(['SegmentEventsFixture']);
