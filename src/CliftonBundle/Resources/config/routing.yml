@@ -38,7 +38,13 @@ aps.broadcasts_for_month:
 aps.latest_broadcast_for_programme:
     path: /aps/programmes/{pid}/episodes/last.json
     methods:  [GET]
-    defaults: { _controller: CliftonBundle:LatestCollapsedBroadcastForProgramme:latestCollapsedBroadcastForProgramme }
+    defaults: { _controller: CliftonBundle:CollapsedBroadcastLatestForProgramme:collapsedBroadcastLatestForProgramme }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
+aps.upcoming_broadcast_for_programme:
+    path: /aps/programmes/{pid}/episodes/upcoming.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:CollapsedBroadcastUpcomingForProgramme:collapsedBroadcastUpcomingForProgramme }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
 aps.music_artist:

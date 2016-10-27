@@ -6,9 +6,9 @@ use BBC\CliftonBundle\ApsMapper\CollapsedBroadcastMapper;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Symfony\Component\HttpFoundation\Request;
 
-class LatestCollapsedBroadcastForProgrammeController extends BaseApsController
+class CollapsedBroadcastLatestForProgrammeController extends BaseApsController
 {
-    public function latestCollapsedBroadcastForProgrammeAction(Request $request, string $pid)
+    public function collapsedBroadcastLatestForProgrammeAction(Request $request, string $pid)
     {
         $pid = new Pid($pid);
 
