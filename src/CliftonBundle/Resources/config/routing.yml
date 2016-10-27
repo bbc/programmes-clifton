@@ -35,6 +35,12 @@ aps.broadcasts_for_month:
         year: '[1-2][0-9]{3}'
         month: '0?[1-9]|1[0-2]'
 
+aps.latest_broadcast_for_programme:
+    path: /aps/programmes/{pid}/episodes/last.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:LatestCollapsedBroadcastForProgramme:latestCollapsedBroadcastForProgramme }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
 aps.music_artist:
     path: /aps/programmes/music/artists/{musicBrainzId}.json
     methods:  [GET]

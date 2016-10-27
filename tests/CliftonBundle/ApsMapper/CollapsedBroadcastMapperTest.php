@@ -2,7 +2,7 @@
 
 namespace Tests\BBC\CliftonBundle\ApsMapper;
 
-use BBC\CliftonBundle\ApsMapper\CollapsedBroadcastsForMonthMapper;
+use BBC\CliftonBundle\ApsMapper\CollapsedBroadcastMapper;
 use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
@@ -23,12 +23,12 @@ use DateTimeImmutable;
 use PHPUnit_Framework_TestCase;
 use InvalidArgumentException;
 
-class CollapsedBroadcastForMonthMapperTest extends PHPUnit_Framework_TestCase
+class CollapsedBroadcastMapperTest extends PHPUnit_Framework_TestCase
 {
     /** @dataProvider generatingRemainingTimeDataProvider */
     public function testGeneratingRemainingTime($modify, $result)
     {
-        $mapper = new CollapsedBroadcastsForMonthMapper();
+        $mapper = new CollapsedBroadcastMapper();
 
         $network = $this->createNetwork(1);
         $service = $this->createService($network);
@@ -121,7 +121,7 @@ class CollapsedBroadcastForMonthMapperTest extends PHPUnit_Framework_TestCase
             ],
         ];
 
-        $mapper = new CollapsedBroadcastsForMonthMapper();
+        $mapper = new CollapsedBroadcastMapper();
         $apsObject = $mapper->getApsObject($broadcast1);
 
         $this->assertEquals($expectedResult, $apsObject);
@@ -195,7 +195,7 @@ class CollapsedBroadcastForMonthMapperTest extends PHPUnit_Framework_TestCase
             ],
         ];
 
-        $mapper = new CollapsedBroadcastsForMonthMapper();
+        $mapper = new CollapsedBroadcastMapper();
         $apsObject = $mapper->getApsObject($broadcast1);
 
         $this->assertEquals($expectedResult, $apsObject);
@@ -273,7 +273,7 @@ class CollapsedBroadcastForMonthMapperTest extends PHPUnit_Framework_TestCase
             ],
         ];
 
-        $mapper = new CollapsedBroadcastsForMonthMapper();
+        $mapper = new CollapsedBroadcastMapper();
         $apsObject = $mapper->getApsObject($broadcast1);
 
         $this->assertEquals($expectedResult, $apsObject);
@@ -286,7 +286,7 @@ class CollapsedBroadcastForMonthMapperTest extends PHPUnit_Framework_TestCase
     {
         $image = new Image(new Pid('p01m5mss'), 'Title', 'ShortSynopsis', 'ShortSynopsis', 'standard', 'jpg');
 
-        $mapper = new CollapsedBroadcastsForMonthMapper();
+        $mapper = new CollapsedBroadcastMapper();
         $mapper->getApsObject($image);
     }
 

@@ -11,7 +11,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use InvalidArgumentException;
 use DateTimeImmutable;
 
-class CollapsedBroadcastsForMonthMapper implements MapperInterface
+class CollapsedBroadcastMapper implements MapperInterface
 {
     use Traits\ProgrammeUtilitiesTrait;
     use Traits\SegmentUtilitiesTrait;
@@ -121,11 +121,12 @@ class CollapsedBroadcastsForMonthMapper implements MapperInterface
 
         $action = $this->getMediaType($programme) === 'audio' ? 'listen' : 'watch';
 
+        $output['expires'] = $this->formatDateTime($programme->getStreamableUntil());
         $output['availability'] = 'Available to ' . $action;
 
         if (!is_null($programme->getStreamableUntil())) {
             $remainingSeconds = $programme->getStreamableUntil()->getTimestamp() -
-                (new DateTimeImmutable('now'))->getTimestamp();
+                (new DateTimeImmutable())->getTimestamp();
 
             // If over 400 days, ignore time left, according to APS
             // https://repo.dev.bbc.co.uk/services/aps/trunk/lib/Models/Availability.pm
@@ -148,8 +149,10 @@ class CollapsedBroadcastsForMonthMapper implements MapperInterface
                     $unit .= 's';
                 }
 
-                $output['expires'] = $this->formatDateTime($programme->getStreamableUntil());
                 $output['availability'] = $remainingTime . ' ' . $unit . ' left to ' . $action;
+            } // If over 400 days, remove 'expires' field
+            else {
+                unset($output['expires']);
             }
         }
 

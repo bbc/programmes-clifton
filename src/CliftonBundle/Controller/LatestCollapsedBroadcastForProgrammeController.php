@@ -5,16 +5,11 @@ namespace BBC\CliftonBundle\Controller;
 use BBC\CliftonBundle\ApsMapper\CollapsedBroadcastMapper;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
-class CollapsedBroadcastsForMonthController extends BaseApsController
+class LatestCollapsedBroadcastForProgrammeController extends BaseApsController
 {
-    public function collapsedBroadcastsForMonthAction(
-        Request $request,
-        string $pid,
-        string $year,
-        string $month
-    ): JsonResponse {
+    public function latestCollapsedBroadcastForProgrammeAction(Request $request, string $pid)
+    {
         $pid = new Pid($pid);
 
         // Only valid for Brands and Series
@@ -24,13 +19,9 @@ class CollapsedBroadcastsForMonthController extends BaseApsController
         }
 
         $bs = $this->get('pps.collapsed_broadcasts_service');
-        $broadcastsByMonth = $bs->findByProgrammeAndMonth($programme, $year, $month, $bs::NO_LIMIT);
+        $latestBroadcast = $bs->findPastByProgramme($programme, 1);
 
-        if (empty($broadcastsByMonth)) {
-            throw $this->createNotFoundException('Not Found');
-        }
-
-        $mappedBroadcasts = $this->mapManyApsObjects(new CollapsedBroadcastMapper(), $broadcastsByMonth);
+        $mappedBroadcasts = $this->mapManyApsObjects(new CollapsedBroadcastMapper(), $latestBroadcast);
 
         return $this->json(['broadcasts' => $mappedBroadcasts]);
     }
