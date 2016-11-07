@@ -25,7 +25,7 @@ class CollapsedBroadcastUpcomingForProgrammeControllerTest extends BaseWebTestCa
         $bs->expects($this->once())->method('findUpcomingByProgramme')
             ->with(
                 $this->callback($this->isProgrammeWithPidFn('b010t19z')),
-                10,
+                30,
                 1
             )
             ->willReturn([
@@ -88,9 +88,9 @@ class CollapsedBroadcastUpcomingForProgrammeControllerTest extends BaseWebTestCa
     public function upcomingPaginationProvider()
     {
         return [
-            [ '', '', 10, 1, 0], // Use default
-            [ '-1', '-1', 10, 1, 0], // Use default - invalid negative numbers
-            [ 'a', 'a', 10, 1, 0], // Use default - invalid alphabet inputs
+            [ '', '', 30, 1, 0], // Use default
+            [ '-1', '-1', 30, 1, 0], // Use default - invalid negative numbers
+            [ 'a', 'a', 30, 1, 0], // Use default - invalid alphabet inputs
 
             ['5', '3', 5, 3, 10], // Custom page and limit
         ];
