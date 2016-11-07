@@ -13,7 +13,7 @@ class ProgrammeChildrenController extends BaseApsController
     {
         $pid = new Pid($pid);
         $limit = $this->queryParamToInt($request, 'limit', 30, 1, 999);
-        $page = $this->queryParamToInt($request, 'page', 1, 1);
+        $page = $this->queryParamToInt($request, 'page', 1, 1, 99999);
 
         $programmesService = $this->get('pps.programmes_service');
 
