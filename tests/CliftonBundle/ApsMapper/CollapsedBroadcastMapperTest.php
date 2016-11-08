@@ -81,7 +81,7 @@ class CollapsedBroadcastMapperTest extends PHPUnit_Framework_TestCase
             'end' => '2014-06-20T12:45:00+01:00',
             'duration' => 5400,
             'service' => (object) [
-                'type' => 'audio',
+                'type' => 'tv',
                 'id' => 'network_1',
                 'key' => 'network1',
                 'title' => 'Network 1',
@@ -150,7 +150,7 @@ class CollapsedBroadcastMapperTest extends PHPUnit_Framework_TestCase
             'end' => '2014-06-20T12:45:00+01:00',
             'duration' => 5400,
             'service' => (object) [
-                'type' => 'audio',
+                'type' => 'tv',
                 'id' => 'network_1',
                 'key' => 'network1',
                 'title' => 'Network 1',
@@ -222,7 +222,7 @@ class CollapsedBroadcastMapperTest extends PHPUnit_Framework_TestCase
             'end' => '2014-06-20T12:45:00+01:00',
             'duration' => 5400,
             'service' => (object) [
-                'type' => 'audio',
+                'type' => 'tv',
                 'id' => 'network_1',
                 'key' => 'network1',
                 'title' => 'Network 1',
