@@ -165,7 +165,7 @@ class CollapsedBroadcastMapper implements MapperInterface
         $network = $service[0]->getNetwork();
 
         $output = [
-            'type' => $network->getType(),
+            'type' => $network->getMedium(),
             'id' => (string) $network->getNid(),
             'key' => (string) $network->getUrlKey(),
             'title' => $network->getName(),
