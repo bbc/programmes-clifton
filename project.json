@@ -23,6 +23,8 @@
             "opcache.memory_consumption": 64,
             "opcache.interned_strings_buffer": 16,
             "memory_limit": "128m",
+            "ssl.ssl_client_cert": "service-devs-staff",
+            "ssl.verify_client": "on",
             "max_execution_time": 30,
             "fpm.max_children": 375,
             "fpm.start_servers": 38,
