@@ -217,8 +217,11 @@ class CollapsedBroadcastMapper implements MapperInterface
             'bbc_news_channel_hd',
         ];
 
-        return array_values(array_filter($services, function($service) use ($blacklistedServices) {
-            return !in_array((string) $service->getSid(), $blacklistedServices);
-        }));
+        return array_values(array_filter(
+            $services,
+            function ($service) use ($blacklistedServices) {
+                return !in_array((string) $service->getSid(), $blacklistedServices);
+            }
+        ));
     }
 }
