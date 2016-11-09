@@ -159,10 +159,12 @@ class CollapsedBroadcastMapper implements MapperInterface
         return (object) $output;
     }
 
-    private function getServiceAndOutlets(array $service)
+    private function getServiceAndOutlets(array $services)
     {
+        $services = $this->filterBlacklistedServices($services);
+
         /** @var Network $network */
-        $network = $service[0]->getNetwork();
+        $network = $services[0]->getNetwork();
 
         $output = [
             'type' => $network->getMedium(),
@@ -171,10 +173,10 @@ class CollapsedBroadcastMapper implements MapperInterface
             'title' => $network->getName(),
         ];
 
-        if (count($service) >= 2 || (count($service) === 1 && $service[0]->getSid() != $network->getNid())) {
+        if (count($services) >= 2 || (count($services) === 1 && $services[0]->getSid() != $network->getNid())) {
             /** @var Service $s */
             $output['outlets'] = [];
-            foreach ($service as $s) {
+            foreach ($services as $s) {
                 $output['outlets'][] = (object) [
                     'id'    => (string) $s->getSid(),
                     'key'   => $s->getUrlKey(),
@@ -184,5 +186,39 @@ class CollapsedBroadcastMapper implements MapperInterface
         }
 
         return (object) $output;
+    }
+
+    private function filterBlacklistedServices(array $services)
+    {
+        // APS never ingested anything relating to these services as it could
+        // not handle the creation of these services without drastic
+        // rearchitecting because it couldn't handle the concept of a service
+        // that had the same name as one of its outlets, e.g. bbc_three and
+        // bbc_three_hd are both outlets of BBC Three.
+        //
+        // Eventually we should remove this filter, but for now we want to try
+        // and make the feeds as similar to APS as is reasonable to avoid noise
+        // in the diffs.
+        //
+        // There should never be a case of a broadcast that is only on one of
+        // these services and not on their non-HD counterpart, but just in case
+        // there is we should let that through as a having a single broadcast.
+        // This better than making making the page wobble
+
+        if (count($services) == 1) {
+            return $services;
+        }
+
+        $blacklistedServices = [
+            'bbc_three_hd',
+            'bbc_four_hd',
+            'cbbc_hd',
+            'cbeebies_hd',
+            'bbc_news_channel_hd',
+        ];
+
+        return array_values(array_filter($services, function($service) use ($blacklistedServices) {
+            return !in_array((string) $service->getSid(), $blacklistedServices);
+        }));
     }
 }

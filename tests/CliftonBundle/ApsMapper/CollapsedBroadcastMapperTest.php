@@ -87,9 +87,9 @@ class CollapsedBroadcastMapperTest extends PHPUnit_Framework_TestCase
                 'title' => 'Network 1',
                 'outlets' => [
                     (object) [
-                        'id' => 'service_0',
+                        'id' => 'service0',
                         'key' => 'service0_url_key',
-                        'title' => 'Short name 0',
+                        'title' => 'Short name service0',
                     ],
                 ],
             ],
@@ -131,8 +131,8 @@ class CollapsedBroadcastMapperTest extends PHPUnit_Framework_TestCase
     {
 
         $network = $this->createNetwork(1);
-        $service1 = $this->createService($network, 1);
-        $service2 = $this->createService($network, 2);
+        $service1 = $this->createService($network, 'service1');
+        $service2 = $this->createService($network, 'service2');
 
         $version = $this->createMock(Version::CLASS);
 
@@ -156,14 +156,14 @@ class CollapsedBroadcastMapperTest extends PHPUnit_Framework_TestCase
                 'title' => 'Network 1',
                 'outlets' => [
                     (object) [
-                        'id' => 'service_1',
+                        'id' => 'service1',
                         'key' => 'service1_url_key',
-                        'title' => 'Short name 1',
+                        'title' => 'Short name service1',
                     ],
                     (object) [
-                        'id' => 'service_2',
+                        'id' => 'service2',
                         'key' => 'service2_url_key',
-                        'title' => 'Short name 2',
+                        'title' => 'Short name service2',
                     ],
                 ],
             ],
@@ -204,7 +204,7 @@ class CollapsedBroadcastMapperTest extends PHPUnit_Framework_TestCase
     public function testMappingCollapsedBroadcastForMonthWithProgrammeParent()
     {
         $network = $this->createNetwork(1);
-        $service1 = $this->createService($network, 1);
+        $service1 = $this->createService($network, 'service1');
         $version = $this->createMock(Version::CLASS);
 
         $streamableFrom = new DateTimeImmutable("2014-06-20 10:45 Europe/London");
@@ -228,9 +228,9 @@ class CollapsedBroadcastMapperTest extends PHPUnit_Framework_TestCase
                 'title' => 'Network 1',
                 'outlets' => [
                     (object) [
-                        'id' => 'service_1',
+                        'id' => 'service1',
                         'key' => 'service1_url_key',
-                        'title' => 'Short name 1',
+                        'title' => 'Short name service1',
                     ],
                 ],
             ],
@@ -277,6 +277,34 @@ class CollapsedBroadcastMapperTest extends PHPUnit_Framework_TestCase
         $apsObject = $mapper->getApsObject($broadcast1);
 
         $this->assertEquals($expectedResult, $apsObject);
+    }
+
+    public function testBlacklistingServices()
+    {
+        $network = $this->createNetwork(1);
+        $services = [
+            $this->createService($network, 'service1'),
+            $this->createService($network, 'bbc_three_hd'),
+            $this->createService($network, 'bbc_four_hd'),
+            $this->createService($network, 'cbbc_hd'),
+            $this->createService($network, 'cbeebies_hd'),
+            $this->createService($network, 'bbc_news_channel_hd'),
+        ];
+
+        $version = $this->createMock(Version::CLASS);
+
+        $streamableFrom = new DateTimeImmutable("2014-06-20 10:45 Europe/London");
+        $streamableUntil = DateTimeImmutable::createFromMutable((new DateTime())->add(new DateInterval('PT10S')));
+
+        $episode = $this->createEpisode($streamableFrom, $streamableUntil);
+        $broadcast1 = $this->createBroadcast($version, $episode, $services);
+
+        $mapper = new CollapsedBroadcastMapper();
+        $apsObject = $mapper->getApsObject($broadcast1);
+
+        $expectedSids = ['service1'];
+
+        $this->assertEquals($expectedSids, array_column($apsObject->service->outlets, 'id'));
     }
 
     /**
@@ -341,14 +369,14 @@ class CollapsedBroadcastMapperTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    private function createService($network = null, $id = 0)
+    private function createService($network = null, $id = 'service0')
     {
         return new Service(
-            $id,
-            new Sid('service_' . $id),
+            0,
+            new Sid($id),
             'Service ' . $id,
             'Short name ' . $id,
-            'service' . $id . '_url_key',
+            $id . '_url_key',
             $network
         );
     }
