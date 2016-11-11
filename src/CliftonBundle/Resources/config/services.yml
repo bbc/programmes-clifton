@@ -27,6 +27,10 @@ services:
         class: BBC\ProgrammesPagesService\Service\BroadcastsService
         factory: [ '@pps.service_factory', 'getBroadcastsService']
 
+    pps.categories_service:
+        class: BBC\ProgrammesPagesService\Service\CategoriesService
+        factory: [ '@pps.service_factory', 'getCategoriesService']
+
     pps.collapsed_broadcasts_service:
         class: BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService
         factory: [ '@pps.service_factory', 'getCollapsedBroadcastsService']

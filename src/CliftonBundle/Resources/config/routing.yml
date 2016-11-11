@@ -69,6 +69,12 @@ aps.children_series_of_container:
     defaults: { _controller: CliftonBundle:ChildrenSeriesOfContainer:childrenSeriesOfContainer }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
+aps.pan_bbc_category_list:
+    path: /aps/programmes/{category}.json
+    methods: [GET]
+    defaults: { _controller: CliftonBundle:CategoriesList:panBbcCategoriesList }
+    requirements: { category: 'formats|genres' }
+
 test.availability:
     path: /availability/{pid}.json
     methods:  [GET]
