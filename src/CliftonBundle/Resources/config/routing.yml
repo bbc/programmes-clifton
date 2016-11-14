@@ -90,3 +90,8 @@ debug:
     path: /debug/{serviceName}/{serviceMethod}
     defaults:
         _controller: CliftonBundle:Debug:debug
+
+debug.descendants:
+    path: /debug-descendants/{pid}.json
+    defaults:
+        _controller: CliftonBundle:Debug:descendants

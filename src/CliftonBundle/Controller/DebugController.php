@@ -55,6 +55,30 @@ class DebugController extends BaseApsController
         }
     }
 
+    public function descendantsAction(Request $request, $pid)
+    {
+        $qText = <<<QUERY
+SELECT pid FROM core_entity
+WHERE ancestry LIKE concat((SELECT id FROM core_entity WHERE pid = :pid), ',%')
+AND type IN ('brand','series','episode','clip')
+AND is_embargoed = 0
+AND pid != :pid
+ORDER BY pid
+QUERY;
+
+        $rsm = new \Doctrine\ORM\Query\ResultSetMapping();
+        $rsm->addScalarResult('pid', 'pid');
+
+        $result = $this->get('doctrine')->getManager()->createNativeQuery($qText, $rsm)
+            ->setParameter('pid', $pid)
+            ->getScalarResult();
+
+        return $this->json([
+            'count' => count($result),
+            'descendants' => array_column($result, 'pid'),
+        ]);
+    }
+
     private function htmlDump($variable)
     {
         $cloner = new VarCloner();
