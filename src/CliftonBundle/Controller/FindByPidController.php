@@ -92,9 +92,12 @@ class FindByPidController extends BaseApsController
     private function versionResponse(Version $version): JsonResponse
     {
         // Contributors
+        $contributions = [];
         $contributionsService = $this->get('pps.contributions_service');
-        $contributions = $contributionsService->findByContributionToVersion($version);
-        if (!$contributions) {
+
+        if ($version->getContributionCount()) {
+            $contributions = $contributionsService->findByContributionToVersion($version);
+        } elseif ($version->getProgrammeItem()->getContributionCount()) {
             // If no contributions on Version, try on the Programme
             $contributions = $contributionsService->findByContributionToProgramme(
                 $version->getProgrammeItem()
