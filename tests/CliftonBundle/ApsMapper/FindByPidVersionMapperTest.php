@@ -27,6 +27,7 @@ class FindByPidVersionMapperTest extends PHPUnit_Framework_TestCase
             false,
             false,
             0,
+            22,
             101,
             'GuidanceWarnings',
             true,

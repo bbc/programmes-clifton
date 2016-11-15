@@ -95,9 +95,9 @@ class FindByPidController extends BaseApsController
         $contributions = [];
         $contributionsService = $this->get('pps.contributions_service');
 
-        if ($version->getContributionCount()) {
+        if ($version->getContributionsCount()) {
             $contributions = $contributionsService->findByContributionToVersion($version);
-        } elseif ($version->getProgrammeItem()->getContributionCount()) {
+        } elseif ($version->getProgrammeItem()->getContributionsCount()) {
             // If no contributions on Version, try on the Programme
             $contributions = $contributionsService->findByContributionToProgramme(
                 $version->getProgrammeItem()

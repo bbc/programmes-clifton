@@ -50,6 +50,7 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
             new Pid($sPid1),
             'speech',
             new Synopses('', '', ''),
+            22,
             $sTitle1
         );
 
@@ -65,6 +66,7 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
             new Pid($sPid2),
             'music',
             new Synopses('A short synopsis', '', ''),
+            22,
             $sTitle2,
             $duration
         );
@@ -185,6 +187,7 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
             false,
             false,
             false,
+            22,
             0,
             0,
             0,
@@ -208,6 +211,7 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
             false,
             false,
             false,
+            22,
             'audio',
             0,
             0,
@@ -222,7 +226,8 @@ class MusicArtistsMapperTest extends PHPUnit_Framework_TestCase
             $episode,
             false,
             false,
-            0
+            0,
+            22
         );
     }
 }

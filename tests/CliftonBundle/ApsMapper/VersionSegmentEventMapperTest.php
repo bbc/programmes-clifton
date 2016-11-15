@@ -44,6 +44,7 @@ class VersionSegmentEventMapperTest extends PHPUnit_Framework_TestCase
             new Pid('sg0000001'),
             'speech',
             new Synopses('Segment synopses'),
+            22,
             'Segment Title',
             180,
             [
@@ -122,6 +123,7 @@ class VersionSegmentEventMapperTest extends PHPUnit_Framework_TestCase
             new Pid('sg0000001'),
             'Music',
             new Synopses('Segment synopses'),
+            22,
             'Segment Title',
             180,
             [

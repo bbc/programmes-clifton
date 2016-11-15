@@ -73,6 +73,7 @@ class FindByPidSegmentMapperAdditionalHydrationTest extends PHPUnit_Framework_Te
                         false,
                         false,
                         false,
+                        22,
                         '',
                         0,
                         0,
@@ -81,7 +82,8 @@ class FindByPidSegmentMapperAdditionalHydrationTest extends PHPUnit_Framework_Te
                     ),
                     false,
                     false,
-                    0
+                    0,
+                    22
                 ),
                 $segment,
                 new Synopses('', '', '')

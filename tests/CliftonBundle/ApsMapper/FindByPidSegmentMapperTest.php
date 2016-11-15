@@ -27,6 +27,7 @@ class FindByPidSegmentMapperTest extends PHPUnit_Framework_TestCase
                 'medium',
                 'long'
             ),
+            22,
             'Female conductors',
             1380,
             []
@@ -72,6 +73,7 @@ class FindByPidSegmentMapperTest extends PHPUnit_Framework_TestCase
             new Pid('p03g4kqr'),
             'classical',
             new Synopses('', '', ''),
+            22,
             'Battle of Britain; March introduction – excerpt',
             167,
             $contributions,

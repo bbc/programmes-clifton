@@ -34,6 +34,7 @@ class FindByPidSegmentEventMapperTest extends PHPUnit_Framework_TestCase
                     true,
                     true,
                     true,
+                    22,
                     'audio',
                     0,
                     0,
@@ -43,6 +44,7 @@ class FindByPidSegmentEventMapperTest extends PHPUnit_Framework_TestCase
                 true,
                 true,
                 0,
+                22,
                 4
             ),
             new Segment(
@@ -54,6 +56,7 @@ class FindByPidSegmentEventMapperTest extends PHPUnit_Framework_TestCase
                     'segment medium',
                     'segment long'
                 ),
+                22,
                 'segment title',
                 8,
                 []

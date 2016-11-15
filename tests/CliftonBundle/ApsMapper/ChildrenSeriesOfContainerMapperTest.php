@@ -27,6 +27,7 @@ class ChildrenSeriesOfContainerMapperTest extends PHPUnit_Framework_TestCase
             false,
             false,
             false,
+            9,
             2,
             3,
             4,
