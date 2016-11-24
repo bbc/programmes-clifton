@@ -10,6 +10,7 @@
             "programmes-rds-loadbalancer",
             "php70u-mbstring",
             "php70u-mysqlnd",
+            "php70u-pecl-apcu",
             "php70u-pdo",
             "cosmos-ca-chains",
             "cosmos-ca-tools",
