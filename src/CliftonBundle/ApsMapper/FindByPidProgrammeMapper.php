@@ -40,9 +40,9 @@ class FindByPidProgrammeMapper implements MapperInterface
         }
 
         // Ownership is only added if it is present
-        $ownership = $this->getOwnership($programme);
+        $ownership = $this->getProgrammeOwnership($programme);
         if ($ownership) {
-            $output['ownership'] = $this->getOwnership($programme);
+            $output['ownership'] = $this->getProgrammeOwnership($programme);
         }
 
         // Parents and Peers are only added to items with parents
@@ -102,9 +102,9 @@ class FindByPidProgrammeMapper implements MapperInterface
         }
 
         // Ownership is only added if it is present
-        $ownership = $this->getOwnership($programme);
+        $ownership = $this->getProgrammeOwnership($programme);
         if ($ownership) {
-            $output['ownership'] = $this->getOwnership($programme);
+            $output['ownership'] = $this->getProgrammeOwnership($programme);
         }
 
         // Parents and Peers are only added to items with parents
@@ -113,39 +113,6 @@ class FindByPidProgrammeMapper implements MapperInterface
         }
 
         return (object) ['programme' => (object) $output];
-    }
-
-    private function getOwnership(Programme $programme)
-    {
-        $mb = $programme->getMasterBrand();
-        if (!$mb) {
-            return null;
-        }
-
-        $network = $mb->getNetwork();
-
-        $output = [
-            'type' => !empty($network->getMedium()) ? $network->getMedium() : null,
-            'id' => (string) $network->getNid(),
-            'key' => (string) $network->getUrlKey(),
-            'title' => $network->getName(),
-        ];
-
-        // This is technically wrong, as in APS world an outlet is a mixture of
-        // a MasterBrand and a Service, whereas in the ProgrammesDB world we
-        // have a Network as a denormed entity that is a umberella for Services.
-        // As such we don't know the services key, or shortName. However we
-        // don't use the outlet for anything anyway. The top-level 'service' is
-        // correct based upon the Network and that's what we care about.
-        if ((string) $mb->getMid() != (string) $network->getNid()) {
-            $output['outlet'] = (object) [
-                'key' => '',
-                'title' => $mb->getName(),
-                'id' => (string) $mb->getMid(),
-            ];
-        }
-
-        return (object) ['service' => (object) $output];
     }
 
     private function getPeer(Programme $programme)
