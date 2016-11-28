@@ -99,7 +99,7 @@ debug.descendants:
 aps.atoz_list_default:
     path: /aps/programmes/a-z.json
     methods: [GET]
-    defaults: { _controller: CliftonBundle:AtoZ:lettersList}
+    defaults: { _controller: CliftonBundle:AtoZ:lettersList, network: null}
 
 aps.atoz_list:
     path: /aps/programmes/a-z/{slice}.json
@@ -119,14 +119,20 @@ aps.atoz_by:
     defaults: { _controller: CliftonBundle:AtoZ:by, slice: 'player', network: null }
     requirements: { search: '[^/.]+', slice: 'player|all' }
 
+aps.atoz_list_by_network_default:
+    path: /aps/{network}/programmes/a-z.json
+    methods: [GET]
+    defaults: { _controller: CliftonBundle:AtoZ:lettersList}
+    requirements: {  network: '^(tv|radio)$' }
+
 aps.atoz_by_network_default:
     path: /aps/{network}/programmes/a-z/by/{search}.json
     methods: [GET]
     defaults: { _controller: CliftonBundle:AtoZ:by, slice: 'player' }
-    requirements: { search: '[^/.]+', network: '[^/.]+' }
+    requirements: { search: '[^/.]+', network: '^(tv|radio)$' }
 
 aps.atoz_by_network:
     path: /aps/{network}/programmes/a-z/by/{search}/{slice}.json
     methods: [GET]
     defaults: { _controller: CliftonBundle:AtoZ:by, slice: 'player' }
-    requirements: { search: '[^/.]+', slice: 'player|all', network: '[^/.]+' }
+    requirements: { search: '[^/.]+', slice: 'player|all', network: '^(tv|radio)$' }

@@ -2,6 +2,7 @@
 
 namespace BBC\CliftonBundle\ApsMapper;
 
+use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeContainer;
 use stdClass;
 use BBC\ProgrammesPagesService\Domain\Entity\AtoZTitle;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
@@ -16,7 +17,7 @@ class AtoZItemMapper implements MapperInterface
         $output = [
             'title' => $atoZTitle->getTitle(),
             'letter' => $atoZTitle->getFirstLetter(),
-            'programme' => $this->getProgramme($atoZTitle->getCoreEntity())
+            'programme' => $this->getProgramme($atoZTitle->getCoreEntity()),
         ];
         return (object) $output;
     }
@@ -33,7 +34,7 @@ class AtoZItemMapper implements MapperInterface
             'expected_child_count' => ($programme instanceof ProgrammeContainer) ? $programme->getExpectedChildCount() : null,
             'first_broadcast_date' => $this->getFirstBroadcastDate($programme),
             'is_available' => $programme->isStreamable(),
-            'ownership' => $this->getProgrammeOwnership($programme)
+            'ownership' => $this->getProgrammeOwnership($programme),
         ];
 
         // If Image is null then remove it from the feed
@@ -42,5 +43,4 @@ class AtoZItemMapper implements MapperInterface
         }
         return (object) $output;
     }
-
 }

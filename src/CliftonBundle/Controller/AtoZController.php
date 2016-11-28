@@ -20,10 +20,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class AtoZController extends BaseApsController
 {
-    public function lettersListAction(Request $request, string $slice)
+    public function lettersListAction(Request $request, string $network)
     {
-        $data = $this->getLettersAndSlice($slice);
-        $data ['tleo_titles'] = [];
+        $data = $this->getLettersAndSlice('player', $network);
+        $data['tleo_titles'] = [];
         return $this->json([
             'atoz' => $data,
         ]);
@@ -42,8 +42,8 @@ class AtoZController extends BaseApsController
             list ($items, $itemCount) = $this->keywordSearch($search, $slice, $network, $page, $limit);
         }
 
-        $data = $this->getLettersAndSlice($slice, $search, $page, $limit, $itemCount);
-        $data ['tleo_titles'] = $this->mapManyApsObjects(
+        $data = $this->getLettersAndSlice($slice, $network, $search, $page, $limit, $itemCount);
+        $data['tleo_titles'] = $this->mapManyApsObjects(
             new AtoZItemMapper(),
             $items
         );
@@ -111,6 +111,7 @@ class AtoZController extends BaseApsController
 
     private function getLettersAndSlice(
         string $slice,
+        string $networkUrlKey = null,
         string $search = null,
         int $page = null,
         int $limit = null,
@@ -125,11 +126,20 @@ class AtoZController extends BaseApsController
             'slice' => $slice,
             'by' => null,
             'search' => $search,
-            'letters' => $service->findAllLetters(),
+            'service_group' => [],
+            'letters' => $service->findAllLetters($networkUrlKey),
             'page' => $limit ? $page : null,
             'total' => $total,
             'offset' => $offset,
         ];
+        if ($networkUrlKey) {
+            $data['service_group'] = [
+                'key' => $networkUrlKey,
+                'title' => ($networkUrlKey == 'radio' ? 'BBC Radio' : 'BBC TV'),
+            ];
+        } else {
+            unset($data['service_group']);
+        }
         if ($search) {
             unset($data['by']);
         } else {
@@ -154,6 +164,9 @@ class AtoZController extends BaseApsController
         );
         $limit = null;
         $page = 1;
+        if ($inputPage && !$inputLimit) {
+            $inputLimit = 50;
+        }
         if ($inputPage && $inputLimit) {
             // Limit is only valid with a page (APS behaviour)
             $page = (int) $inputPage;
@@ -161,5 +174,4 @@ class AtoZController extends BaseApsController
         }
         return [$page, $limit];
     }
-
 }
