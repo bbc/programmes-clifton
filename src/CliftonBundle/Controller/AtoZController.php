@@ -20,7 +20,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class AtoZController extends BaseApsController
 {
-    public function lettersListAction(Request $request, string $network)
+    public function lettersListAction(Request $request, string $network = null)
     {
         $data = $this->getLettersAndSlice('player', $network);
         $data['tleo_titles'] = [];

@@ -125,6 +125,12 @@ aps.atoz_list_by_network_default:
     defaults: { _controller: CliftonBundle:AtoZ:lettersList}
     requirements: {  network: '^(tv|radio)$' }
 
+aps.atoz_list_by_network:
+    path: /aps/{network}/programmes/a-z/{slice}.json
+    methods: [GET]
+    defaults: { _controller: CliftonBundle:AtoZ:lettersList, slice: 'player'}
+    requirements: { slice: 'player|all', network: '^(tv|radio)$' }
+
 aps.atoz_by_network_default:
     path: /aps/{network}/programmes/a-z/by/{search}.json
     methods: [GET]

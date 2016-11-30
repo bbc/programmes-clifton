@@ -37,6 +37,10 @@ class AtoZItemMapper implements MapperInterface
             'ownership' => $this->getProgrammeOwnership($programme),
         ];
 
+        if (is_null($output['ownership'])) {
+            unset($output['ownership']);
+        }
+
         // If Image is null then remove it from the feed
         if (is_null($output['image'])) {
             unset($output['image']);
