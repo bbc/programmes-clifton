@@ -6,18 +6,18 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\Stopwatch\Stopwatch;
-use Psr\Log\LoggerInterface;
+use RMP\CloudwatchMonitoring\MonitoringHandler;
 
 class MonitoringSubscriber implements EventSubscriberInterface
 {
     const REQUEST_TIMER = 'aps.request_time';
 
-    private $logger;
+    private $monitor;
     private $stopwatch;
 
-    public function __construct(LoggerInterface $logger, Stopwatch $stopwatch)
+    public function __construct(MonitoringHandler $monitor, Stopwatch $stopwatch)
     {
-        $this->logger = $logger;
+        $this->monitor = $monitor;
         $this->stopwatch = $stopwatch;
     }
 
@@ -27,7 +27,7 @@ class MonitoringSubscriber implements EventSubscriberInterface
             // Start timer
             KernelEvents::REQUEST => [['requestStart', 512]],
             // Stop timer and log the duration
-            KernelEvents::TERMINATE => [['logTiming', -512]],
+            KernelEvents::TERMINATE => [['terminateEnd', 0]],
         ];
     }
 
@@ -38,28 +38,44 @@ class MonitoringSubscriber implements EventSubscriberInterface
         }
     }
 
-    public function logTiming(KernelEvent $event)
+    public function terminateEnd(KernelEvent $event)
+    {
+        $this->logRequestTime($event);
+
+        $this->monitor->sendMetrics();
+    }
+
+    private function logRequestTime(KernelEvent $event)
     {
         if ($event->isMasterRequest()) {
             $this->stopwatch->stop(self::REQUEST_TIMER);
         }
 
-        $controllerAction = $event->getRequest()->attributes->get('_controller');
+        $controllerAction = $event->getRequest()->attributes->get('_controller', '');
 
         // Skip if we can't find a controller, or if it isn't a Clifton Controller
         if (!$controllerAction || strpos($controllerAction, 'BBC\CliftonBundle\Controller') === false) {
             return;
         }
 
+        // Strip off the common preamble for the sake of readability
+        $controllerAction = str_replace('BBC\\CliftonBundle\\Controller\\', '', $controllerAction);
+
         // Skip if it is the status controller
         // This gets pinged every 15 seconds by the ELB and we don't need that noise
-        if ($controllerAction == 'BBC\CliftonBundle\Controller\StatusController') {
+        if ($controllerAction == 'StatusController::statusAction') {
             return;
         }
 
         $controllerPeriod = $this->getControllerPeriod();
         if ($controllerPeriod) {
-            $this->logger->info('CONTROLLER {0} {1}', [$controllerAction, $controllerPeriod]);
+            $this->monitor->putMetricData('ControllerActionRenderCount', 1, [
+                ['Name' => 'ControllerAction', 'Value' => $controllerAction],
+            ], 'Count');
+
+            $this->monitor->putMetricData('ControllerActionRenderTime', $controllerPeriod, [
+                ['Name' => 'ControllerAction', 'Value' => $controllerAction],
+            ], 'Milliseconds');
         }
     }
 

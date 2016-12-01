@@ -20,12 +20,7 @@ monolog:
             type:   stream
             path:   "%kernel.logs_dir%/%kernel.environment%.log"
             level:  debug
-            channels: ["!event", "!app_access"]
-        app_access:
-            type:  stream
-            channels: ['app_access']
-            path:  "%kernel.logs_dir%/%kernel.environment%-access.log"
-            level: debug
+            channels: ["!event"]
         console:
             type:   console
             bubble: false
