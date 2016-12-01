@@ -32,6 +32,12 @@ log_group_name = $environment-clifton/app-error
 log_stream_name = $component_name-{instance_id}
 datetime_format = %Y-%m-%d %H:%M:%S
 
+[clifton/app-access]
+file = /var/www/programmes-clifton/tmp/logs/prod-access.log
+log_group_name = $environment-clifton/app-access
+log_stream_name = $component_name-{instance_id}
+datetime_format = %Y-%m-%d %H:%M:%S
+
 [clifton/haproxy]
 file = /var/log/haproxy.log
 log_group_name = $environment-clifton/haproxy

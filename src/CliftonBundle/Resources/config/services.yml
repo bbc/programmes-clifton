@@ -2,13 +2,24 @@ parameters:
     clifton.cloudwatch_client_class: Aws\CloudWatch\CloudWatchClient
 
 services:
-    security.user.provider.bbc_certificate:
-        class: BBC\CliftonBundle\Security\User\BbcCertificateUserProvider
-
     clifton.cloudwatch_client:
         class: '%clifton.cloudwatch_client_class%'
         arguments:
             - { region: '%aws_s3_region%', version: '2010-08-01' }
+
+    clifton.monitoring:
+        class: RMP\CloudwatchMonitoring\MonitoringHandler
+        arguments:
+            - '@clifton.cloudwatch_client'
+            - 'clifton'
+            - '%cosmos_environment%'
+
+    clifton.monitoring_subscriber:
+        class: BBC\CliftonBundle\Event\MonitoringSubscriber
+        arguments: ['@logger', '@debug.stopwatch']
+        tags:
+            - { name: 'kernel.event_subscriber' }
+            - { name: 'monolog.logger', channel: 'app_access' }
 
     clifton.application_time:
         class: DateTimeImmutable

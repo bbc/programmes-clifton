@@ -16,11 +16,17 @@ doctrine:
 monolog:
     handlers:
         main:
-            type:         fingers_crossed
+            type: fingers_crossed
+            channels: ['!app_access']
             action_level: error
-            handler:      nested
+            handler: nested
             excluded_404s:
                 - ^/
+        app_access:
+            type:  stream
+            channels: ['app_access']
+            path:  "%kernel.logs_dir%/%kernel.environment%-access.log"
+            level: info
         nested:
             type:  stream
             path:  "%kernel.logs_dir%/%kernel.environment%.log"
