@@ -46,7 +46,14 @@ class MonitoringSubscriber implements EventSubscriberInterface
 
         $controllerAction = $event->getRequest()->attributes->get('_controller');
 
+        // Skip if we can't find a controller, or if it isn't a Clifton Controller
         if (!$controllerAction || strpos($controllerAction, 'BBC\CliftonBundle\Controller') === false) {
+            return;
+        }
+
+        // Skip if it is the status controller
+        // This gets pinged every 15 seconds by the ELB and we don't need that noise
+        if ($controllerAction == 'BBC\CliftonBundle\Controller\StatusController') {
             return;
         }
 
