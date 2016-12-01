@@ -31,7 +31,8 @@ class MonitoringSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function requestStart(KernelEvent $event) {
+    public function requestStart(KernelEvent $event)
+    {
         if ($event->isMasterRequest()) {
             $this->stopwatch->start(self::REQUEST_TIMER, 'section');
         }
@@ -51,7 +52,7 @@ class MonitoringSubscriber implements EventSubscriberInterface
 
         $controllerPeriod = $this->getControllerPeriod();
         if ($controllerPeriod) {
-            $this->logger->info('CONTROLLER {0} {1}',  [$controllerAction, $controllerPeriod]);
+            $this->logger->info('CONTROLLER {0} {1}', [$controllerAction, $controllerPeriod]);
         }
     }
 
