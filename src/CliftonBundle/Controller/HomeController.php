@@ -15,7 +15,7 @@ class HomeController extends Controller
      */
     public function homeAction(Request $request)
     {
-        return $this->render('CliftonBundle:Home:home.html.twig', [
+        return $this->render('@Clifton/Home/home.html.twig', [
             'release_number' => $this->getParameter('cosmos_component_release'),
         ]);
     }

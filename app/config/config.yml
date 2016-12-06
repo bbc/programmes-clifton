@@ -9,19 +9,19 @@ parameters:
 
 framework:
     #esi:             ~
-    #translator:      { fallbacks: ["%locale%"] }
+    # translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
         strict_requirements: ~
     # form:            ~
     # csrf_protection: ~
-    validation:      { enable_annotations: false }
+    # validation:      { enable_annotations: false }
     #serializer:      { enable_annotations: true }
-    templating:
-        engines: ['twig']
-        #assets_version: SomeVersionScheme
-    default_locale:  "%locale%"
+    # templating:
+    #     engines: ['twig']
+    #     #assets_version: SomeVersionScheme
+    # default_locale:  "%locale%"
     trusted_hosts:   ~
     trusted_proxies: ~
     # session:
@@ -29,8 +29,8 @@ framework:
     #     handler_id:  ~
     #     save_path:   "%kernel.root_dir%/../tmp/sessions/%kernel.environment%"
     # fragments:       ~
-    http_method_override: true
-    assets: ~
+    http_method_override: false
+    # assets: ~
 
 # Twig Configuration
 twig:

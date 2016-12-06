@@ -28,7 +28,7 @@ class StatusController extends Controller
         // Other people get a better info screen
         $dbalConnection = $this->get('doctrine.dbal.default_connection');
 
-        return $this->render('CliftonBundle:Status:status.html.twig', [
+        return $this->render('@Clifton/Status/status.html.twig', [
             'now' => new DateTime(),
             'dbConnectivity' => $dbalConnection->isConnected() || $dbalConnection->connect(),
         ]);
