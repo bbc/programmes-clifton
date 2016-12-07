@@ -30,6 +30,8 @@ framework:
     # fragments:       ~
     http_method_override: false
     # assets: ~
+    php_errors:
+        log: true
 
 # Twig Configuration
 twig:
