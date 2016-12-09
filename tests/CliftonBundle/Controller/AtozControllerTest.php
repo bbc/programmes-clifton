@@ -5,16 +5,16 @@ namespace Tests\BBC\CliftonBundle\Controller;
 use Tests\BBC\CliftonBundle\BaseWebTestCase;
 
 /**
- * @covers BBC\CliftonBundle\Controller\AtoZController
+ * @covers BBC\CliftonBundle\Controller\AtozController
  */
-class AtoZControllerTest extends BaseWebTestCase
+class AtozControllerTest extends BaseWebTestCase
 {
     /**
      * @dataProvider lettersListUrlProvider
      */
     public function testLettersListAction($url, $letters)
     {
-        $this->loadFixtures(['AtoZTitleFixture']);
+        $this->loadFixtures(['AtozTitleFixture']);
 
         $client = static::createClient();
         $client->request('GET', $url);
@@ -58,7 +58,7 @@ class AtoZControllerTest extends BaseWebTestCase
      */
     public function testByLetter($url, $output)
     {
-        $this->loadFixtures(['AtoZTitleFixture']);
+        $this->loadFixtures(['AtozTitleFixture']);
 
         $client = static::createClient();
         $client->request('GET', $url);

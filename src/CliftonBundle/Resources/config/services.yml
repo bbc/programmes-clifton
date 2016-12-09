@@ -33,9 +33,9 @@ services:
             - '@doctrine.orm.default_entity_manager'
             - '@pps.mapper_factory'
 
-    pps.atoz_service:
-        class: BBC\ProgrammesPagesService\Service\AtoZService
-        factory: [ '@pps.service_factory', 'getAtoZService']
+    pps.atoz_titles_service:
+        class: BBC\ProgrammesPagesService\Service\AtozTitlesService
+        factory: [ '@pps.service_factory', 'getAtozTitlesService']
 
     pps.broadcasts_service:
         class: BBC\ProgrammesPagesService\Service\BroadcastsService

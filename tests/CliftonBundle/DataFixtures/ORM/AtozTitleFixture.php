@@ -2,7 +2,7 @@
 
 namespace Tests\BBC\CliftonBundle\DataFixtures\ORM;
 
-use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\AtoZTitle;
+use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\AtozTitle;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Brand;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Clip;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Episode;
@@ -14,7 +14,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Tests\BBC\CliftonBundle\DataFixtures\ORM\BaseFixture;
 
-class AtoZTitleFixture extends BaseFixture
+class AtozTitleFixture extends BaseFixture
 {
     private $manager;
 
@@ -31,7 +31,7 @@ class AtoZTitleFixture extends BaseFixture
         $manager->persist($masterBrand);
         $manager->persist($network);
         $manager->persist($brandTLEO);
-        $brandTLEOTitle = new AtoZTitle($brandTLEO->getTitle(), $brandTLEO);
+        $brandTLEOTitle = new AtozTitle($brandTLEO->getTitle(), $brandTLEO);
         $manager->persist($brandTLEOTitle);
 
 
@@ -45,26 +45,26 @@ class AtoZTitleFixture extends BaseFixture
         $manager->persist($masterBrand2);
         $manager->persist($network2);
         $manager->persist($brandTLEO2);
-        $brandTLEOTitle2 = new AtoZTitle($brandTLEO2->getTitle(), $brandTLEO2);
+        $brandTLEOTitle2 = new AtozTitle($brandTLEO2->getTitle(), $brandTLEO2);
         $manager->persist($brandTLEOTitle2);
 
         $seriesTLEO = new Series('b0000001', 'The WibbleTron2000');
         $manager->persist($seriesTLEO);
-        $seriesTLEOTitle1 = new AtoZTitle($seriesTLEO->getTitle(), $seriesTLEO);
+        $seriesTLEOTitle1 = new AtozTitle($seriesTLEO->getTitle(), $seriesTLEO);
         $manager->persist($seriesTLEOTitle1);
-        $seriesTLEOTitle2 = new AtoZTitle('WibbleTron2000, The', $seriesTLEO);
+        $seriesTLEOTitle2 = new AtozTitle('WibbleTron2000, The', $seriesTLEO);
         $manager->persist($seriesTLEOTitle2);
 
         $episodeTLEO = new Episode('b0000002', '3000UberWibbleTron3000');
         $episodeTLEO->setStreamable(true);
         $manager->persist($episodeTLEO);
-        $episodeTLEOTitle = new AtoZTitle($episodeTLEO->getTitle(), $episodeTLEO);
+        $episodeTLEOTitle = new AtozTitle($episodeTLEO->getTitle(), $episodeTLEO);
         $this->manager->persist($episodeTLEOTitle);
 
         $embargoedTLEO = new Brand('b0000004', 'Prince Harry\'s death rattle');
         $embargoedTLEO->setIsEmbargoed(1);
         $manager->persist($embargoedTLEO);
-        $embargoedTLEOTitle = new AtoZTitle($embargoedTLEO->getTitle(), $embargoedTLEO);
+        $embargoedTLEOTitle = new AtozTitle($embargoedTLEO->getTitle(), $embargoedTLEO);
         $manager->persist($embargoedTLEOTitle);
 
         $clipTLEO = new Clip('b0000003', 'The Best of McWibbleTron');

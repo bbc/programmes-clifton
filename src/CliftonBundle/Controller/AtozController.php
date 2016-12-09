@@ -2,23 +2,21 @@
 
 namespace BBC\CliftonBundle\Controller;
 
-use BBC\CliftonBundle\ApsMapper\AtoZItemMapper;
-use BBC\ProgrammesPagesService\Domain\Entity\AtoZTitle;
+use BBC\CliftonBundle\ApsMapper\AtozItemMapper;
+use BBC\ProgrammesPagesService\Domain\Entity\AtozTitle;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
-use BBC\ProgrammesPagesService\Service\AtoZService;
-use BBC\ProgrammesPagesService\Service\ProgrammesService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Class AtoZController
+ * Class AtozController
  *
  * Yes this is crazy. APS is crazy. Do you expect me to replicate insanity by being sane?
  * JE SUIS NAPOLEON Y'ALL
  *
  * @package BBC\CliftonBundle\Controller
  */
-class AtoZController extends BaseApsController
+class AtozController extends BaseApsController
 {
     public function lettersListAction(Request $request, string $network = null)
     {
@@ -44,7 +42,7 @@ class AtoZController extends BaseApsController
 
         $data = $this->getLettersAndSlice($slice, $network, $search, $page, $limit, $itemCount);
         $data['tleo_titles'] = $this->mapManyApsObjects(
-            new AtoZItemMapper(),
+            new AtozItemMapper(),
             $items
         );
         return $this->json([
@@ -54,21 +52,21 @@ class AtoZController extends BaseApsController
 
     private function letterSearch(string $search, string $slice, string $network = null, int $page = null, int $limit = null)
     {
-        $service = $this->get('pps.atoz_service');
+        $service = $this->get('pps.atoz_titles_service');
         if (!$limit) {
             $limit = $service::NO_LIMIT;
         }
         $items = [];
         $itemCount = null;
         if ($slice == 'player') {
-            $items = $service->findAvailableTLEOsByFirstLetter($search, $network, $limit, $page);
+            $items = $service->findAvailableTleosByFirstLetter($search, $network, $limit, $page);
             if ($limit) {
-                $itemCount = $service->countAvailableTLEOsByFirstLetter($search, $network);
+                $itemCount = $service->countAvailableTleosByFirstLetter($search, $network);
             }
         } elseif ($slice == 'all') {
-            $items = $service->findTLEOsByFirstLetter($search, $network, $limit, $page);
+            $items = $service->findTleosByFirstLetter($search, $network, $limit, $page);
             if ($limit) {
-                $itemCount = $service->countTLEOsByFirstLetter($search, $network);
+                $itemCount = $service->countTleosByFirstLetter($search, $network);
             }
         } else {
             throw new NotFoundHttpException("Slice does not exist");
@@ -103,7 +101,7 @@ class AtoZController extends BaseApsController
         $fakeItems = [];
         foreach ($items as $item) {
             $firstLetter = substr($item->getTitle(), 0, 1);
-            $fakeItems[] = new AtoZTitle($item->getTitle(), strtolower($firstLetter), $item);
+            $fakeItems[] = new AtozTitle($item->getTitle(), strtolower($firstLetter), $item);
         }
 
         return [$fakeItems, $itemCount];
@@ -117,7 +115,7 @@ class AtoZController extends BaseApsController
         int $limit = null,
         int $total = null
     ) {
-        $service = $this->get('pps.atoz_service');
+        $service = $this->get('pps.atoz_titles_service');
         $offset = null;
         if ($limit) {
             $offset = ($page - 1) * $limit;

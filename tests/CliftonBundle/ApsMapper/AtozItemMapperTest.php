@@ -2,8 +2,8 @@
 
 namespace Tests\BBC\CliftonBundle\ApsMapper;
 
-use BBC\CliftonBundle\ApsMapper\AtoZItemMapper;
-use BBC\ProgrammesPagesService\Domain\Entity\AtoZTitle;
+use BBC\CliftonBundle\ApsMapper\AtozItemMapper;
+use BBC\ProgrammesPagesService\Domain\Entity\AtozTitle;
 use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\MasterBrand;
@@ -14,9 +14,9 @@ use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use PHPUnit_Framework_TestCase;
 
-class AtoZItemMapperTest extends PHPUnit_Framework_TestCase
+class AtozItemMapperTest extends PHPUnit_Framework_TestCase
 {
-    public function testMappingAtoZ()
+    public function testMappingAtoz()
     {
         $mbImage = new Image(new Pid('p01m5msq'), 'Title', 'ShortSynopsis', 'ShortSynopsis', 'standard', 'jpg');
         $brand = new Brand(
@@ -52,7 +52,7 @@ class AtoZItemMapperTest extends PHPUnit_Framework_TestCase
             10
         );
 
-        $atoztitle = new AtoZTitle('Doctor Who', 'd', $brand);
+        $atoztitle = new AtozTitle('Doctor Who', 'd', $brand);
 
         $expectedOutput = (object) [
             'title' => 'Doctor Who',
@@ -78,7 +78,7 @@ class AtoZItemMapperTest extends PHPUnit_Framework_TestCase
             ],
         ];
 
-        $mapper = new AtoZItemMapper();
+        $mapper = new AtozItemMapper();
 
         $output = $mapper->getApsObject($atoztitle);
 

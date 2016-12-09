@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cc0e9643d8aedd22057ad543357aa70b",
+    "hash": "20b83b4475b0f397bd4b26c24dcf5788",
     "content-hash": "a11df0dd620e25a78feb6b301009246b",
     "packages": [
         {
@@ -226,12 +226,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:bbc/programmes-pages-service.git",
-                "reference": "50fc5598813fc54f33e961fdc664e3860b47501b"
+                "reference": "7f6e6809fc11187bc9a6c1687136cfd8cf14032d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/50fc5598813fc54f33e961fdc664e3860b47501b",
-                "reference": "50fc5598813fc54f33e961fdc664e3860b47501b",
+                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/7f6e6809fc11187bc9a6c1687136cfd8cf14032d",
+                "reference": "7f6e6809fc11187bc9a6c1687136cfd8cf14032d",
                 "shasum": ""
             },
             "require": {
@@ -242,10 +242,10 @@
                 "symfony/stopwatch": "^3.2"
             },
             "require-dev": {
-                "doctrine/data-fixtures": "^1.1",
-                "escapestudios/symfony2-coding-standard": "^2.0",
-                "phpunit/phpunit": "^5.1",
-                "squizlabs/php_codesniffer": "^2.5"
+                "doctrine/data-fixtures": "^1.2",
+                "escapestudios/symfony2-coding-standard": "^2.9",
+                "phpunit/phpunit": "^5.7",
+                "squizlabs/php_codesniffer": "^2.7"
             },
             "type": "library",
             "autoload": {
@@ -266,7 +266,7 @@
                 "source": "https://github.com/bbc/programmes-pages-service/tree/master",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2016-12-01 14:10:07"
+            "time": "2016-12-09 11:25:14"
         },
         {
             "name": "behat/transliterator",
