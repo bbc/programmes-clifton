@@ -39,7 +39,6 @@ class AtozControllerTest extends BaseWebTestCase
 
     public function lettersListUrlProvider()
     {
-        // Do we have enough routes for this crap?
         return [
             ['/aps/programmes/a-z.json', ['@', 'm', 't', 'w']],
             ['/aps/programmes/a-z/player.json', ['@', 'm', 't', 'w']],
@@ -56,7 +55,7 @@ class AtozControllerTest extends BaseWebTestCase
     /**
      * @dataProvider testByLetterUrlProvider
      */
-    public function testByLetter($url, $output)
+    public function testByLetter($url, $expectedPids)
     {
         $this->loadFixtures(['AtozTitleFixture']);
 
@@ -67,75 +66,25 @@ class AtozControllerTest extends BaseWebTestCase
 
         $jsonContent = $this->getDecodedJsonContent($client);
 
-        $atozTitles = $jsonContent['atoz']['tleo_titles'];
+        $actualPids = array_map(function ($atozTitle) {
+            return $atozTitle['programme']['pid'];
+        }, $jsonContent['atoz']['tleo_titles']);
 
-        $this->assertCount(count($output['programmePids']), $atozTitles);
-        $i = 0;
-        foreach ($atozTitles as $title) {
-            $realPid = $title['programme']['pid'];
-            $expectedPid = $output['programmePids'][$i] ?: null;
-            $this->assertEquals($expectedPid, $realPid);
-            $i++;
-        }
+        $this->assertEquals($expectedPids, $actualPids);
     }
 
     public function testByLetterUrlProvider()
     {
         return [
-            [
-                '/aps/programmes/a-z/by/@.json',
-                [
-                    'programmePids' => ['b0000002'],
-                ],
-            ],
-            [
-                '/aps/programmes/a-z/by/@/player.json',
-                [
-                    'programmePids' => ['b0000002'],
-                ],
-            ],
-            [
-                '/aps/programmes/a-z/by/m/all.json',
-                [
-                    'programmePids' => ['b0020020', 'b010t19z'],
-                ],
-            ],
-            [
-                '/aps/radio/programmes/a-z/by/m.json',
-                [
-                    'programmePids' => ['b0020020'],
-                ],
-            ],
-            [
-                '/aps/radio/programmes/a-z/by/m/player.json',
-                [
-                    'programmePids' => ['b0020020'],
-                ],
-            ],
-            [
-                '/aps/radio/programmes/a-z/by/m/all.json',
-                [
-                    'programmePids' => ['b0020020'],
-                ],
-            ],
-            [
-                '/aps/tv/programmes/a-z/by/m.json',
-                [
-                    'programmePids' => [],
-                ],
-            ],
-            [
-                '/aps/tv/programmes/a-z/by/m/player.json',
-                [
-                    'programmePids' => [],
-                ],
-            ],
-            [
-                '/aps/tv/programmes/a-z/by/m/all.json',
-                [
-                    'programmePids' => ['b010t19z'],
-                ],
-            ],
+            ['/aps/programmes/a-z/by/@.json', ['b0000002']],
+            ['/aps/programmes/a-z/by/@/player.json', ['b0000002']],
+            ['/aps/programmes/a-z/by/m/all.json', ['b0020020', 'b010t19z']],
+            ['/aps/radio/programmes/a-z/by/m.json', ['b0020020']],
+            ['/aps/radio/programmes/a-z/by/m/player.json', ['b0020020']],
+            ['/aps/radio/programmes/a-z/by/m/all.json', ['b0020020']],
+            ['/aps/tv/programmes/a-z/by/m.json', []],
+            ['/aps/tv/programmes/a-z/by/m/player.json', []],
+            ['/aps/tv/programmes/a-z/by/m/all.json', ['b010t19z']],
         ];
     }
 }

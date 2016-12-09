@@ -22,64 +22,75 @@ class AtozTitleFixture extends BaseFixture
     {
         $this->manager = $manager;
 
-        $brandTLEO = new Brand('b010t19z', 'Mongrels');
-        $masterBrand = new MasterBrand('bbc_one', 'c0000000', 'BBC One');
-        $network = new Network('bbc_one', 'BBC One');
-        $network->setMedium(NetworkMediumEnum::TV);
-        $masterBrand->setNetwork($network);
-        $brandTLEO->setMasterBrand($masterBrand);
-        $manager->persist($masterBrand);
-        $manager->persist($network);
-        $manager->persist($brandTLEO);
-        $brandTLEOTitle = new AtozTitle($brandTLEO->getTitle(), $brandTLEO);
-        $manager->persist($brandTLEOTitle);
+        $network = $this->buildNetwork('bbc_one', 'BBC One', NetworkMediumEnum::TV);
+        $masterBrand = $this->buildMasterBrand('bbc_one', 'c0000000', 'BBC One', $network);
+        $brandTleo = $this->buildProgramme(Brand::CLASS, 'b010t19z', 'Mongrels', $masterBrand);
+        $brandTleoTitle = $this->buildAtozTitle($brandTleo->getTitle(), $brandTleo);
 
+        $network2 = $this->buildNetwork('radio_one', 'Radio One', NetworkMediumEnum::RADIO);
+        $masterBrand2 = $this->buildMasterBrand('radio_one', 'c0000001', 'Radio One', $network2);
+        $brandTleo2 = $this->buildProgramme(Brand::CLASS, 'b0020020', 'Mmmmm, unit tests', $masterBrand2, true);
+        $brandTleoTitle2 = $this->buildAtozTitle($brandTleo2->getTitle(), $brandTleo2);
 
-        $brandTLEO2 = new Brand('b0020020', 'Mmmmm, unit tests');
-        $masterBrand2 = new MasterBrand('radio_one', 'c0000001', 'Radio One');
-        $network2 = new Network('radio_one', 'Radio One');
-        $network2->setMedium(NetworkMediumEnum::RADIO);
-        $masterBrand2->setNetwork($network2);
-        $brandTLEO2->setMasterBrand($masterBrand2);
-        $brandTLEO2->setStreamable(true);
-        $manager->persist($masterBrand2);
-        $manager->persist($network2);
-        $manager->persist($brandTLEO2);
-        $brandTLEOTitle2 = new AtozTitle($brandTLEO2->getTitle(), $brandTLEO2);
-        $manager->persist($brandTLEOTitle2);
+        $seriesTleo = $this->buildProgramme(Series::CLASS, 'b0000001', 'The WibbleTron2000');
+        $seriesTleoTitle1 = $this->buildAtozTitle($seriesTleo->getTitle(), $seriesTleo);
+        $seriesTleoTitle2 = $this->buildAtozTitle('WibbleTron2000, The', $seriesTleo);
 
-        $seriesTLEO = new Series('b0000001', 'The WibbleTron2000');
-        $manager->persist($seriesTLEO);
-        $seriesTLEOTitle1 = new AtozTitle($seriesTLEO->getTitle(), $seriesTLEO);
-        $manager->persist($seriesTLEOTitle1);
-        $seriesTLEOTitle2 = new AtozTitle('WibbleTron2000, The', $seriesTLEO);
-        $manager->persist($seriesTLEOTitle2);
+        $episodeTleo = $this->buildProgramme(Episode::CLASS, 'b0000002', '3000UberWibbleTron3000', null, true);
+        $episodeTleoTitle = $this->buildAtozTitle($episodeTleo->getTitle(), $episodeTleo);
 
-        $episodeTLEO = new Episode('b0000002', '3000UberWibbleTron3000');
-        $episodeTLEO->setStreamable(true);
-        $manager->persist($episodeTLEO);
-        $episodeTLEOTitle = new AtozTitle($episodeTLEO->getTitle(), $episodeTLEO);
-        $this->manager->persist($episodeTLEOTitle);
+        $embargoedTleo = $this->buildProgramme(Brand::CLASS, 'b0000004', 'Prince Harry\'s death rattle', null, false, null, null, true);
+        $embargoedTleoTitle = $this->buildAtozTitle($embargoedTleo->getTitle(), $embargoedTleo);
 
-        $embargoedTLEO = new Brand('b0000004', 'Prince Harry\'s death rattle');
-        $embargoedTLEO->setIsEmbargoed(1);
-        $manager->persist($embargoedTLEO);
-        $embargoedTLEOTitle = new AtozTitle($embargoedTLEO->getTitle(), $embargoedTLEO);
-        $manager->persist($embargoedTLEOTitle);
+        $clipTleo = $this->buildProgramme(Clip::CLASS, 'b0000003', 'The Best of McWibbleTron');
 
-        $clipTLEO = new Clip('b0000003', 'The Best of McWibbleTron');
-        $manager->persist($clipTLEO);
+        $series1 = $this->buildProgramme(Series::CLASS, 'b00swyx1', 'Series 1', null, false, $brandTleo, 1);
 
-        $series1 = new Series('b00swyx1', 'Series 1');
-        $series1->setParent($brandTLEO);
-        $series1->setPosition(1);
-        $manager->persist($series1);
-
-        $s1e1 = new Episode('b00swgkn', 'Episode 1');
-        $s1e1->setParent($series1);
-        $s1e1->setPosition(1);
-        $manager->persist($s1e1);
+        $s1e1 = $this->buildProgramme(Episode::CLASS, 'b00swgkn', 'Episode 1', null, false, $series1, 1);
 
         $manager->flush();
+    }
+
+    private function buildProgramme(
+        $type,
+        $pid,
+        $title,
+        $masterBrand = null,
+        $streamable = false,
+        $parent = null,
+        $position = null,
+        $isEmbargoed = false
+    ) {
+        $entity = new $type($pid, $title);
+        $entity->setMasterBrand($masterBrand);
+        $entity->setStreamable($streamable);
+        $entity->setParent($parent);
+        $entity->setPosition($position);
+        $entity->setIsEmbargoed($isEmbargoed);
+        $this->manager->persist($entity);
+        return $entity;
+    }
+
+    private function buildAtozTitle($title, $coreEntity)
+    {
+        $entity = new AtozTitle($title, $coreEntity);
+        $this->manager->persist($entity);
+        return $entity;
+    }
+
+    private function buildNetwork($nid, $title, $medium = null)
+    {
+        $entity = new Network($nid, $title);
+        $entity->setMedium($medium);
+        $this->manager->persist($entity);
+        return $entity;
+    }
+
+    private function buildMasterBrand($mid, $pid, $name, $network = null)
+    {
+        $entity = new MasterBrand($mid, $pid, $name);
+        $entity->setNetwork($network);
+        $this->manager->persist($entity);
+        return $entity;
     }
 }
