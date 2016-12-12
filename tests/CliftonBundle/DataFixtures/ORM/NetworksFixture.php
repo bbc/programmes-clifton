@@ -4,6 +4,7 @@ namespace Tests\BBC\CliftonBundle\DataFixtures\ORM;
 
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Network;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Service;
+use BBC\ProgrammesPagesService\Domain\Enumeration\NetworkMediumEnum;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 
@@ -38,11 +39,27 @@ class NetworksFixture extends AbstractFixture
             'audio'
         );
 
+        $service3 = $this->buildService(
+            'bbc_one_london',
+            'p00fzl6p',
+            'BBC One London',
+            'National TV',
+            'audio_video'
+        );
+
         $this->buildNetwork(
             'bbc_radio_two',
             'BBC Radio 2',
             $service2,
             'radio2'
+        );
+
+        $this->buildNetwork(
+            'bbc_one',
+            'BBC One',
+            $service3,
+            'bbcone',
+            NetworkMediumEnum::TV
         );
 
         $this->manager->flush();
@@ -65,11 +82,15 @@ class NetworksFixture extends AbstractFixture
         $nid,
         $title,
         $defaultService = null,
-        $urlKey = null
+        $urlKey = null,
+        $medium = null
     ) {
         $entity = new Network($nid, $title, $title);
         $entity->setDefaultService($defaultService);
         $entity->setUrlKey($urlKey);
+        if ($medium) {
+            $entity->setMedium($medium);
+        }
         $this->manager->persist($entity);
         $this->addReference('network_' . $nid, $entity);
         return $entity;

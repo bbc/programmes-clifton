@@ -11,7 +11,7 @@ class CategoryItemMapperAdditionalHydrationTest extends PHPUnit_Framework_TestCa
 {
     public function testMappingBroaderCategory()
     {
-        $genre = new Genre('id', 'title', 'urlkey', new Genre('parentId', 'parentTitle', 'parentUrlKey'));
+        $genre = new Genre([0, 1], 'id', 'title', 'urlkey', new Genre([0], 'parentId', 'parentTitle', 'parentUrlKey'));
 
         $expectedOutput = (object) [
             'type' => 'genre',
@@ -19,13 +19,15 @@ class CategoryItemMapperAdditionalHydrationTest extends PHPUnit_Framework_TestCa
             'key' => 'urlkey',
             'title' => 'title',
             'broader' => (object) [
-                'type' => 'genre',
-                'id' => 'parentId',
-                'key' => 'parentUrlKey',
-                'title' => 'parentTitle',
-                'broader' => (object) [],
-                'has_topic_page' => false,
-                'sameAs' => null,
+                'category' => (object) [
+                    'type' => 'genre',
+                    'id' => 'parentId',
+                    'key' => 'parentUrlKey',
+                    'title' => 'parentTitle',
+                    'broader' => (object) [],
+                    'has_topic_page' => false,
+                    'sameAs' => null,
+                ],
             ],
             'has_topic_page' => false,
             'sameAs' => null,
@@ -37,13 +39,13 @@ class CategoryItemMapperAdditionalHydrationTest extends PHPUnit_Framework_TestCa
 
         $this->assertObjectNotHasAttribute('narrower', $output);
         $this->assertObjectHasAttribute('broader', $output);
-        $this->assertObjectHasAttribute('broader', $output->{'broader'});
+        $this->assertObjectHasAttribute('broader', $output->{'broader'}->{'category'});
         $this->assertEquals($expectedOutput, $output);
     }
 
     public function testMappingEmptySubcategories()
     {
-        $genre = new Genre('id', 'title', 'urlkey');
+        $genre = new Genre([0], 'id', 'title', 'urlkey');
 
         $subgenres = [];
 
@@ -69,12 +71,12 @@ class CategoryItemMapperAdditionalHydrationTest extends PHPUnit_Framework_TestCa
 
     public function testMappingSubcategories()
     {
-        $genre = new Genre('id', 'title', 'urlkey');
+        $genre = new Genre([0], 'id', 'title', 'urlkey');
 
         $subgenres = [
-            new Genre('subid1', 'subtitle1', 'suburlkey1'),
-            new Genre('subid2', 'subtitle2', 'suburlkey2'),
-            new Genre('subid3', 'subtitle3', 'suburlkey3'),
+            new Genre([0], 'subid1', 'subtitle1', 'suburlkey1'),
+            new Genre([0], 'subid2', 'subtitle2', 'suburlkey2'),
+            new Genre([0], 'subid3', 'subtitle3', 'suburlkey3'),
         ];
 
         $expectedOutput = (object) [
@@ -124,7 +126,7 @@ class CategoryItemMapperAdditionalHydrationTest extends PHPUnit_Framework_TestCa
 
     public function testNotMappingFormatBroaderCategory()
     {
-        $format = new Format('id', 'title', 'urlkey');
+        $format = new Format([1], 'id', 'title', 'urlkey');
 
         $expectedOutput = (object) [
             'type' => 'format',

@@ -10,16 +10,16 @@ use Symfony\Component\HttpFoundation\Request;
 
 class CategoriesListController extends BaseApsController
 {
-    public function panBbcCategoriesListAction(Request $request, string $category): JsonResponse
+    public function panBbcCategoriesListAction(Request $request, string $categoryType): JsonResponse
     {
         /** @var Format[]|Genre[] $categories */
-        if ($category === 'genres') {
-            $categories = $this->get('pps.categories_service')->findUsedGenres($category);
-        } elseif ($category === 'formats') {
-            $categories = $this->get('pps.categories_service')->findUsedFormats($category);
+        if ($categoryType === 'genres') {
+            $categories = $this->get('pps.categories_service')->findUsedGenres($categoryType);
+        } elseif ($categoryType === 'formats') {
+            $categories = $this->get('pps.categories_service')->findUsedFormats($categoryType);
         } else {
             // This shouldn't really happen as the route only matches genres or formats, but better safe than sorry
-            throw $this->createNotFoundException(sprintf("'%s' is not a valid category type", $category));
+            throw $this->createNotFoundException(sprintf("'%s' is not a valid category type", $categoryType));
         }
 
         $topLevelCategories = [];

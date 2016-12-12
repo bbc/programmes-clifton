@@ -25,8 +25,12 @@ trait ProgrammeUtilitiesTrait
         }
     }
 
-    protected function formatDateTime(\DateTimeImmutable $dateTimeImmutable): string
+    protected function formatDateTime(\DateTimeImmutable $dateTimeImmutable = null): string
     {
+        if (!$dateTimeImmutable) {
+            return null;
+        }
+
         $dateTimeImmutable = $dateTimeImmutable->setTimezone(new \DateTimeZone('Europe/London'));
         if ($dateTimeImmutable->getOffset()) {
             // 2002-10-19T21:00:00+01:00

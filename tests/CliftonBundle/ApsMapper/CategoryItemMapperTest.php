@@ -13,7 +13,7 @@ class CategoryItemMapperTest extends PHPUnit_Framework_TestCase
 {
     public function testMappingGenre()
     {
-        $genre = new Genre('id', 'title', 'urlkey');
+        $genre = new Genre([0], 'id', 'title', 'urlkey');
 
         $expectedOutput = (object) [
             'type' => 'genre',
@@ -35,7 +35,7 @@ class CategoryItemMapperTest extends PHPUnit_Framework_TestCase
 
     public function testMappingFormat()
     {
-        $format = new Format('id', 'title', 'urlkey');
+        $format = new Format([1], 'id', 'title', 'urlkey');
 
         $expectedOutput = (object) [
             'type' => 'format',

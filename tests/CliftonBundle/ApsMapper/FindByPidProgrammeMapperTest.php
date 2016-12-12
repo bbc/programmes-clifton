@@ -790,11 +790,11 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
     {
         $series = $this->createMock(Series::CLASS);
         $series->method('getGenres')->willReturn([
-            new Genre('g1id', 'Genre One', 'genre1', new Genre('g3id', 'Genre Three', 'genre3')),
-            new Genre('g2id', 'Genre Two', 'genre2', null),
+            new Genre([0], 'g1id', 'Genre One', 'genre1', new Genre([0], 'g3id', 'Genre Three', 'genre3')),
+            new Genre([0], 'g2id', 'Genre Two', 'genre2', null),
         ]);
         $series->method('getFormats')->willReturn([
-            new Format('f1id', 'Format One', 'format1'),
+            new Format([1], 'f1id', 'Format One', 'format1'),
         ]);
 
         $expectedCategories = [
