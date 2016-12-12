@@ -58,140 +58,39 @@ aps.music_artist_chart_service:
     methods:  [GET]
     defaults: { _controller: CliftonBundle:MusicArtists:chartService }
 
-aps.pan_bbc_available_episodes:
-    path: /aps/programmes/{categoryType}/{category1}/player/episodes.json
+aps.available_episodes_by_category:
+    path: /aps/programmes/{categoryType}/{urlKeyHierarchy}/player/episodes.json
     methods: [GET]
-    defaults:
-        _controller: CliftonBundle:AvailableEpisodesByCategory:availableEpisodesByCategory
-        medium: ""
-        category2: ""
-        category3: ""
+    defaults: { _controller: CliftonBundle:AvailableEpisodesByCategory:availableEpisodesByCategory }
     requirements:
         categoryType: "formats|genres"
-        category1: "[^/.]+"
+        urlKeyHierarchy: '.+'
 
-aps.pan_bbc_available_episodes_1_transclusion:
-    path: /aps/programmes/{categoryType}/{category1}/{category2}/player/episodes.json
+aps.available_episodes_by_category_and_medium:
+    path: /aps/{medium}/programmes/{categoryType}/{urlKeyHierarchy}/player/episodes.json
     methods: [GET]
-    defaults:
-        _controller: CliftonBundle:AvailableEpisodesByCategory:availableEpisodesByCategory
-        medium: ""
-        category2: ""
-        category3: ""
-    requirements:
-        categoryType: "formats|genres"
-        category1: "[^/.]+"
-        category2: "[_a-zA-Z0-9=-]+"
-
-aps.pan_bbc_available_episodes_2_transclusions:
-    path: /aps/programmes/{categoryType}/{category1}/{category2}/{category3}/player/episodes.json
-    methods: [GET]
-    defaults:
-        _controller: CliftonBundle:AvailableEpisodesByCategory:availableEpisodesByCategory
-        medium: ""
-        category2: ""
-        category3: ""
-    requirements:
-        categoryType: "formats|genres"
-        category1: "[^/.]+"
-        category2: "[_a-zA-Z0-9=-]+"
-        category3: "[_a-zA-Z0-9=-]+"
-
-aps.pan_bbc_available_episodes_by_medium:
-    path: /aps/{medium}/programmes/{categoryType}/{category1}/player/episodes.json
-    methods: [GET]
-    defaults:
-        _controller: CliftonBundle:AvailableEpisodesByCategory:availableEpisodesByCategory
-        category2: ""
-        category3: ""
+    defaults: { _controller: CliftonBundle:AvailableEpisodesByCategory:availableEpisodesByCategory }
     requirements:
         medium: 'tv|radio'
         categoryType: "formats|genres"
-        category1: "[^/.]+"
-
-aps.pan_bbc_available_episodes_1_transclusion_by_medium:
-    path: /aps/{medium}/programmes/{categoryType}/{category1}/{category2}/player/episodes.json
-    methods: [GET]
-    defaults:
-        _controller: CliftonBundle:AvailableEpisodesByCategory:availableEpisodesByCategory
-        category2: ""
-        category3: ""
-    requirements:
-        medium: 'tv|radio'
-        categoryType: "formats|genres"
-        category1: "[^/.]+"
-        category2: "[_a-zA-Z0-9=-]+"
-
-aps.pan_bbc_available_episodes_2_transclusions_by_medium:
-    path: /aps/{medium}/programmes/{categoryType}/{category1}/{category2}/{category3}/player/episodes.json
-    methods: [GET]
-    defaults:
-        _controller: CliftonBundle:AvailableEpisodesByCategory:availableEpisodesByCategory
-        category2: ""
-        category3: ""
-    requirements:
-        medium: 'tv|radio'
-        categoryType: "formats|genres"
-        category1: "[^/.]+"
-        category2: "[_a-zA-Z0-9=-]+"
-        category3: "[_a-zA-Z0-9=-]+"
-
-aps.category_metadata_by_medium:
-    path: /aps/{medium}/programmes/{categoryType}/{category1}.json
-    methods:  [GET]
-    defaults: { _controller: CliftonBundle:CategoryMetadata:showCategoryMetadata }
-    requirements:
-        medium: 'tv|radio'
-        categoryType: 'formats|genres'
-        category1: '[^/.]+'
-
-aps.category_metadata_1_transclusion_by_medium:
-    path: /aps/{medium}/programmes/{categoryType}/{category1}/{category2}.json
-    methods:  [GET]
-    defaults: { _controller: CliftonBundle:CategoryMetadata:showCategoryMetadata }
-    requirements:
-        medium: 'tv|radio'
-        categoryType: 'formats|genres'
-        category1: '[^/.]+'
-        category2: '[_a-zA-Z0-9=-]+'
-
-aps.category_metadata_2_transclusions_by_medium:
-    path: /aps/{medium}/programmes/{categoryType}/{category1}/{category2}/{category3}.json
-    methods:  [GET]
-    defaults: { _controller: CliftonBundle:CategoryMetadata:showCategoryMetadata }
-    requirements:
-        medium: 'tv|radio'
-        categoryType: 'formats|genres'
-        category1: '[^/.]+'
-        category2: '[_a-zA-Z0-9=-]+'
-        category3: '[_a-zA-Z0-9=-]+'
+        urlKeyHierarchy: '.+'
 
 aps.category_metadata:
-    path: /aps/programmes/{categoryType}/{category1}.json
+    path: /aps/programmes/{categoryType}/{urlKeyHierarchy}.json
     methods:  [GET]
     defaults: { _controller: CliftonBundle:CategoryMetadata:showCategoryMetadata }
     requirements:
         categoryType: 'formats|genres'
-        category1: '[^/.]+'
+        urlKeyHierarchy: '.+'
 
-aps.category_metadata_1_transclusion:
-    path: /aps/programmes/{categoryType}/{category1}/{category2}.json
+aps.category_metadata_by_medium:
+    path: /aps/{medium}/programmes/{categoryType}/{urlKeyHierarchy}.json
     methods:  [GET]
     defaults: { _controller: CliftonBundle:CategoryMetadata:showCategoryMetadata }
     requirements:
+        medium: 'tv|radio'
         categoryType: 'formats|genres'
-        category1: '[^/.]+'
-        category2: '[_a-zA-Z0-9=-]+'
-
-aps.category_metadata_2_transclusions:
-    path: /aps/programmes/{categoryType}/{category1}/{category2}/{category3}.json
-    methods:  [GET]
-    defaults: { _controller: CliftonBundle:CategoryMetadata:showCategoryMetadata }
-    requirements:
-        categoryType: 'formats|genres'
-        category1: '[^/.]+'
-        category2: '[_a-zA-Z0-9=-]+'
-        category3: '[_a-zA-Z0-9=-]+'
+        urlKeyHierarchy: '.+'
 
 aps.music_artist_chart:
     path: /aps/programmes/music/artists/charts.json

@@ -10,40 +10,17 @@ use DateInterval;
 
 class CategoryMetadataController extends BaseApsController
 {
+    use Traits\CategoryFetchingTrait;
+
     public function showCategoryMetadataAction(
         Request $request,
         string $categoryType,
-        string $category1,
-        string $category2 = null,
-        string $category3 = null,
+        string $urlKeyHierarchy,
         string $medium = null
     ): JsonResponse {
+        $category = $this->fetchCategoryFromTypeAndUrlHierarchy($categoryType, $urlKeyHierarchy);
+
         $categoriesService = $this->get('pps.categories_service');
-
-        switch ($categoryType) {
-            case 'formats':
-                if ($category2 || $category3) {
-                    throw $this->createNotFoundException('Category not found');
-                }
-                $category = $categoriesService->findFormatByUrlKeyAncestry($category1);
-                break;
-
-            case 'genres':
-                $category = $categoriesService->findGenreByUrlKeyAncestry(
-                    array_values(array_filter([$category3, $category2, $category1]))
-                );
-                break;
-
-            default:
-                // This shouldn't really happen as the route only matches genres or formats, but better safe than sorry
-                throw $this->createNotFoundException(sprintf("'%s' is not a valid category type", $categoryType));
-        }
-
-        // 404 if category wasn't found
-        if (empty($category)) {
-            throw $this->createNotFoundException('Category not found');
-        }
-
         // There's no such thing as a format with a parent, so there are no subformats
         $subcategories = [];
         if ($categoryType === 'genres') {
@@ -55,9 +32,8 @@ class CategoryMetadataController extends BaseApsController
         $episodes = $programmesService->findAvailableEpisodesByCategory($category, $medium, 5);
         $episodesCount = $programmesService->countAvailableEpisodesByCategory($category, $medium);
 
-        $now = ApplicationTime::getTime();
-
         $collapsedBroadcastsService = $this->get('pps.collapsed_broadcasts_service');
+        $now = ApplicationTime::getTime();
         // APS only shows the first 5 results (programmes_categories/show.hash.data#L79)
         $upcomingBroadcasts = $collapsedBroadcastsService->findByCategoryAndEndAtDateRange(
             $category,

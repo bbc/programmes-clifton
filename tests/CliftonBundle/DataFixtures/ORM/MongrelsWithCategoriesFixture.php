@@ -42,11 +42,11 @@ class MongrelsWithCategoriesFixture extends BaseFixture implements DependentFixt
         $masterBrand->setNetwork($network);
         $s2e1->setMasterBrand($masterBrand);
         $s2e1->setStreamable(true);
-        $s2e1->setCategories(new ArrayCollection([$category3]));
+        $s2e1->setCategories(new ArrayCollection([$category3, $format1]));
         $manager->persist($s2e1);
 
         $brand = $this->getReference('b00swgkn');
-        $brand->setCategories(new ArrayCollection([$category1, $category2, $format1]));
+        $brand->setCategories(new ArrayCollection([$category1, $category2]));
         $manager->persist($brand);
 
         $manager->flush();

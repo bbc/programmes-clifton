@@ -10,6 +10,53 @@ use Tests\BBC\CliftonBundle\BaseWebTestCase;
  */
 class AvailableEpisodesByCategoryControllerTest extends BaseWebTestCase
 {
+    /**
+     * @dataProvider validRoutesProvider
+     */
+    public function testCategoryMetadataValidRoutes($url)
+    {
+        $this->loadFixtures(['MongrelsWithCategoriesFixture']);
+
+        $client = static::createClient();
+        $client->request('GET', $url);
+
+        $this->assertResponseStatusCode($client, 200);
+    }
+
+    public function validRoutesProvider()
+    {
+        return [
+            ['/aps/programmes/genres/comedy/player/episodes.json'],
+            ['/aps/programmes/genres/comedy/sitcoms/player/episodes.json'],
+            ['/aps/programmes/genres/comedy/sitcoms/puppetysitcoms/player/episodes.json'],
+            ['/aps/tv/programmes/genres/comedy/sitcoms/puppetysitcoms/player/episodes.json'],
+            ['/aps/programmes/formats/animation/player/episodes.json'],
+        ];
+    }
+
+    /**
+     * @dataProvider invalidRoutesProvider
+     */
+    public function testCategoryMetadataInvalidRoutes($url)
+    {
+        $this->loadFixtures(['MongrelsWithCategoriesFixture']);
+
+        $client = static::createClient();
+        $client->request('GET', $url);
+
+        $this->assertResponseStatusCode($client, 404);
+    }
+
+    public function invalidRoutesProvider()
+    {
+        return [
+            ['/aps/programmes/genres/comedy/sitcoms/puppetysitcoms/extralevel/player/episodes.json'],
+            ['/aps/programmes/genres/notinthere/player/episodes.json'],
+            ['/aps/programmes/format/with/2levels/player/episodes.json'],
+            ['/aps/microwave/programmes/genres/comedy/player/episodes.json'],
+        ];
+    }
+
     public function testGenreAvailableEpisodesByCategoryAction()
     {
         $this->loadFixtures(['MongrelsWithCategoriesFixture']);
@@ -50,17 +97,6 @@ class AvailableEpisodesByCategoryControllerTest extends BaseWebTestCase
         $this->assertArrayHasKey('display_titles', $jsonContent['episodes'][0]['programme']);
         $this->assertEquals($jsonContent['episodes'][0]['programme']['display_titles']['title'], 'Mongrels');
         $this->assertEquals($jsonContent['episodes'][0]['programme']['display_titles']['subtitle'], 'Series 2, Episode 1');
-    }
-
-    public function testGenreAvailableEpisodesByCategoryActionInvalidCategory()
-    {
-        $this->loadFixtures(['MongrelsWithCategoriesFixture']);
-
-        $client = static::createClient();
-
-        // Categories don't exist in the fixtures
-        $client->request('GET', '/aps/programmes/genres/bad/badder/baddest/player/episodes.json');
-        $this->assertResponseStatusCode($client, 404);
     }
 
     public function testGenreAvailableEpisodesByCategoryActionInvalidPageNumber()
