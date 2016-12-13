@@ -26,6 +26,29 @@ aps.episodes:
     defaults: { _controller: CliftonBundle:BroadcastYearsAndMonths:yearsAndMonths }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
+aps.broadcast_by_category_for_day:
+    path: /aps/programmes/{categoryType}/{urlKeyHierarchy}/schedules/{year}/{month}/{day}.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:BroadcastForCategoryByDay:showBroadcastForCategoryByDay }
+    requirements:
+        categoryType: 'formats|genres'
+        urlKeyHierarchy: '.+'
+        year: '[1-2][0-9]{3}'
+        month: '0?[1-9]|1[0-2]'
+        day: '0?[1-9]|[1-2][0-9]|3[0-1]'
+
+aps.broadcast_by_category_and_medium_for_day:
+    path: /aps/{medium}/programmes/{categoryType}/{urlKeyHierarchy}/schedules/{year}/{month}/{day}.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:BroadcastForCategoryByDay:showBroadcastForCategoryByDay }
+    requirements:
+        medium: 'tv|radio'
+        categoryType: 'formats|genres'
+        urlKeyHierarchy: '.+'
+        year: '[1-2][0-9]{3}'
+        month: '0?[1-9]|1[0-2]'
+        day: '0?[1-9]|[1-2][0-9]|3[0-1]'
+
 aps.broadcasts_for_month:
     path: /aps/programmes/{pid}/episodes/{year}/{month}.json
     methods:  [GET]
