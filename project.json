@@ -35,9 +35,6 @@
             "fpm.max_spare_servers": 48,
             "fpm.max_requests": 50,
 
-            "ssl.ssl_client_cert": "service-devs-staff",
-            "ssl.verify_client": "on",
-
             "nginx.worker_processes": 4,
             "nginx.worker_connections": 1024
         }
