@@ -18,20 +18,26 @@
             "PyYAML"
         ],
         "conf": {
-            "comment": "We're targeting m4.xlarge instances",
+            "comment": "We're targeting c4.xlarge instances",
             "front_controller": "app.php",
+
             "opcache.max_accelerated_files": 7963,
             "opcache.memory_consumption": 64,
             "opcache.interned_strings_buffer": 16,
             "memory_limit": "128m",
+            "max_execution_time": 30,
+
+            "fpm.mode": "ondemand",
+            "fpm.process_idle_timeout": "10s",
+            "fpm.max_children": 324,
+            "fpm.start_servers": 32,
+            "fpm.min_spare_servers": 16,
+            "fpm.max_spare_servers": 48,
+            "fpm.max_requests": 50,
+
             "ssl.ssl_client_cert": "service-devs-staff",
             "ssl.verify_client": "on",
-            "max_execution_time": 30,
-            "fpm.max_children": 375,
-            "fpm.start_servers": 38,
-            "fpm.min_spare_servers": 19,
-            "fpm.max_spare_servers": 56,
-            "fpm.max_requests": 1000,
+
             "nginx.worker_processes": 4,
             "nginx.worker_connections": 1024
         }
