@@ -16,9 +16,10 @@ services:
 
     clifton.monitoring_subscriber:
         class: BBC\CliftonBundle\Event\MonitoringSubscriber
-        arguments: ['@clifton.monitoring', '@debug.stopwatch']
+        arguments: ['@logger', '@debug.stopwatch']
         tags:
             - { name: 'kernel.event_subscriber' }
+            - { name: 'monolog.logger', channel: 'app_access' }
 
     clifton.application_time:
         class: DateTimeImmutable

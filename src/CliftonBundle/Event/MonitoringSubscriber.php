@@ -6,18 +6,18 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\Stopwatch\Stopwatch;
-use RMP\CloudwatchMonitoring\MonitoringHandler;
+use Psr\Log\LoggerInterface;
 
 class MonitoringSubscriber implements EventSubscriberInterface
 {
     const REQUEST_TIMER = 'aps.request_time';
 
-    private $monitor;
+    private $logger;
     private $stopwatch;
 
-    public function __construct(MonitoringHandler $monitor, Stopwatch $stopwatch)
+    public function __construct(LoggerInterface $logger, Stopwatch $stopwatch)
     {
-        $this->monitor = $monitor;
+        $this->logger = $logger;
         $this->stopwatch = $stopwatch;
     }
 
@@ -41,8 +41,6 @@ class MonitoringSubscriber implements EventSubscriberInterface
     public function terminateEnd(KernelEvent $event)
     {
         $this->logRequestTime($event);
-
-        $this->monitor->sendMetrics();
     }
 
     private function logRequestTime(KernelEvent $event)
@@ -69,13 +67,7 @@ class MonitoringSubscriber implements EventSubscriberInterface
 
         $controllerPeriod = $this->getControllerPeriod();
         if ($controllerPeriod) {
-            $this->monitor->putMetricData('ControllerActionRenderCount', 1, [
-                ['Name' => 'ControllerAction', 'Value' => $controllerAction],
-            ], 'Count');
-
-            $this->monitor->putMetricData('ControllerActionRenderTime', $controllerPeriod, [
-                ['Name' => 'ControllerAction', 'Value' => $controllerAction],
-            ], 'Milliseconds');
+            $this->logger->info('CONTROLLER {0} {1}', [$controllerAction, $controllerPeriod]);
         }
     }
 
