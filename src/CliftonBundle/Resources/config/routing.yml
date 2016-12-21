@@ -98,6 +98,27 @@ aps.available_episodes_by_category_and_medium:
         categoryType: "formats|genres"
         urlKeyHierarchy: '.+'
 
+aps.category_calendar:
+    path: /aps/programmes/{categoryType}/{urlKeyHierarchy}/schedules/{year}/{month}/calendar.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:CategoryCalendar:categoryCalendar }
+    requirements:
+        categoryType: 'formats|genres'
+        urlKeyHierarchy: '.+'
+        year: '[1-2][0-9]{3}'
+        month: '0?[1-9]|1[0-2]'
+
+aps.category_calendar_by_medium:
+    path: /aps/{medium}/programmes/{categoryType}/{urlKeyHierarchy}/schedules/{year}/{month}/calendar.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:CategoryCalendar:categoryCalendar }
+    requirements:
+        medium: 'tv|radio'
+        categoryType: 'formats|genres'
+        urlKeyHierarchy: '.+'
+        year: '[1-2][0-9]{3}'
+        month: '0?[1-9]|1[0-2]'
+
 aps.category_metadata:
     path: /aps/programmes/{categoryType}/{urlKeyHierarchy}.json
     methods:  [GET]

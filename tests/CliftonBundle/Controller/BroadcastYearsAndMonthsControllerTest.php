@@ -20,7 +20,7 @@ class BroadcastYearsAndMonthsControllerTest extends BaseWebTestCase
 
         $expectedYears = [
             ['id' => 2016, 'months' => [ ['id' => 1] ]],
-            ['id' => 2015, 'months' => [ ['id' => 10], ['id' => 8] ]],
+            ['id' => 2015, 'months' => [ ['id' => 10], ['id' => 9], ['id' => 8] ]],
         ];
 
         $jsonContent = $this->getDecodedJsonContent($client);

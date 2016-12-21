@@ -31,6 +31,7 @@ class BroadcastsFixture extends AbstractFixture implements DependentFixtureInter
 
         // grab service
         $service = $this->getReference('p00fzl7j');
+        $service2 = $this->getReference('p00fzl6p');
 
         // build versions
         $version1 = $this->buildVersion('v0000011', $episode1);
@@ -39,7 +40,7 @@ class BroadcastsFixture extends AbstractFixture implements DependentFixtureInter
         // build broadcasts
         $this->buildBroadcast('brdcst001', $version1, $service, '2015-08-01 00:00:00', '2015-08-01 01:00:00');
         $this->buildBroadcast('brdcst002', $version1, $service, '2015-08-02 00:00:00', '2015-08-02 01:00:00');
-        $this->buildBroadcast('brdcst003', $version1, $service, '2015-08-03 00:00:00', '2015-08-03 01:00:00');
+        $this->buildBroadcast('brdcst003', $version1, $service2, '2015-09-03 00:00:00', '2015-09-03 01:00:00');
         $this->buildBroadcast('brdcst004', $version1, $service, '2015-10-01 00:00:00', '2015-10-01 01:00:00');
         $this->buildBroadcast('brdcst005', $version1, $service, '2016-01-18 00:00:00', '2015-01-18 01:00:00');
         $this->buildBroadcast('brdcst006', $version2Embargoed, $service, '2016-01-20 00:00:00', '2015-01-20 01:00:00');

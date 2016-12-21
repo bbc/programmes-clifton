@@ -54,13 +54,15 @@ class NetworksFixture extends AbstractFixture
             'radio2'
         );
 
-        $this->buildNetwork(
+        $network = $this->buildNetwork(
             'bbc_one',
             'BBC One',
             $service3,
             'bbcone',
             NetworkMediumEnum::TV
         );
+
+        $service3->setNetwork($network);
 
         $this->manager->flush();
     }

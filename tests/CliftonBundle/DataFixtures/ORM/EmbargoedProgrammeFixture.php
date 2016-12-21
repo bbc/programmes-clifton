@@ -2,7 +2,10 @@
 
 namespace Tests\BBC\CliftonBundle\DataFixtures\ORM;
 
+use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Format;
+use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Genre;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Version;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Brand;
@@ -20,6 +23,9 @@ class EmbargoedProgrammeFixture extends AbstractFixture
         $brand2 = $this->buildBrand('00000000', 'Old Jews Telling Jokes 2', true);
 
         $e1 = $this->buildEpisode('b01777fr', 'Episode 1', $brand);
+        $genre = $this->buildGenre('c000001', 'Comedy', 'comedy');
+        $e1->setCategories(new ArrayCollection([$genre]));
+
         $e2 = $this->buildEpisode('b017j5jw', 'Episode 2', $brand2);
 
         // The mythical 3rd episode doesn't exist, but we want to prove that
@@ -50,6 +56,14 @@ class EmbargoedProgrammeFixture extends AbstractFixture
         $entity->setParent($parent);
         $entity->setIsEmbargoed($embargoed);
         $this->addReference($pid, $entity);
+        $this->manager->persist($entity);
+        return $entity;
+    }
+
+    private function buildGenre($pidId, $title, $urlKey, $parent = null)
+    {
+        $entity = new Genre($pidId, $title, $urlKey);
+        $entity->setParent($parent);
         $this->manager->persist($entity);
         return $entity;
     }
