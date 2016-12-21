@@ -2,12 +2,11 @@
 
 namespace BBC\CliftonBundle\ApsMapper;
 
-use InvalidArgumentException;
-
 class CategoryMetadataMapper implements MapperInterface
 {
     use Traits\CategoryItemTrait;
     use Traits\CollapsedBroadcastTrait;
+    use Traits\ServiceTrait;
 
     public function getApsObject(
         $category,
@@ -21,7 +20,7 @@ class CategoryMetadataMapper implements MapperInterface
     ) {
         $output = [
             'category' => $this->mapCategoryItem($category, true, $subcategories),
-            'service' => $medium ? $this->getService($medium) : $medium,
+            'service' => $this->mapMediumService($medium),
             'available_programmes_count' => $availableEpisodesCount,
             'available_programmes' => $availableEpisodes ?
                 array_map(
@@ -43,26 +42,5 @@ class CategoryMetadataMapper implements MapperInterface
         }
 
         return (object) $output;
-    }
-
-    private function getService($medium)
-    {
-        if ($medium === 'tv') {
-            return (object) [
-                'key' => 'tv',
-                'id' => 'tv',
-                'title' => 'BBC TV',
-            ];
-        } elseif ($medium === 'radio') {
-            return (object) [
-                'key' => 'radio',
-                'id' => 'radio',
-                'title' => 'BBC Radio',
-            ];
-        } else {
-            throw new InvalidArgumentException(
-                sprintf("The service must be either 'tv' or 'radio', instead got '%s'", $medium)
-            );
-        }
     }
 }

@@ -119,6 +119,26 @@ aps.category_calendar_by_medium:
         year: '[1-2][0-9]{3}'
         month: '0?[1-9]|1[0-2]'
 
+# feed by categories in slice
+aps.tleos_slice_by_category:
+    path: /aps/programmes/{categoryType}/{urlKeyHierarchy}/{slice}.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:TleosSliceByCategory:showSliceTleosByCategory }
+    requirements:
+        categoryType: 'formats|genres'
+        urlKeyHierarchy: '.+'
+        slice: 'all|player'
+
+tleos_slice_by_category_and_medium:
+    path: /aps/{medium}/programmes/{categoryType}/{urlKeyHierarchy}/{slice}.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:TleosSliceByCategory:showSliceTleosByCategory }
+    requirements:
+        medium: 'tv|radio'
+        categoryType: 'formats|genres'
+        urlKeyHierarchy: '.+'
+        slice: 'all|player'
+
 aps.category_metadata:
     path: /aps/programmes/{categoryType}/{urlKeyHierarchy}.json
     methods:  [GET]
