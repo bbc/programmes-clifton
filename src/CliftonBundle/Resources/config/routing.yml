@@ -93,6 +93,23 @@ aps.upcoming_broadcast_for_programme:
     defaults: { _controller: CliftonBundle:CollapsedBroadcastUpcomingForProgramme:collapsedBroadcastUpcomingForProgramme }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
+aps.upcoming_collapsed_broadcast_for_category:
+    path: /aps/programmes/{categoryType}/{urlKeyHierarchy}/schedules/upcoming.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:UpcomingCollapsedBroadcastForCategory:upcomingCollapsedBroadcastForCategory }
+    requirements:
+        categoryType: 'formats|genres'
+        urlKeyHierarchy: '.+'
+
+aps.upcoming_collapsed_broadcast_for_category_and_medium:
+    path: /aps/{medium}/programmes/{categoryType}/{urlKeyHierarchy}/schedules/upcoming.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:UpcomingCollapsedBroadcastForCategory:upcomingCollapsedBroadcastForCategory }
+    requirements:
+        categoryType: 'formats|genres'
+        urlKeyHierarchy: '.+'
+        medium: 'tv|radio'
+
 aps.music_artist:
     path: /aps/programmes/music/artists/{musicBrainzId}.json
     methods:  [GET]
