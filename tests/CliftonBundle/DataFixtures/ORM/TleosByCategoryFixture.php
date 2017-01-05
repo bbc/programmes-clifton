@@ -38,17 +38,16 @@ class TleosByCategoryFixture extends AbstractFixture
         $brand1 = $this->buildBrand('11111111', 'Brand1');
         $brand2 = $this->buildBrand('22222222', 'Brand2');
 
-        $manager->flush();
+        $this->manager->flush();
 
-        $e12 = $this->buildEpisode('b01777fa', 'Brand1 Ep 1/2', $brand1);
-        $e22 = $this->buildEpisode('b01777fb', 'Brand1 Ep 2/2', $brand1);
+        $this->buildEpisode('b01777fa', 'Brand1 Ep 1/2', $brand1);
+        $this->buildEpisode('b01777fb', 'Brand1 Ep 2/2', $brand1);
 
-        $e13 = $this->buildEpisode('b017j555', 'Brand2 Ep 1/3', $brand2);
-        $e23 = $this->buildEpisode('b017j556', 'Brand2 Ep 2/3', $brand2);
-        $e33 = $this->buildEpisode('b017j557', 'Brand2 Ep 3/3', $brand2);
+        $this->buildEpisode('b017j555', 'Brand2 Ep 1/3', $brand2);
+        $this->buildEpisode('b017j556', 'Brand2 Ep 2/3', $brand2);
+        $this->buildEpisode('b017j557', 'Brand2 Ep 3/3', $brand2);
 
-
-        $manager->flush();
+        $this->manager->flush();
 
         // build categories
         $cat1 = $this->buildGenre('C00123', 'Cat.1', 'cat1');
@@ -59,19 +58,29 @@ class TleosByCategoryFixture extends AbstractFixture
         $form2 = $this->buildFormat('PT011', 'Form.2', 'form2');
         $format3 = $this->buildFormat('PT012', 'Form.3', 'form3');
 
-        // assign categories to programmes
+        // assign categories to brand-programmes
         $brand1 = $this->getReference('11111111');
         $brand1->setCategories(new ArrayCollection([$cat1, $cat11, $form1]));
         $brand1->setStreamable(true);
-        $manager->persist($brand1);
+        $this->manager->persist($brand1);
 
         $brand2 = $this->getReference('22222222');
         $brand2->setCategories(new ArrayCollection([$cat1, $cat11, $cat111, $form2]));
         $brand2->setStreamable(false);
-        $manager->persist($brand2);
+        $this->manager->persist($brand2);
 
+        // assign categories to episode-programmes
+        $ep12 = $this->getReference('b01777fa');
+        $ep12->setCategories(new ArrayCollection([$cat1, $cat11, $form1]));
+        $ep12->setStreamable(true);
+        $this->manager->persist($ep12);
 
-        $manager->flush();
+        $ep22 = $this->getReference('b01777fb');
+        $ep22->setCategories(new ArrayCollection([$cat1, $cat11, $cat111, $form2]));
+        $ep22->setStreamable(false);
+        $this->manager->persist($ep22);
+
+        $this->manager->flush();
     }
 
     private function buildGenre($pidId, $title, $urlKey, $parent = null)
@@ -86,14 +95,6 @@ class TleosByCategoryFixture extends AbstractFixture
     {
         $entity = new Format($pidId, $title, $urlKey);
         $this->manager->persist($entity);
-        return $entity;
-    }
-
-    private function buildMasterBrand($mid, $pid, $name)
-    {
-        $entity = new MasterBrand($mid, $pid, $name);
-        $this->manager->persist($entity);
-        $this->addReference($mid, $entity);
         return $entity;
     }
 
