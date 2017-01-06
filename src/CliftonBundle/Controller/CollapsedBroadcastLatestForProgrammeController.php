@@ -18,9 +18,7 @@ class CollapsedBroadcastLatestForProgrammeController extends BaseApsController
             throw $this->createNotFoundException('Not Found');
         }
 
-        $bs = $this->get('pps.collapsed_broadcasts_service');
-        $latestBroadcast = $bs->findPastByProgramme($programme, 1);
-
+        $latestBroadcast = $this->get('pps.collapsed_broadcasts_service')->findPastByProgramme($programme, 1);
         $mappedBroadcasts = $this->mapManyApsObjects(new CollapsedBroadcastMapper(), $latestBroadcast);
 
         return $this->json(['broadcasts' => $mappedBroadcasts]);

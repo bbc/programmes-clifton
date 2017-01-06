@@ -4,8 +4,11 @@ namespace BBC\CliftonBundle\Controller;
 
 use BBC\CliftonBundle\ApsMapper\CollapsedBroadcastMapper;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
+use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 class CollapsedBroadcastsForMonthController extends BaseApsController
 {
@@ -23,9 +26,8 @@ class CollapsedBroadcastsForMonthController extends BaseApsController
             throw $this->createNotFoundException('Not Found');
         }
 
-        $bs = $this->get('pps.collapsed_broadcasts_service');
-        $broadcastsByMonth = $bs->findByProgrammeAndMonth($programme, $year, $month, $bs::NO_LIMIT);
-
+        $broadcastsByMonth = $this->get('pps.collapsed_broadcasts_service')
+            ->findByProgrammeAndMonth($programme, $year, $month, CollapsedBroadcastsService::NO_LIMIT);
         if (empty($broadcastsByMonth)) {
             throw $this->createNotFoundException('Not Found');
         }
