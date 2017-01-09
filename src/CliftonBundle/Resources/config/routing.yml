@@ -1,76 +1,6 @@
-status:
-    path: /status
-    defaults: { _controller: CliftonBundle:Status:status }
-
-aps.find_by_pid:
-    path: /aps/programmes/{pid}.json
-    methods:  [GET]
-    defaults: { _controller: CliftonBundle:FindByPid:findByPid }
-    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
-
-aps.version_segment_events:
-    path: /aps/programmes/{pid}/segments.json
-    methods:  [GET]
-    defaults: { _controller: CliftonBundle:VersionSegmentEvents:segmentEvents }
-    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
-
-aps.programme_children:
-    path: /aps/programmes/{pid}/children.json
-    methods:  [GET]
-    defaults: { _controller: CliftonBundle:ProgrammeChildren:children }
-    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
-
-aps.episodes:
-    path: /aps/programmes/{pid}/episodes.json
-    methods:  [GET]
-    defaults: { _controller: CliftonBundle:BroadcastYearsAndMonths:yearsAndMonths }
-    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
-
-aps.broadcast_by_category_for_day:
-    path: /aps/programmes/{categoryType}/{urlKeyHierarchy}/schedules/{year}/{month}/{day}.json
-    methods:  [GET]
-    defaults: { _controller: CliftonBundle:BroadcastForCategoryByDay:showBroadcastForCategoryByDay }
-    requirements:
-        categoryType: 'formats|genres'
-        urlKeyHierarchy: '.+'
-        year: '[1-2][0-9]{3}'
-        month: '0?[1-9]|1[0-2]'
-        day: '0?[1-9]|[1-2][0-9]|3[0-1]'
-
-aps.subcategories_for_category_by_day:
-    path: /aps/programmes/{categoryType}/{urlKeyHierarchy}/schedules/{year}/{month}/{day}/subcategories.json
-    methods:  [GET]
-    defaults: { _controller: CliftonBundle:SubcategoriesForCategoryByDay:showBroadcastForCategoryBySubcategories }
-    requirements:
-        categoryType: 'formats|genres'
-        urlKeyHierarchy: '.+'
-        year: '[1-2][0-9]{3}'
-        month: '0?[1-9]|1[0-2]'
-        day: '0?[1-9]|[1-2][0-9]|3[0-1]'
-
-aps.aps.subcategories_for_category_by_day_and_medium:
-    path: /aps/{medium}/programmes/{categoryType}/{urlKeyHierarchy}/schedules/{year}/{month}/{day}/subcategories.json
-    methods:  [GET]
-    defaults: { _controller: CliftonBundle:SubcategoriesForCategoryByDay:showBroadcastForCategoryBySubcategories }
-    requirements:
-        medium: 'tv|radio'
-        categoryType: 'formats|genres'
-        urlKeyHierarchy: '.+'
-        year: '[1-2][0-9]{3}'
-        month: '0?[1-9]|1[0-2]'
-        day: '0?[1-9]|[1-2][0-9]|3[0-1]'
-
-aps.broadcast_by_category_and_medium_for_day:
-    path: /aps/{medium}/programmes/{categoryType}/{urlKeyHierarchy}/schedules/{year}/{month}/{day}.json
-    methods:  [GET]
-    defaults: { _controller: CliftonBundle:BroadcastForCategoryByDay:showBroadcastForCategoryByDay }
-    requirements:
-        medium: 'tv|radio'
-        categoryType: 'formats|genres'
-        urlKeyHierarchy: '.+'
-        year: '[1-2][0-9]{3}'
-        month: '0?[1-9]|1[0-2]'
-        day: '0?[1-9]|[1-2][0-9]|3[0-1]'
+# These routes should be in order of most specific to least specific, specially for routes that have .* matches.
+# For example, it's possible that /aps/programmes/{categoryType}/{urlKeyHierarchy}.json, where urlKeyHierarchy is .*
+# could match /aps/programmes/{categoryType}/{urlKeyHierarchy}/player.json when it shouldn't
 
 aps.broadcasts_for_month:
     path: /aps/programmes/{pid}/episodes/{year}/{month}.json
@@ -93,13 +23,41 @@ aps.upcoming_broadcast_for_programme:
     defaults: { _controller: CliftonBundle:CollapsedBroadcastUpcomingForProgramme:collapsedBroadcastUpcomingForProgramme }
     requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
 
-aps.upcoming_collapsed_broadcast_for_category:
-    path: /aps/programmes/{categoryType}/{urlKeyHierarchy}/schedules/upcoming.json
+aps.episodes:
+    path: /aps/programmes/{pid}/episodes.json
     methods:  [GET]
-    defaults: { _controller: CliftonBundle:UpcomingCollapsedBroadcastForCategory:upcomingCollapsedBroadcastForCategory }
-    requirements:
-        categoryType: 'formats|genres'
-        urlKeyHierarchy: '.+'
+    defaults: { _controller: CliftonBundle:BroadcastYearsAndMonths:yearsAndMonths }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
+aps.programme_children:
+    path: /aps/programmes/{pid}/children.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:ProgrammeChildren:children }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
+aps.version_segment_events:
+    path: /aps/programmes/{pid}/segments.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:VersionSegmentEvents:segmentEvents }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
+aps.children_series_of_container:
+    path: /aps/programmes/{pid}/series.json
+    methods: [GET]
+    defaults: { _controller: CliftonBundle:ChildrenSeriesOfContainer:childrenSeriesOfContainer }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
+aps.find_by_pid:
+    path: /aps/programmes/{pid}.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:FindByPid:findByPid }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
+aps.pan_bbc_category_list:
+    path: /aps/programmes/{categoryType}.json
+    methods: [GET]
+    defaults: { _controller: CliftonBundle:CategoriesList:panBbcCategoriesList }
+    requirements: { categoryType: 'formats|genres' }
 
 aps.upcoming_collapsed_broadcast_for_category_and_medium:
     path: /aps/{medium}/programmes/{categoryType}/{urlKeyHierarchy}/schedules/upcoming.json
@@ -110,23 +68,12 @@ aps.upcoming_collapsed_broadcast_for_category_and_medium:
         urlKeyHierarchy: '.+'
         medium: 'tv|radio'
 
-aps.music_artist:
-    path: /aps/programmes/music/artists/{musicBrainzId}.json
+aps.upcoming_collapsed_broadcast_for_category:
+    path: /aps/programmes/{categoryType}/{urlKeyHierarchy}/schedules/upcoming.json
     methods:  [GET]
-    defaults: { _controller: CliftonBundle:MusicArtists:show }
-    requirements: { musicBrainzId: '[a-f0-9\-]{36}' }
-
-aps.music_artist_chart_service:
-    path: /aps/{networkKey}/programmes/music/artists/charts.json
-    methods:  [GET]
-    defaults: { _controller: CliftonBundle:MusicArtists:chartService }
-
-aps.available_episodes_by_category:
-    path: /aps/programmes/{categoryType}/{urlKeyHierarchy}/player/episodes.json
-    methods: [GET]
-    defaults: { _controller: CliftonBundle:AvailableEpisodesByCategory:availableEpisodesByCategory }
+    defaults: { _controller: CliftonBundle:UpcomingCollapsedBroadcastForCategory:upcomingCollapsedBroadcastForCategory }
     requirements:
-        categoryType: "formats|genres"
+        categoryType: 'formats|genres'
         urlKeyHierarchy: '.+'
 
 aps.available_episodes_by_category_and_medium:
@@ -138,28 +85,14 @@ aps.available_episodes_by_category_and_medium:
         categoryType: "formats|genres"
         urlKeyHierarchy: '.+'
 
-aps.category_calendar:
-    path: /aps/programmes/{categoryType}/{urlKeyHierarchy}/schedules/{year}/{month}/calendar.json
-    methods:  [GET]
-    defaults: { _controller: CliftonBundle:CategoryCalendar:categoryCalendar }
+aps.available_episodes_by_category:
+    path: /aps/programmes/{categoryType}/{urlKeyHierarchy}/player/episodes.json
+    methods: [GET]
+    defaults: { _controller: CliftonBundle:AvailableEpisodesByCategory:availableEpisodesByCategory }
     requirements:
-        categoryType: 'formats|genres'
+        categoryType: "formats|genres"
         urlKeyHierarchy: '.+'
-        year: '[1-2][0-9]{3}'
-        month: '0?[1-9]|1[0-2]'
 
-aps.category_calendar_by_medium:
-    path: /aps/{medium}/programmes/{categoryType}/{urlKeyHierarchy}/schedules/{year}/{month}/calendar.json
-    methods:  [GET]
-    defaults: { _controller: CliftonBundle:CategoryCalendar:categoryCalendar }
-    requirements:
-        medium: 'tv|radio'
-        categoryType: 'formats|genres'
-        urlKeyHierarchy: '.+'
-        year: '[1-2][0-9]{3}'
-        month: '0?[1-9]|1[0-2]'
-
-# feed by categories in slice
 aps.tleos_slice_by_category:
     path: /aps/programmes/{categoryType}/{urlKeyHierarchy}/{slice}.json
     methods:  [GET]
@@ -179,13 +112,72 @@ tleos_slice_by_category_and_medium:
         urlKeyHierarchy: '.+'
         slice: 'all|player'
 
-aps.category_metadata:
-    path: /aps/programmes/{categoryType}/{urlKeyHierarchy}.json
+aps.category_calendar_by_medium:
+    path: /aps/{medium}/programmes/{categoryType}/{urlKeyHierarchy}/schedules/{year}/{month}/calendar.json
     methods:  [GET]
-    defaults: { _controller: CliftonBundle:CategoryMetadata:showCategoryMetadata }
+    defaults: { _controller: CliftonBundle:CategoryCalendar:categoryCalendar }
+    requirements:
+        medium: 'tv|radio'
+        categoryType: 'formats|genres'
+        urlKeyHierarchy: '.+'
+        year: '[1-2][0-9]{3}'
+        month: '0?[1-9]|1[0-2]'
+
+aps.category_calendar:
+    path: /aps/programmes/{categoryType}/{urlKeyHierarchy}/schedules/{year}/{month}/calendar.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:CategoryCalendar:categoryCalendar }
     requirements:
         categoryType: 'formats|genres'
         urlKeyHierarchy: '.+'
+        year: '[1-2][0-9]{3}'
+        month: '0?[1-9]|1[0-2]'
+
+aps.aps.subcategories_for_category_by_day_and_medium:
+    path: /aps/{medium}/programmes/{categoryType}/{urlKeyHierarchy}/schedules/{year}/{month}/{day}/subcategories.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:SubcategoriesForCategoryByDay:showBroadcastForCategoryBySubcategories }
+    requirements:
+        medium: 'tv|radio'
+        categoryType: 'formats|genres'
+        urlKeyHierarchy: '.+'
+        year: '[1-2][0-9]{3}'
+        month: '0?[1-9]|1[0-2]'
+        day: '0?[1-9]|[1-2][0-9]|3[0-1]'
+
+aps.subcategories_for_category_by_day:
+    path: /aps/programmes/{categoryType}/{urlKeyHierarchy}/schedules/{year}/{month}/{day}/subcategories.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:SubcategoriesForCategoryByDay:showBroadcastForCategoryBySubcategories }
+    requirements:
+        categoryType: 'formats|genres'
+        urlKeyHierarchy: '.+'
+        year: '[1-2][0-9]{3}'
+        month: '0?[1-9]|1[0-2]'
+        day: '0?[1-9]|[1-2][0-9]|3[0-1]'
+
+aps.broadcast_by_category_and_medium_for_day:
+    path: /aps/{medium}/programmes/{categoryType}/{urlKeyHierarchy}/schedules/{year}/{month}/{day}.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:BroadcastForCategoryByDay:showBroadcastForCategoryByDay }
+    requirements:
+        medium: 'tv|radio'
+        categoryType: 'formats|genres'
+        urlKeyHierarchy: '.+'
+        year: '[1-2][0-9]{3}'
+        month: '0?[1-9]|1[0-2]'
+        day: '0?[1-9]|[1-2][0-9]|3[0-1]'
+
+aps.broadcast_by_category_for_day:
+    path: /aps/programmes/{categoryType}/{urlKeyHierarchy}/schedules/{year}/{month}/{day}.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:BroadcastForCategoryByDay:showBroadcastForCategoryByDay }
+    requirements:
+        categoryType: 'formats|genres'
+        urlKeyHierarchy: '.+'
+        year: '[1-2][0-9]{3}'
+        month: '0?[1-9]|1[0-2]'
+        day: '0?[1-9]|[1-2][0-9]|3[0-1]'
 
 aps.category_metadata_by_medium:
     path: /aps/{medium}/programmes/{categoryType}/{urlKeyHierarchy}.json
@@ -196,43 +188,29 @@ aps.category_metadata_by_medium:
         categoryType: 'formats|genres'
         urlKeyHierarchy: '.+'
 
+aps.category_metadata:
+    path: /aps/programmes/{categoryType}/{urlKeyHierarchy}.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:CategoryMetadata:showCategoryMetadata }
+    requirements:
+        categoryType: 'formats|genres'
+        urlKeyHierarchy: '.+'
+
+aps.music_artist_chart_service:
+    path: /aps/{networkKey}/programmes/music/artists/charts.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:MusicArtists:chartService }
+
 aps.music_artist_chart:
     path: /aps/programmes/music/artists/charts.json
     methods:  [GET]
     defaults: { _controller: CliftonBundle:MusicArtists:chart }
 
-aps.children_series_of_container:
-    path: /aps/programmes/{pid}/series.json
-    methods: [GET]
-    defaults: { _controller: CliftonBundle:ChildrenSeriesOfContainer:childrenSeriesOfContainer }
-    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
-
-aps.pan_bbc_category_list:
-    path: /aps/programmes/{categoryType}.json
-    methods: [GET]
-    defaults: { _controller: CliftonBundle:CategoriesList:panBbcCategoriesList }
-    requirements: { categoryType: 'formats|genres' }
-
-test.availability:
-    path: /availability/{pid}.json
+aps.music_artist:
+    path: /aps/programmes/music/artists/{musicBrainzId}.json
     methods:  [GET]
-    defaults: { _controller: CliftonBundle:Availability:findByPid }
-    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
-
-home:
-    path: /
-    methods:  [GET]
-    defaults: { _controller: CliftonBundle:Home:home }
-
-debug:
-    path: /debug/{serviceName}/{serviceMethod}
-    defaults:
-        _controller: CliftonBundle:Debug:debug
-
-debug.descendants:
-    path: /debug-descendants/{pid}.json
-    defaults:
-        _controller: CliftonBundle:Debug:descendants
+    defaults: { _controller: CliftonBundle:MusicArtists:show }
+    requirements: { musicBrainzId: '[a-f0-9\-]{36}' }
 
 aps.atoz_list_default:
     path: /aps/programmes/a-z.json
@@ -280,3 +258,29 @@ aps.atoz_by_network:
     methods: [GET]
     defaults: { _controller: CliftonBundle:Atoz:by, slice: 'player' }
     requirements: { search: '[^/.]+', slice: 'player|all', network: '^(tv|radio)$' }
+
+
+test.availability:
+    path: /availability/{pid}.json
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:Availability:findByPid }
+    requirements: { pid: '[0-9b-df-hj-np-tv-z]{8,15}' }
+
+home:
+    path: /
+    methods:  [GET]
+    defaults: { _controller: CliftonBundle:Home:home }
+
+debug:
+    path: /debug/{serviceName}/{serviceMethod}
+    defaults:
+        _controller: CliftonBundle:Debug:debug
+
+debug.descendants:
+    path: /debug-descendants/{pid}.json
+    defaults:
+        _controller: CliftonBundle:Debug:descendants
+
+status:
+    path: /status
+    defaults: { _controller: CliftonBundle:Status:status }

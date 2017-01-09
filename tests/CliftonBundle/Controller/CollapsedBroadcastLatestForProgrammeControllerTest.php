@@ -21,9 +21,7 @@ class CollapsedBroadcastLatestForProgrammeControllerTest extends BaseWebTestCase
 
     public function testCollapsedBroadcastLatestForProgramme()
     {
-        $this->client->getContainer()->set(
-            'pps.collapsed_broadcasts_service', $this->mockCollapsedBroadcastsService()
-        );
+        $this->client->getContainer()->set('pps.collapsed_broadcasts_service', $this->mockCollapsedBroadcastsService());
 
         $this->client->request('GET', "/aps/programmes/b010t150/episodes/last.json");
 

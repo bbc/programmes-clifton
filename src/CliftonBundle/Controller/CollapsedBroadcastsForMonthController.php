@@ -5,10 +5,8 @@ namespace BBC\CliftonBundle\Controller;
 use BBC\CliftonBundle\ApsMapper\CollapsedBroadcastMapper;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
 
 class CollapsedBroadcastsForMonthController extends BaseApsController
 {
