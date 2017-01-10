@@ -1,6 +1,6 @@
 {
     "name": "programmes-clifton",
-    "php_version": "7.0",
+    "php_version": "7.1",
     "packaging": {
         "type": "pac_nginx",
         "composer": {
@@ -8,10 +8,10 @@
         },
         "requires": [
             "programmes-rds-loadbalancer",
-            "php70u-mbstring",
-            "php70u-mysqlnd",
-            "php70u-pecl-apcu",
-            "php70u-pdo",
+            "php71u-mbstring",
+            "php71u-mysqlnd",
+            "php71u-pecl-apcu",
+            "php71u-pdo",
             "cosmos-ca-chains",
             "cosmos-ca-tools",
             "awslogs",
