@@ -34,7 +34,7 @@ class EastendersFixture extends BaseFixture
 
         $episode = new Episode('b06khpp0', '22/10/2015');
         $episode->setShortSynopsis('Short Synopsis');
-        $episode->setReleaseDate(new PartialDate('2015-01'));
+        $episode->setReleaseDate(new PartialDate(2015, 1));
         $episode->setParent($series);
         $episode->setImage($image);
         $episode->setPosition(1);
@@ -44,7 +44,7 @@ class EastendersFixture extends BaseFixture
 
         $episode2 = new Episode('b06khpp1', '25/11/2015');
         $episode2->setShortSynopsis('Short Synopsis');
-        $episode2->setReleaseDate(new PartialDate('2015-11-25'));
+        $episode2->setReleaseDate(new PartialDate(2015, 11, 25));
         $episode2->setParent($series);
         $episode2->setPosition(2);
         $episode2->setStreamable(true);
@@ -53,7 +53,7 @@ class EastendersFixture extends BaseFixture
 
         $episode3 = new Episode('b06khpp2', '27/11/2015');
         $episode3->setShortSynopsis('Short Synopsis');
-        $episode3->setReleaseDate(new PartialDate('2015-11-27'));
+        $episode3->setReleaseDate(new PartialDate(2015, 11, 27));
         $episode3->setParent($series);
         $episode3->setPosition(3);
         $episode3->setStreamable(true);
