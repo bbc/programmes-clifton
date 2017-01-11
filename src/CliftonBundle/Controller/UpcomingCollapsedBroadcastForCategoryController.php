@@ -4,7 +4,6 @@ namespace BBC\CliftonBundle\Controller;
 
 use BBC\CliftonBundle\ApsMapper\CollapsedBroadcastMapper;
 use BBC\ProgrammesPagesService\Domain\ApplicationTime;
-use BBC\ProgrammesPagesService\Domain\Entity\Genre;
 use DateInterval;
 use Symfony\Component\HttpFoundation\Request;
 use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;

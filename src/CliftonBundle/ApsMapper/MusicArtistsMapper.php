@@ -91,11 +91,16 @@ class MusicArtistsMapper implements MapperInterface
 
     private function getEpisode(ProgrammeItem $episode): stdClass
     {
-        return (object) [
+        $output = [
             'pid' => (string) $episode->getPid(),
             'title' => (string) $episode->getTitle(),
-            'short_synopsis' => (string) $episode->getShortSynopsis(),
         ];
+
+        if (!empty($episode->getShortSynopsis())) {
+            $output['short_synopsis'] = (string) $episode->getShortSynopsis();
+        }
+
+        return (object) $output;
     }
 
     private function getTleo(ProgrammeItem $episode): stdClass
@@ -103,14 +108,19 @@ class MusicArtistsMapper implements MapperInterface
         $tleo = $episode->getTleo();
 
         $network = $tleo->getNetwork();
-        $serviceKey = $network ? $network->getUrlKey() : '';
+        $serviceKey = $network && $network->getUrlKey() ? $network->getUrlKey() : '';
 
-        return (object) [
+        $output = [
             'pid' => (string) $tleo->getPid(),
             'type' => ucfirst($this->getProgrammeType($tleo)),
             'service_key' => $serviceKey,
             'title' => $tleo->getTitle(),
-            'short_synopsis' => $tleo->getShortSynopsis(),
         ];
+
+        if (!empty($tleo->getShortSynopsis())) {
+            $output['short_synopsis'] = (string) $tleo->getShortSynopsis();
+        }
+
+        return (object) $output;
     }
 }

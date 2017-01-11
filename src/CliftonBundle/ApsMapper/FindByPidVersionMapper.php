@@ -72,8 +72,8 @@ class FindByPidVersionMapper implements MapperInterface
         $output = [
             'character_name' => $contribution->getCharacterName() ?? null,
             'name' => $contribution->getContributor()->getName(),
-            'family_name' => null,
-            'given_name' => null,
+            'family_name' => $contribution->getContributor()->getFamilyName(),
+            'given_name' => $contribution->getContributor()->getGivenName(),
             'role' => $contribution->getCreditRole(),
         ];
 

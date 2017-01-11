@@ -33,7 +33,7 @@ class CategoryMetadataController extends BaseApsController
         $episodesCount = $programmesService->countAvailableEpisodesByCategory($category, $medium);
 
         $collapsedBroadcastsService = $this->get('pps.collapsed_broadcasts_service');
-        $now = ApplicationTime::getTime();
+        $now = ApplicationTime::getCurrent3MinuteWindow();
         // APS only shows the first 5 results (programmes_categories/show.hash.data#L79)
         $upcomingBroadcasts = $collapsedBroadcastsService->findByCategoryAndEndAtDateRange(
             $category,

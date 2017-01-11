@@ -107,7 +107,7 @@ class FindByPidController extends BaseApsController
         // Segment Events with the contributions
         $segmentEvents = [];
         if ($version->getSegmentEventCount()) {
-            $ses = $this->get('pps.segmentevents_service');
+            $ses = $this->get('pps.segment_events_service');
             $segmentEvents = $ses->findByVersionWithContributions($version);
         }
 

@@ -21,12 +21,16 @@ trait EpisodeItemTrait
             'position' => $episode->getPosition(),
             'title' => $episode->getTitle(),
             'short_synopsis' => $episode->getShortSynopsis(),
-            'media_type' => $episode->getMediaType(),
+            'media_type' => $episode->getMediaType() ? $episode->getMediaType() : null,
             'duration' => $episode->getDuration(),
-            'image' => $this->getImageObject($episode->getImage()),
-            'display_titles' => $this->getDisplayTitle($episode),
-            'first_broadcast_date' => $episode->getFirstBroadcastDate() ? $this->formatDateTime($episode->getFirstBroadcastDate()) : null,
         ];
+
+        if (!is_null($this->getImageObject($episode->getImage()))) {
+            $output['image'] = $this->getImageObject($episode->getImage());
+        }
+
+        $output['display_titles'] = $this->getDisplayTitle($episode);
+        $output['first_broadcast_date'] = $episode->getFirstBroadcastDate() ? $this->formatDateTime($episode->getFirstBroadcastDate()) : null;
 
         if ($extraMetadataForCategories) {
             $output['has_medium_or_long_synopsis'] =
@@ -77,12 +81,16 @@ trait EpisodeItemTrait
             'pid' => (string) $programme->getPid(),
             'title' => $programme->getTitle(),
             'position' => $programme->getPosition(),
-            'image' => $this->getImageObject($programme->getImage()),
-            'expected_child_count' => ($programme instanceof ProgrammeContainer) ?
-                $programme->getExpectedChildCount() :
-                null,
-            'first_broadcast_date' => $this->getFirstBroadcastDate($programme),
         ];
+
+        if (!is_null($this->getImageObject($programme->getImage()))) {
+            $output['image'] = $this->getImageObject($programme->getImage());
+        }
+
+        $output['expected_child_count'] = ($programme instanceof ProgrammeContainer) ?
+            $programme->getExpectedChildCount() :
+            null;
+        $output['first_broadcast_date'] = $this->getFirstBroadcastDate($programme);
 
         if (!is_null($this->mapSegmentOwnership($programme))) {
             $output['ownership'] = $this->mapSegmentOwnership($programme);

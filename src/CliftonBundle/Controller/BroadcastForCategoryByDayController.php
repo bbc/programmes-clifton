@@ -2,8 +2,10 @@
 namespace BBC\CliftonBundle\Controller;
 
 use BBC\CliftonBundle\ApsMapper\BroadcastForCategoryByDayMapper;
+use BBC\ProgrammesPagesService\Service\AbstractService;
 use DateTimeImmutable;
 use DateTimeZone;
+use DateInterval;
 use Symfony\Component\HttpFoundation\Request;
 
 class BroadcastForCategoryByDayController extends BaseApsController
@@ -32,14 +34,15 @@ class BroadcastForCategoryByDayController extends BaseApsController
         );
 
         $fromDate = $dateSelected->setTime(0, 0, 0);
-        $toDate = $dateSelected->modify('+1 day');
+        $toDate = $dateSelected->add(new DateInterval('P1D'));
         $toDate = $toDate->setTime(5, 0, 0);
 
         $broadcasts = $collapsedBroadcastService->findByCategoryAndStartAtDateRange(
             $category,
             $fromDate,
             $toDate,
-            $medium
+            $medium,
+            AbstractService::NO_LIMIT
         );
 
         if (empty($broadcasts)) {

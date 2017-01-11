@@ -2,6 +2,8 @@
 
 namespace Tests\BBC\CliftonBundle\DataFixtures\ORM;
 
+use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Segment;
+use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\SegmentEvent;
 use Doctrine\Common\Persistence\ObjectManager;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Brand;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Episode;
@@ -69,7 +71,13 @@ class EastendersFixture extends BaseFixture
 
 
         $version = new Version('b06khpr0', $clip);
+        $version->setSegmentEventCount(1);
+
         $version2 = new Version('b06khpr1', $clip);
+
+        $segment = new Segment('s0000001', 'music');
+
+        $segmentEvent = new SegmentEvent('sv000001', $version, $segment);
 
         $relatedLink = new RelatedLink('b06khps1', 'RL1', 'http://example.com', 'related_site', $brand, true);
         $relatedLink2 = new RelatedLink('b06khps2', 'RL1', 'http://example.com', 'standard', $brand, true);
@@ -92,6 +100,8 @@ class EastendersFixture extends BaseFixture
                      $version2,
                      $relatedLink,
                      $relatedLink2,
+                     $segment,
+                     $segmentEvent,
                  ] as $entity) {
             $manager->persist($entity);
         }
