@@ -40,6 +40,10 @@ class AtozController extends BaseApsController
             list ($items, $itemCount) = $this->keywordSearch($search, $slice, $network, $page, $limit);
         }
 
+        if (!count($items)) {
+            throw $this->createNotFoundException('No results returned');
+        }
+
         $data = $this->getLettersAndSlice($slice, $network, $search, $page, $limit, $itemCount);
         $data['tleo_titles'] = $this->mapManyApsObjects(
             new AtozItemMapper(),

@@ -73,6 +73,7 @@ class AtozControllerTest extends BaseWebTestCase
         $this->assertEquals($expectedPids, $actualPids);
     }
 
+
     public function testByLetterUrlProvider()
     {
         return [
@@ -82,9 +83,37 @@ class AtozControllerTest extends BaseWebTestCase
             ['/aps/radio/programmes/a-z/by/m.json', ['b0020020']],
             ['/aps/radio/programmes/a-z/by/m/player.json', ['b0020020']],
             ['/aps/radio/programmes/a-z/by/m/all.json', ['b0020020']],
-            ['/aps/tv/programmes/a-z/by/m.json', []],
-            ['/aps/tv/programmes/a-z/by/m/player.json', []],
+            ['/aps/tv/programmes/a-z/by/m.json', ['b010t19z']],
+            ['/aps/tv/programmes/a-z/by/m/player.json', ['b010t19z']],
             ['/aps/tv/programmes/a-z/by/m/all.json', ['b010t19z']],
+        ];
+    }
+
+    /**
+     * @dataProvider testByLetterUrl404Provider
+     */
+    public function testByLetter404($url)
+    {
+        $this->loadFixtures(['AtozTitleFixture']);
+
+        $client = static::createClient();
+        $client->request('GET', $url);
+
+        $this->assertResponseStatusCode($client, 404);
+    }
+
+    public function testByLetterUrl404Provider()
+    {
+        return [
+            ['/aps/programmes/a-z/by/t.json'],
+            ['/aps/programmes/a-z/by/t/player.json'],
+            ['/aps/programmes/a-z/by/c/all.json'],
+            ['/aps/radio/programmes/a-z/by/c.json'],
+            ['/aps/radio/programmes/a-z/by/c/player.json'],
+            ['/aps/radio/programmes/a-z/by/c/all.json'],
+            ['/aps/tv/programmes/a-z/by/c.json'],
+            ['/aps/tv/programmes/a-z/by/c/player.json'],
+            ['/aps/tv/programmes/a-z/by/c/all.json'],
         ];
     }
 }

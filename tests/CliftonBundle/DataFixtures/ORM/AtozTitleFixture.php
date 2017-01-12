@@ -24,7 +24,7 @@ class AtozTitleFixture extends BaseFixture
 
         $network = $this->buildNetwork('bbc_one', 'BBC One', NetworkMediumEnum::TV);
         $masterBrand = $this->buildMasterBrand('bbc_one', 'c0000000', 'BBC One', $network);
-        $brandTleo = $this->buildProgramme(Brand::CLASS, 'b010t19z', 'Mongrels', $masterBrand);
+        $brandTleo = $this->buildProgramme(Brand::CLASS, 'b010t19z', 'Mongrels', $masterBrand, true);
         $brandTleoTitle = $this->buildAtozTitle($brandTleo->getTitle(), $brandTleo);
 
         $network2 = $this->buildNetwork('radio_one', 'Radio One', NetworkMediumEnum::RADIO);
