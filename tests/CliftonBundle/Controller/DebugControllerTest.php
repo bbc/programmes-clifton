@@ -67,6 +67,6 @@ class DebugControllerTest extends BaseWebTestCase
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/debug/programmes_service/findAll?a=["foo"]');
-        $this->assertResponseStatusCode($client, 500);
+        $this->assertResponseStatusCode($client, 404);
     }
 }

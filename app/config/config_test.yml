@@ -7,10 +7,6 @@ framework:
         storage_id: session.storage.mock_file
     profiler:
         collect: false
-    # Validation is required by LiipFunctionalTestBundle's compiler pass, but
-    # never in our code. This can be removed once
-    # https://github.com/liip/LiipFunctionalTestBundle/issues/288 is resolved
-    validation: { enable_annotations: false }
 
 web_profiler:
     toolbar: false
