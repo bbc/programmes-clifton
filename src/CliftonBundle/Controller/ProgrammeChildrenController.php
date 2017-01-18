@@ -24,12 +24,11 @@ class ProgrammeChildrenController extends BaseApsController
         }
 
         $totalCount = $programmesService->countEpisodeGuideChildren($programme);
-
-        // Only request children if there are any, to potentially save a query
-        $programmesResult = [];
-        if ($totalCount) {
-            $programmesResult = $programmesService->findEpisodeGuideChildren($programme, $limit, $page);
+        if ($totalCount === 0) {
+            throw $this->createNotFoundException(sprintf('No children', $pid));
         }
+
+        $programmesResult = $programmesService->findEpisodeGuideChildren($programme, $limit, $page);
 
         $apsChildren = $this->mapManyApsObjects(
             new ProgrammeChildrenProgrammeMapper(),
