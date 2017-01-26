@@ -11,9 +11,7 @@ class CategoryMetadataMapper implements MapperInterface
     public function getApsObject(
         $category,
         array $subcategories = null,
-        array $availableEpisodes = null,
         int $availableEpisodesCount = 0,
-        array $upcomingBroadcasts = null,
         int $upcomingBroadcastsCount = 0,
         array $counts = [],
         string $medium = null
@@ -22,18 +20,13 @@ class CategoryMetadataMapper implements MapperInterface
             'category' => $this->mapCategoryItem($category, true, $subcategories),
             'service' => $this->mapMediumService($medium),
             'available_programmes_count' => $availableEpisodesCount,
-            'available_programmes' => $availableEpisodes ?
-                array_map(
-                    function ($episode) {
-                        return $this->mapEpisodeItem($episode, true);
-                    },
-                    $availableEpisodes
-                ) :
-                $availableEpisodes,
+            // /programmes does not need the latest available episodes from this feed and they are
+            // very expensive to build, so we represent them as empty
+            'available_programmes' => null,
             'upcoming_broadcasts_count' => $upcomingBroadcastsCount,
-            'upcoming_broadcasts' => $upcomingBroadcasts ?
-                array_map([$this, 'mapCollapsedBroadcast'], $upcomingBroadcasts) :
-                $upcomingBroadcasts,
+            // /programmes does not need the latest upcoming from this feed and they are
+            // very expensive to build, so we represent them as empty
+            'upcoming_broadcasts' => null,
             'available_and_upcoming_counts' => $counts,
         ];
 

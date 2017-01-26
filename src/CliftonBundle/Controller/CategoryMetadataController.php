@@ -28,20 +28,11 @@ class CategoryMetadataController extends BaseApsController
         }
 
         $programmesService = $this->get('pps.programmes_service');
-        // APS only shows the first 5 results (programmes_categories/show.hash.data#L71)
-        $episodes = $programmesService->findAvailableEpisodesByCategory($category, $medium, 5);
+
         $episodesCount = $programmesService->countAvailableEpisodesByCategory($category, $medium);
 
         $collapsedBroadcastsService = $this->get('pps.collapsed_broadcasts_service');
         $now = ApplicationTime::getCurrent3MinuteWindow();
-        // APS only shows the first 5 results (programmes_categories/show.hash.data#L79)
-        $upcomingBroadcasts = $collapsedBroadcastsService->findByCategoryAndEndAtDateRange(
-            $category,
-            $now,
-            $now->add(new DateInterval('P31D')), // APS sets this 31 day limit in Models::Broadcast#L658
-            $medium,
-            5
-        );
 
         $upcomingBroadcastsCount = $collapsedBroadcastsService->countByCategoryAndEndAtDateRange(
             $category,
@@ -60,9 +51,7 @@ class CategoryMetadataController extends BaseApsController
             'category_page' => $categoryMetadataMapper->getApsObject(
                 $category,
                 $subcategories,
-                $episodes,
                 $episodesCount,
-                $upcomingBroadcasts,
                 $upcomingBroadcastsCount,
                 $counts,
                 $medium

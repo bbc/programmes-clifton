@@ -26,9 +26,6 @@ class CategoryMetadataControllerTest extends BaseWebTestCase
         $broadcastsService->expects($this->once())->method('countByCategoryAndEndAtDateRange')
             ->willReturn(2);
 
-        $broadcastsService->expects($this->once())->method('findByCategoryAndEndAtDateRange')
-            ->willReturn([$this->createMockBroadcast('p0000001'), $this->createMockBroadcast('p0000002')]);
-
         $client = static::createClient();
         // Inject the mock Service
         static::$kernel->getContainer()->set('pps.collapsed_broadcasts_service', $broadcastsService);
@@ -84,9 +81,6 @@ class CategoryMetadataControllerTest extends BaseWebTestCase
         $broadcastsService->expects($this->once())->method('countByCategoryAndEndAtDateRange')
             ->willReturn(2);
 
-        $broadcastsService->expects($this->once())->method('findByCategoryAndEndAtDateRange')
-            ->willReturn([$this->createMockBroadcast('p0000001'), $this->createMockBroadcast('p0000002')]);
-
         $client = static::createClient();
         // Inject the mock Service
         static::$kernel->getContainer()->set('pps.collapsed_broadcasts_service', $broadcastsService);
@@ -105,7 +99,6 @@ class CategoryMetadataControllerTest extends BaseWebTestCase
         $this->assertArrayHasKey('available_and_upcoming_counts', $jsonContent['category_page']);
 
         $this->assertEquals('C00193', $jsonContent['category_page']['category']['id']);
-        $this->assertEquals('b0175lqm', $jsonContent['category_page']['available_programmes'][0]['pid']);
     }
 
     public function testCategoryMetadataWithMedium()
@@ -116,9 +109,6 @@ class CategoryMetadataControllerTest extends BaseWebTestCase
 
         $broadcastsService->expects($this->once())->method('countByCategoryAndEndAtDateRange')
             ->willReturn(2);
-
-        $broadcastsService->expects($this->once())->method('findByCategoryAndEndAtDateRange')
-            ->willReturn([$this->createMockBroadcast('p0000001'), $this->createMockBroadcast('p0000002')]);
 
         $client = static::createClient();
         // Inject the mock Service
@@ -142,7 +132,6 @@ class CategoryMetadataControllerTest extends BaseWebTestCase
         $this->assertEquals(1, count($jsonContent['category_page']['category']['broader']));
 
         $this->assertEquals('C00999', $jsonContent['category_page']['category']['id']);
-        $this->assertEquals('b0175lqm', $jsonContent['category_page']['available_programmes'][0]['pid']);
     }
 
     private function mockCollapsedBroadcastsService()
