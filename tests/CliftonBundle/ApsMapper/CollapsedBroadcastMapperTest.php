@@ -45,7 +45,7 @@ class CollapsedBroadcastMapperTest extends PHPUnit_Framework_TestCase
             ['+1 minute', '1 minute left to watch'],
             ['+1 hour', '1 hour left to watch'],
             ['+1 day', '1 day left to watch'],
-            ['+1 month', '1 month left to watch'],
+            ['+30 days', '1 month left to watch'],
             ['+2 hours', '2 hours left to watch'],
             ['+401 day', 'Available to watch'],
         ];
