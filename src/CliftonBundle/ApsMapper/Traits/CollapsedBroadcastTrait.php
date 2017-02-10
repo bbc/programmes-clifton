@@ -53,7 +53,7 @@ trait CollapsedBroadcastTrait
             'title' => $network->getName(),
         ];
 
-        if (count($services) >= 2 || (count($services) === 1 && $services[0]->getSid() != $network->getNid())) {
+        if (count($services) >= 2 || (count($services) === 1 && (string) $services[0]->getSid() !== (string) $network->getNid())) {
             /** @var Service $s */
             $output['outlets'] = [];
             foreach ($services as $s) {

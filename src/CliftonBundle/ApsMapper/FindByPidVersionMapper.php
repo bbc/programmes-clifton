@@ -102,7 +102,7 @@ class FindByPidVersionMapper implements MapperInterface
     private function getService(Service $service)
     {
         return (object) [
-            'id' => $service->getSid(),
+            'id' => (string) $service->getSid(),
             'key' => $service->getNetwork()->getUrlKey() ?: "",
             'title' => $service->getShortName(),
         ];
