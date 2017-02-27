@@ -15,8 +15,7 @@ class UpcomingCollapsedBroadcastForCategoryController extends BaseApsController
     public function upcomingCollapsedBroadcastForCategoryAction(
         Request $request,
         string $categoryType,
-        string $urlKeyHierarchy,
-        string $medium = null
+        string $urlKeyHierarchy
     ) {
         $limit = $this->queryParamToInt($request, 'limit', 30, 1, 999);
         $page = $this->queryParamToInt($request, 'page', 1, 1, 99999);
@@ -31,9 +30,12 @@ class UpcomingCollapsedBroadcastForCategoryController extends BaseApsController
         $upcomingBroadcastsCount = $collapsedBroadcastsService->countByCategoryAndEndAtDateRange(
             $category,
             $now,
-            $now->add(new DateInterval('P31D')), // APS sets this 31 day limit in Models::Broadcast#L658
-            $medium
+            $now->add(new DateInterval('P31D'))
         );
+
+        if (!$upcomingBroadcastsCount) {
+            throw $this->createNotFoundException('No episodes found');
+        }
 
         $offset = $limit * ($page - 1);
         if ($offset >= $upcomingBroadcastsCount) {
@@ -44,15 +46,9 @@ class UpcomingCollapsedBroadcastForCategoryController extends BaseApsController
             $category,
             $now,
             $now->add(new DateInterval('P31D')), // APS sets this 31 day limit in Models::Broadcast#L658
-            $medium,
             $limit,
             $page
         );
-
-
-        if (!$upcomingBroadcastsCount) {
-            throw $this->createNotFoundException('No episodes found');
-        }
 
         $mappedBroadcasts = $this->mapManyApsObjects(new CollapsedBroadcastMapper(), $upcomingBroadcasts);
 

@@ -19,7 +19,10 @@ class CollapsedBroadcastLatestForProgrammeController extends BaseApsController
         }
 
         $latestBroadcast = $this->get('pps.collapsed_broadcasts_service')->findPastByProgramme($programme, 1);
-        $mappedBroadcasts = $this->mapManyApsObjects(new CollapsedBroadcastMapper(), $latestBroadcast);
+
+        // Get only the first collapsed broadcast because the one we got from the service could potentially be split
+        // into two or more
+        $mappedBroadcasts = array_slice($this->mapManyApsObjects(new CollapsedBroadcastMapper(), $latestBroadcast), 0, 1);
 
         return $this->json(['broadcasts' => $mappedBroadcasts]);
     }

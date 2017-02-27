@@ -24,17 +24,15 @@ class CollapsedBroadcastMapperTest extends PHPUnit_Framework_TestCase
         $network = $this->createNetwork(1);
         $service = $this->createService($network);
 
-        $version = $this->createMock(Version::CLASS);
-
         $episode = $this->createEpisode(
             new DateTimeImmutable("2014-06-20 10:45 Europe/London"),
             (new DateTimeImmutable())->modify($modify)
         );
 
-        $broadcast = $this->createBroadcast($version, $episode, [$service]);
+        $broadcast = $this->createBroadcast($episode, [$service]);
 
         $this->assertEquals(
-            $mapper->getApsObject($broadcast)->{'programme'}->{'media'}->{'availability'},
+            $mapper->getApsObject($broadcast)[0]->{'programme'}->{'media'}->{'availability'},
             $result
         );
     }
@@ -51,63 +49,63 @@ class CollapsedBroadcastMapperTest extends PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testMappingCollapsedBroadcastForMonth()
+    public function testMappingCollapsedBroadcast()
     {
         $network = $this->createNetwork(1);
         $service1 = $this->createService($network);
-
-        $version = $this->createMock(Version::CLASS);
 
         $streamableFrom = new DateTimeImmutable("2014-06-20 10:45 Europe/London");
         $streamableUntil = DateTimeImmutable::createFromMutable((new DateTime())->add(new DateInterval('PT10S')));
 
         $episode = $this->createEpisode($streamableFrom, $streamableUntil);
-        $broadcast1 = $this->createBroadcast($version, $episode, [$service1]);
+        $broadcast1 = $this->createBroadcast($episode, [$service1]);
 
-        $expectedResult = (object) [
-            'is_repeat' => true,
-            'is_blanked' => true,
-            'schedule_date' => '2014-06-20',
-            'start' => '2014-06-20T11:45:00+01:00',
-            'end' => '2014-06-20T12:45:00+01:00',
-            'duration' => 5400,
-            'service' => (object) [
-                'type' => 'tv',
-                'id' => 'network_1',
-                'key' => 'network1',
-                'title' => 'Network 1',
-                'outlets' => [
-                    (object) [
-                        'id' => 'service0',
-                        'key' => 'service0_url_key',
-                        'title' => 'Short name service0',
+        $expectedResult = [
+            (object) [
+                'is_repeat' => true,
+                'is_blanked' => true,
+                'schedule_date' => '2014-06-20',
+                'start' => '2014-06-20T11:45:00+01:00',
+                'end' => '2014-06-20T12:45:00+01:00',
+                'duration' => 5400,
+                'service' => (object) [
+                    'type' => 'tv',
+                    'id' => 'network_1',
+                    'key' => 'network1',
+                    'title' => 'Network 1',
+                    'outlets' => [
+                        (object) [
+                            'id' => 'service0',
+                            'key' => 'service0_url_key',
+                            'title' => 'Short name service0',
+                        ],
                     ],
                 ],
-            ],
-            'programme' => (object) [
-                'type' => 'episode',
-                'pid' => 'b06tl32t',
-                'position' => 2101,
-                'title' => 'The Husbands of River Song',
-                'short_synopsis' => 'Short Synopsis',
-                'media_type' => 'audio_video',
-                'duration' => 2201,
-                'image' => (object) [
-                    'pid' => 'p01m5mss',
-                ],
-                'display_titles' => (object) [
+                'programme' => (object) [
+                    'type' => 'episode',
+                    'pid' => 'b06tl32t',
+                    'position' => 2101,
                     'title' => 'The Husbands of River Song',
-                    'subtitle' => '',
-                ],
-                'first_broadcast_date' => '2000-01-01T00:00:00Z',
-                'available_until' => $this->formatDateTime($streamableUntil),
-                'actual_start' => '2014-06-20T10:45:00+01:00',
-                'is_available_mediaset_pc_sd' => true,
-                'is_legacy_media' => false,
-                'media' => (object) [
-                    'format' => 'video',
-                    'expires' => $this->formatDateTime($streamableUntil),
-                    'availability' => '0 minute left to watch',
+                    'short_synopsis' => 'Short Synopsis',
+                    'media_type' => 'audio_video',
+                    'duration' => 2201,
+                    'image' => (object) [
+                        'pid' => 'p01m5mss',
+                    ],
+                    'display_titles' => (object) [
+                        'title' => 'The Husbands of River Song',
+                        'subtitle' => '',
+                    ],
+                    'first_broadcast_date' => '2000-01-01T00:00:00Z',
+                    'available_until' => $this->formatDateTime($streamableUntil),
+                    'actual_start' => '2014-06-20T10:45:00+01:00',
+                    'is_available_mediaset_pc_sd' => true,
+                    'is_legacy_media' => false,
+                    'media' => (object) [
+                        'format' => 'video',
+                        'expires' => $this->formatDateTime($streamableUntil),
+                        'availability' => '0 minute left to watch',
+                    ],
                 ],
             ],
         ];
@@ -118,70 +116,70 @@ class CollapsedBroadcastMapperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $apsObject);
     }
 
-    public function testMappingCollapsedBroadcastForMonthWithMultipleServices()
+    public function testMappingCollapsedBroadcastWithMultipleServices()
     {
 
         $network = $this->createNetwork(1);
         $service1 = $this->createService($network, 'service1');
         $service2 = $this->createService($network, 'service2');
 
-        $version = $this->createMock(Version::CLASS);
-
         $streamableFrom = new DateTimeImmutable("2014-06-20 10:45 Europe/London");
         $streamableUntil = DateTimeImmutable::createFromMutable((new DateTime())->add(new DateInterval('PT10S')));
 
         $episode = $this->createEpisode($streamableFrom, $streamableUntil);
-        $broadcast1 = $this->createBroadcast($version, $episode, [$service1, $service2]);
+        $broadcast1 = $this->createBroadcast($episode, [$service1, $service2]);
 
-        $expectedResult = (object) [
-            'is_repeat' => true,
-            'is_blanked' => true,
-            'schedule_date' => '2014-06-20',
-            'start' => '2014-06-20T11:45:00+01:00',
-            'end' => '2014-06-20T12:45:00+01:00',
-            'duration' => 5400,
-            'service' => (object) [
-                'type' => 'tv',
-                'id' => 'network_1',
-                'key' => 'network1',
-                'title' => 'Network 1',
-                'outlets' => [
-                    (object) [
-                        'id' => 'service1',
-                        'key' => 'service1_url_key',
-                        'title' => 'Short name service1',
-                    ],
-                    (object) [
-                        'id' => 'service2',
-                        'key' => 'service2_url_key',
-                        'title' => 'Short name service2',
+        $expectedResult = [
+            (object) [
+                'is_repeat' => true,
+                'is_blanked' => true,
+                'schedule_date' => '2014-06-20',
+                'start' => '2014-06-20T11:45:00+01:00',
+                'end' => '2014-06-20T12:45:00+01:00',
+                'duration' => 5400,
+                'service' => (object) [
+                    'type' => 'tv',
+                    'id' => 'network_1',
+                    'key' => 'network1',
+                    'title' => 'Network 1',
+                    'outlets' => [
+                        (object) [
+                            'id' => 'service1',
+                            'key' => 'service1_url_key',
+                            'title' => 'Short name service1',
+                        ],
+                        (object) [
+                            'id' => 'service2',
+                            'key' => 'service2_url_key',
+                            'title' => 'Short name service2',
+                        ],
                     ],
                 ],
-            ],
-            'programme' => (object) [
-                'type' => 'episode',
-                'pid' => 'b06tl32t',
-                'position' => 2101,
-                'title' => 'The Husbands of River Song',
-                'short_synopsis' => 'Short Synopsis',
-                'media_type' => 'audio_video',
-                'duration' => 2201,
-                'image' => (object) [
-                    'pid' => 'p01m5mss',
-                ],
-                'display_titles' => (object) [
+                'programme' => (object) [
+                    'type' => 'episode',
+                    'pid' => 'b06tl32t',
+                    'position' => 2101,
                     'title' => 'The Husbands of River Song',
-                    'subtitle' => '',
-                ],
-                'first_broadcast_date' => '2000-01-01T00:00:00Z',
-                'available_until' => $this->formatDateTime($streamableUntil),
-                'actual_start' => '2014-06-20T10:45:00+01:00',
-                'is_available_mediaset_pc_sd' => true,
-                'is_legacy_media' => false,
-                'media' => (object) [
-                    'format' => 'video',
-                    'expires' => $this->formatDateTime($streamableUntil),
-                    'availability' => '0 minute left to watch',
+                    'short_synopsis' => 'Short Synopsis',
+                    'media_type' => 'audio_video',
+                    'duration' => 2201,
+                    'image' => (object) [
+                        'pid' => 'p01m5mss',
+                    ],
+                    'display_titles' => (object) [
+                        'title' => 'The Husbands of River Song',
+                        'subtitle' => '',
+                    ],
+                    'first_broadcast_date' => '2000-01-01T00:00:00Z',
+                    'available_until' => $this->formatDateTime($streamableUntil),
+                    'actual_start' => '2014-06-20T10:45:00+01:00',
+                    'is_available_mediaset_pc_sd' => true,
+                    'is_legacy_media' => false,
+                    'media' => (object) [
+                        'format' => 'video',
+                        'expires' => $this->formatDateTime($streamableUntil),
+                        'availability' => '0 minute left to watch',
+                    ],
                 ],
             ],
         ];
@@ -192,77 +190,196 @@ class CollapsedBroadcastMapperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $apsObject);
     }
 
-    public function testMappingCollapsedBroadcastForMonthWithProgrammeParent()
+    public function testMappingCollapsedBroadcastWithMultipleServicesWithDifferentNetworks()
+    {
+
+        $network = $this->createNetwork(1);
+        $network2 = $this->createNetwork(2);
+        $service1 = $this->createService($network, 'service1');
+        $service2 = $this->createService($network2, 'service2');
+
+        $streamableFrom = new DateTimeImmutable("2014-06-20 10:45 Europe/London");
+        $streamableUntil = DateTimeImmutable::createFromMutable((new DateTime())->add(new DateInterval('PT10S')));
+
+        $episode = $this->createEpisode($streamableFrom, $streamableUntil);
+        $broadcast1 = $this->createBroadcast($episode, [$service1, $service2]);
+
+        $expectedResult = [
+            (object) [
+                'is_repeat' => true,
+                'is_blanked' => true,
+                'schedule_date' => '2014-06-20',
+                'start' => '2014-06-20T11:45:00+01:00',
+                'end' => '2014-06-20T12:45:00+01:00',
+                'duration' => 5400,
+                'service' => (object) [
+                    'type' => 'tv',
+                    'id' => 'network_1',
+                    'key' => 'network1',
+                    'title' => 'Network 1',
+                    'outlets' => [
+                        (object) [
+                            'id' => 'service1',
+                            'key' => 'service1_url_key',
+                            'title' => 'Short name service1',
+                        ],
+                    ],
+                ],
+                'programme' => (object) [
+                    'type' => 'episode',
+                    'pid' => 'b06tl32t',
+                    'position' => 2101,
+                    'title' => 'The Husbands of River Song',
+                    'short_synopsis' => 'Short Synopsis',
+                    'media_type' => 'audio_video',
+                    'duration' => 2201,
+                    'image' => (object) [
+                        'pid' => 'p01m5mss',
+                    ],
+                    'display_titles' => (object) [
+                        'title' => 'The Husbands of River Song',
+                        'subtitle' => '',
+                    ],
+                    'first_broadcast_date' => '2000-01-01T00:00:00Z',
+                    'available_until' => $this->formatDateTime($streamableUntil),
+                    'actual_start' => '2014-06-20T10:45:00+01:00',
+                    'is_available_mediaset_pc_sd' => true,
+                    'is_legacy_media' => false,
+                    'media' => (object) [
+                        'format' => 'video',
+                        'expires' => $this->formatDateTime($streamableUntil),
+                        'availability' => '0 minute left to watch',
+                    ],
+                ],
+            ],
+            (object) [
+                'is_repeat' => true,
+                'is_blanked' => true,
+                'schedule_date' => '2014-06-20',
+                'start' => '2014-06-20T11:45:00+01:00',
+                'end' => '2014-06-20T12:45:00+01:00',
+                'duration' => 5400,
+                'service' => (object) [
+                    'type' => 'tv',
+                    'id' => 'network_2',
+                    'key' => 'network2',
+                    'title' => 'Network 2',
+                    'outlets' => [
+                        (object) [
+                            'id' => 'service2',
+                            'key' => 'service2_url_key',
+                            'title' => 'Short name service2',
+                        ],
+                    ],
+                ],
+                'programme' => (object) [
+                    'type' => 'episode',
+                    'pid' => 'b06tl32t',
+                    'position' => 2101,
+                    'title' => 'The Husbands of River Song',
+                    'short_synopsis' => 'Short Synopsis',
+                    'media_type' => 'audio_video',
+                    'duration' => 2201,
+                    'image' => (object) [
+                        'pid' => 'p01m5mss',
+                    ],
+                    'display_titles' => (object) [
+                        'title' => 'The Husbands of River Song',
+                        'subtitle' => '',
+                    ],
+                    'first_broadcast_date' => '2000-01-01T00:00:00Z',
+                    'available_until' => $this->formatDateTime($streamableUntil),
+                    'actual_start' => '2014-06-20T10:45:00+01:00',
+                    'is_available_mediaset_pc_sd' => true,
+                    'is_legacy_media' => false,
+                    'media' => (object) [
+                        'format' => 'video',
+                        'expires' => $this->formatDateTime($streamableUntil),
+                        'availability' => '0 minute left to watch',
+                    ],
+                ],
+            ],
+        ];
+
+        $mapper = new CollapsedBroadcastMapper();
+        $apsObject = $mapper->getApsObject($broadcast1);
+
+        $this->assertEquals($expectedResult, $apsObject);
+    }
+
+    public function testMappingCollapsedBroadcastWithProgrammeParent()
     {
         $network = $this->createNetwork(1);
         $service1 = $this->createService($network, 'service1');
-        $version = $this->createMock(Version::CLASS);
 
         $streamableFrom = new DateTimeImmutable("2014-06-20 10:45 Europe/London");
         $streamableUntil = DateTimeImmutable::createFromMutable((new DateTime())->add(new DateInterval('PT10S')));
 
         $series = $this->createSeries(1);
         $episode = $this->createEpisode($streamableFrom, $streamableUntil, $series);
-        $broadcast1 = $this->createBroadcast($version, $episode, [$service1]);
+        $broadcast1 = $this->createBroadcast($episode, [$service1]);
 
-        $expectedResult = (object) [
-            'is_repeat' => true,
-            'is_blanked' => true,
-            'schedule_date' => '2014-06-20',
-            'start' => '2014-06-20T11:45:00+01:00',
-            'end' => '2014-06-20T12:45:00+01:00',
-            'duration' => 5400,
-            'service' => (object) [
-                'type' => 'tv',
-                'id' => 'network_1',
-                'key' => 'network1',
-                'title' => 'Network 1',
-                'outlets' => [
-                    (object) [
-                        'id' => 'service1',
-                        'key' => 'service1_url_key',
-                        'title' => 'Short name service1',
+        $expectedResult = [
+            (object) [
+                'is_repeat' => true,
+                'is_blanked' => true,
+                'schedule_date' => '2014-06-20',
+                'start' => '2014-06-20T11:45:00+01:00',
+                'end' => '2014-06-20T12:45:00+01:00',
+                'duration' => 5400,
+                'service' => (object) [
+                    'type' => 'tv',
+                    'id' => 'network_1',
+                    'key' => 'network1',
+                    'title' => 'Network 1',
+                    'outlets' => [
+                        (object) [
+                            'id' => 'service1',
+                            'key' => 'service1_url_key',
+                            'title' => 'Short name service1',
+                        ],
                     ],
                 ],
-            ],
-            'programme' => (object) [
-                'type' => 'episode',
-                'pid' => 'b06tl32t',
-                'position' => 2101,
-                'title' => 'The Husbands of River Song',
-                'short_synopsis' => 'Short Synopsis',
-                'media_type' => 'audio_video',
-                'duration' => 2201,
-                'image' => (object) [
-                    'pid' => 'p01m5mss',
-                ],
-                'display_titles' => (object) [
-                    'title' => 'Series 1',
-                    'subtitle' => 'The Husbands of River Song',
-                ],
-                'first_broadcast_date' => '2000-01-01T00:00:00Z',
-                'available_until' => $this->formatDateTime($streamableUntil),
-                'actual_start' => '2014-06-20T10:45:00+01:00',
-                'is_available_mediaset_pc_sd' => true,
-                'is_legacy_media' => false,
-                'media' => (object) [
-                    'format' => 'video',
-                    'expires' => $this->formatDateTime($streamableUntil),
-                    'availability' => '0 minute left to watch',
-                ],
                 'programme' => (object) [
-                    'type' => 'series',
-                    'pid' => 'p0000001',
-                    'title' => 'Series 1',
-                    'position' => null,
+                    'type' => 'episode',
+                    'pid' => 'b06tl32t',
+                    'position' => 2101,
+                    'title' => 'The Husbands of River Song',
+                    'short_synopsis' => 'Short Synopsis',
+                    'media_type' => 'audio_video',
+                    'duration' => 2201,
                     'image' => (object) [
                         'pid' => 'p01m5mss',
                     ],
-                    'expected_child_count' => null,
-                    'first_broadcast_date' => null,
+                    'display_titles' => (object) [
+                        'title' => 'Series 1',
+                        'subtitle' => 'The Husbands of River Song',
+                    ],
+                    'first_broadcast_date' => '2000-01-01T00:00:00Z',
+                    'available_until' => $this->formatDateTime($streamableUntil),
+                    'actual_start' => '2014-06-20T10:45:00+01:00',
+                    'is_available_mediaset_pc_sd' => true,
+                    'is_legacy_media' => false,
+                    'media' => (object) [
+                        'format' => 'video',
+                        'expires' => $this->formatDateTime($streamableUntil),
+                        'availability' => '0 minute left to watch',
+                    ],
+                    'programme' => (object) [
+                        'type' => 'series',
+                        'pid' => 'p0000001',
+                        'title' => 'Series 1',
+                        'position' => null,
+                        'image' => (object) [
+                            'pid' => 'p01m5mss',
+                        ],
+                        'expected_child_count' => null,
+                        'first_broadcast_date' => null,
+                    ],
                 ],
             ],
-        ];
+            ];
+
 
         $mapper = new CollapsedBroadcastMapper();
         $apsObject = $mapper->getApsObject($broadcast1);
@@ -282,20 +399,18 @@ class CollapsedBroadcastMapperTest extends PHPUnit_Framework_TestCase
             $this->createService($network, 'bbc_news_channel_hd'),
         ];
 
-        $version = $this->createMock(Version::CLASS);
-
         $streamableFrom = new DateTimeImmutable("2014-06-20 10:45 Europe/London");
         $streamableUntil = DateTimeImmutable::createFromMutable((new DateTime())->add(new DateInterval('PT10S')));
 
         $episode = $this->createEpisode($streamableFrom, $streamableUntil);
-        $broadcast1 = $this->createBroadcast($version, $episode, $services);
+        $broadcast1 = $this->createBroadcast($episode, $services);
 
         $mapper = new CollapsedBroadcastMapper();
         $apsObject = $mapper->getApsObject($broadcast1);
 
         $expectedSids = ['service1'];
 
-        $this->assertEquals($expectedSids, array_column($apsObject->service->outlets, 'id'));
+        $this->assertEquals($expectedSids, array_column($apsObject[0]->service->outlets, 'id'));
     }
 
     /**

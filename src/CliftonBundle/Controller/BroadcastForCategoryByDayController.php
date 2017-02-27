@@ -1,7 +1,7 @@
 <?php
 namespace BBC\CliftonBundle\Controller;
 
-use BBC\CliftonBundle\ApsMapper\BroadcastForCategoryByDayMapper;
+use BBC\CliftonBundle\ApsMapper\CollapsedBroadcastMapper;
 use BBC\ProgrammesPagesService\Service\AbstractService;
 use DateTimeImmutable;
 use DateTimeZone;
@@ -18,8 +18,7 @@ class BroadcastForCategoryByDayController extends BaseApsController
         string $urlKeyHierarchy,
         int $year,
         int $month,
-        int $day,
-        string $medium = null
+        int $day
     ) {
         $collapsedBroadcastService = $this->get('pps.collapsed_broadcasts_service');
 
@@ -41,7 +40,6 @@ class BroadcastForCategoryByDayController extends BaseApsController
             $category,
             $fromDate,
             $toDate,
-            $medium,
             AbstractService::NO_LIMIT
         );
 
@@ -49,8 +47,10 @@ class BroadcastForCategoryByDayController extends BaseApsController
             throw  $this->createNotFoundException('Schedule not found');
         }
 
-        $broadcastForCategoryByDayMapper = new BroadcastForCategoryByDayMapper();
+        $broadcastForCategoryByDay = $this->mapManyApsObjects(new CollapsedBroadcastMapper(), $broadcasts);
 
-        return $this->json($broadcastForCategoryByDayMapper->getApsObject($broadcasts));
+        return $this->json(
+            ['broadcasts' => $broadcastForCategoryByDay]
+        );
     }
 }

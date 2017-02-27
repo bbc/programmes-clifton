@@ -6,29 +6,43 @@ use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use InvalidArgumentException;
+use stdClass;
 
 trait CollapsedBroadcastTrait
 {
     use EpisodeItemTrait;
 
-    public function mapCollapsedBroadcast($broadcast)
+    public function mapCollapsedBroadcast($broadcast): array
     {
         /** @var CollapsedBroadcast $broadcast */
         $this->assertIsCollapsedBroadcast($broadcast);
 
-        return (object) $output = [
-            'is_repeat' => $broadcast->isRepeat(),
-            'is_blanked' => $broadcast->isBlanked(),
-            'schedule_date' => $this->formatDate($broadcast->getStartAt()),
-            'start' => $this->formatDateTime($broadcast->getStartAt()),
-            'end' => $this->formatDateTime($broadcast->getEndAt()),
-            'duration' => $broadcast->getDuration(),
-            'service' => $this->getServiceAndOutlets($broadcast->getServices()),
-            'programme' => $this->mapEpisodeItem($broadcast->getProgrammeItem()),
-        ];
+        // A collapsed broadcast could have more than one network, so we have to split
+        $servicesByNetwork = $this->splitServicesByNetwork($broadcast->getServices());
+
+        $output = [];
+        foreach ($servicesByNetwork as $serviceByNetwork) {
+            $output[] = (object) [
+                'is_repeat' => $broadcast->isRepeat(),
+                'is_blanked' => $broadcast->isBlanked(),
+                'schedule_date' => $this->formatDate($broadcast->getStartAt()),
+                'start' => $this->formatDateTime($broadcast->getStartAt()),
+                'end' => $this->formatDateTime($broadcast->getEndAt()),
+                'duration' => $broadcast->getDuration(),
+                'service' => $this->getServiceAndOutlets($serviceByNetwork),
+                'programme' => $this->mapEpisodeItem($broadcast->getProgrammeItem()),
+            ];
+        }
+
+        // Replicate APS ordering of CollapsedBroadcasts by Nid (we can't do that in Pages Service)
+        usort($output, function ($a, $b) {
+            return strcmp($a->{'service'}->{'id'}, $b->{'service'}->{'id'});
+        });
+
+        return $output;
     }
 
-    protected function assertIsCollapsedBroadcast($item)
+    protected function assertIsCollapsedBroadcast($item): void
     {
         if (!($item instanceof CollapsedBroadcast)) {
             throw new InvalidArgumentException(sprintf(
@@ -39,7 +53,7 @@ trait CollapsedBroadcastTrait
         }
     }
 
-    private function getServiceAndOutlets(array $services)
+    private function getServiceAndOutlets(array $services): stdClass
     {
         $services = $this->filterBlacklistedServices($services);
 
@@ -56,6 +70,9 @@ trait CollapsedBroadcastTrait
         if (count($services) >= 2 || (count($services) === 1 && (string) $services[0]->getSid() !== (string) $network->getNid())) {
             /** @var Service $s */
             $output['outlets'] = [];
+            usort($services, function ($a, $b) {
+                return $a->getSid() <=> $b->getSid();
+            });
             foreach ($services as $s) {
                 $output['outlets'][] = (object) [
                     'id'    => (string) $s->getSid(),
@@ -68,7 +85,23 @@ trait CollapsedBroadcastTrait
         return (object) $output;
     }
 
-    private function filterBlacklistedServices(array $services)
+    private function splitServicesByNetwork(array $services): array
+    {
+        $networks = [];
+        foreach ($services as $service) {
+            $nid = (string) $service->getNetwork()->getNid();
+
+            if (!array_key_exists($nid, $networks)) {
+                $networks[$nid] = [];
+            }
+
+            $networks[$nid][] = $service;
+        }
+
+        return array_values($networks);
+    }
+
+    private function filterBlacklistedServices(array $services): array
     {
         // APS never ingested anything relating to these services as it could
         // not handle the creation of these services without drastic

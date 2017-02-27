@@ -107,10 +107,9 @@ trait CollapsedBroadcastTrait
         );
     }
 
-    private function createBroadcast($version, $episode, $services)
+    private function createBroadcast($episode, $services)
     {
         return new CollapsedBroadcast(
-            $version,
             $episode,
             $services,
             $streamableFrom = new DateTimeImmutable("2014-06-20 11:45 Europe/London"),

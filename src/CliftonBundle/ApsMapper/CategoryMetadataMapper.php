@@ -5,7 +5,6 @@ namespace BBC\CliftonBundle\ApsMapper;
 class CategoryMetadataMapper implements MapperInterface
 {
     use Traits\CategoryItemTrait;
-    use Traits\CollapsedBroadcastTrait;
     use Traits\ServiceTrait;
 
     public function getApsObject(

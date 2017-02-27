@@ -47,7 +47,15 @@ abstract class BaseApsController extends Controller
     {
         $apsObjects = [];
         foreach ($domainEntities as $domainEntity) {
-            $apsObjects[] = $this->mapSingleApsObject($apsMapper, $domainEntity);
+            $mappedObject = $this->mapSingleApsObject($apsMapper, $domainEntity);
+
+            if (is_array($mappedObject)) {
+                foreach ($mappedObject as $item) {
+                    $apsObjects[] = $item;
+                }
+            } else {
+                $apsObjects[] = $mappedObject;
+            }
         }
         return $apsObjects;
     }

@@ -21,6 +21,7 @@ class CategoryMetadataController extends BaseApsController
         $category = $this->fetchCategoryFromTypeAndUrlHierarchy($categoryType, $urlKeyHierarchy);
 
         $categoriesService = $this->get('pps.categories_service');
+
         // There's no such thing as a format with a parent, so there are no subformats
         $subcategories = [];
         if ($categoryType === 'genres') {
@@ -37,13 +38,10 @@ class CategoryMetadataController extends BaseApsController
         $upcomingBroadcastsCount = $collapsedBroadcastsService->countByCategoryAndEndAtDateRange(
             $category,
             $now,
-            $now->add(new DateInterval('P31D')), // APS sets this 31 day limit in Models::Broadcast#L658
-            $medium
+            $now->add(new DateInterval('P31D')) // APS sets this 31 day limit in Models::Broadcast#L658
         );
 
-        // APS has the hide_counts flag up, so we don't show counts for anything. So, we are not worrying about this.
-        // Just to be safe, though, when we do ticket PROGRAMMES-5254 we will check if the frontend is being broken in
-        // any way
+        // APS has the hide_counts flag up, so we don't show counts for anything. Therefore, we are not worrying about this.
         $counts = [];
 
         $categoryMetadataMapper = new CategoryMetadataMapper();
