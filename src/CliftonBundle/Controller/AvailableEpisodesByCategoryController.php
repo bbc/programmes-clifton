@@ -13,8 +13,7 @@ class AvailableEpisodesByCategoryController extends BaseApsController
     public function availableEpisodesByCategoryAction(
         Request $request,
         string $categoryType,
-        string $urlKeyHierarchy,
-        string $medium = null
+        string $urlKeyHierarchy
     ): JsonResponse {
         $category = $this->fetchCategoryFromTypeAndUrlHierarchy($categoryType, $urlKeyHierarchy);
 
@@ -25,7 +24,7 @@ class AvailableEpisodesByCategoryController extends BaseApsController
         $programmesService = $this->get('pps.programmes_service');
 
         // We need to count first to get the total amount
-        $totalCount = $programmesService->countAvailableEpisodesByCategory($category, $medium);
+        $totalCount = $programmesService->countAvailableEpisodesByCategory($category);
 
         if ($offset >= $totalCount) {
             throw $this->createNotFoundException('Invalid page number');
@@ -35,7 +34,7 @@ class AvailableEpisodesByCategoryController extends BaseApsController
             throw $this->createNotFoundException('No episodes found');
         }
 
-        $episodes = $programmesService->findAvailableEpisodesByCategory($category, $medium, $limit, $page);
+        $episodes = $programmesService->findAvailableEpisodesByCategory($category, $limit, $page);
 
         $mappedEpisodes = $this->mapManyApsObjects(new AvailableEpisodesByCategoryMapper(), $episodes);
 

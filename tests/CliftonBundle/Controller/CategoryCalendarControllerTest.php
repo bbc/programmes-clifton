@@ -40,21 +40,6 @@ class CategoryCalendarControllerTest extends BaseWebTestCase
                     ],
                 ],
             ],
-            [
-                '/aps/tv/programmes/genres/comedy/schedules/2015/09/calendar.json',
-                [
-                    'month' => [
-                        'date' => '2015-09-01',
-                        'has_previous_month' => false,
-                        'has_next_month' => false,
-                        'active_days' => [
-                            'previous_month' => [],
-                            'this_month' => [3],
-                            'next_month' => [],
-                        ],
-                    ],
-                ],
-            ],
         ];
     }
 
@@ -77,7 +62,6 @@ class CategoryCalendarControllerTest extends BaseWebTestCase
             ['/aps/programmes/genres/comedy/sitcoms/puppetysitcoms/extralevel/schedules/2015/08/calendar.json'],
             ['/aps/programmes/genres/notinthere/2015/08/calendar.json'],
             ['/aps/programmes/format/with/2levels/2015/08/calendar.json'],
-            ['/aps/microwave/programmes/genres/comedy/2015/08/calendar.json'],
         ];
     }
 }

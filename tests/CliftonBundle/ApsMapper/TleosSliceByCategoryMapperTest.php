@@ -17,7 +17,6 @@ class TleosSliceByCategoryMapperTest extends PHPUnit_Framework_TestCase
 {
     public function testMappingTleoSlice()
     {
-        $medium = 'tv';
         $slice = 'all';
         $programmes = $this->getCraftProgrammes();
         $category = $this->getCraftedCategory();
@@ -36,11 +35,6 @@ class TleosSliceByCategoryMapperTest extends PHPUnit_Framework_TestCase
                     'sameAs' => null,
 
                 ],
-                'service' => (object) [
-                    'key' => $medium,
-                    'id' => $medium,
-                    'title' => 'BBC TV',
-                ],
                 'programmes' => [
                     (object) [
                         'type' => 'series',
@@ -58,7 +52,6 @@ class TleosSliceByCategoryMapperTest extends PHPUnit_Framework_TestCase
         $mapper = new TleosSliceByCategoryMapper();
         $output = $mapper->getApsObject(
             [$programmes],
-            $medium,
             $category,
             $slice,
             $subCategories

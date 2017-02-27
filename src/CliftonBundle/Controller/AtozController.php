@@ -8,26 +8,18 @@ use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-/**
- * Class AtozController
- *
- * Yes this is crazy. APS is crazy. Do you expect me to replicate insanity by being sane?
- * JE SUIS NAPOLEON Y'ALL
- *
- * @package BBC\CliftonBundle\Controller
- */
 class AtozController extends BaseApsController
 {
-    public function lettersListAction(Request $request, string $network = null)
+    public function lettersListAction(Request $request)
     {
-        $data = $this->getLettersAndSlice('player', $network);
+        $data = $this->getLettersAndSlice('player');
         $data['tleo_titles'] = [];
         return $this->json([
             'atoz' => $data,
         ]);
     }
 
-    public function byAction(Request $request, string $search, string $slice = 'player', string $network = null)
+    public function byAction(Request $request, string $search, string $slice = 'player')
     {
         list ($page, $limit) = $this->filterParams($request);
         if (!$limit) {
@@ -35,16 +27,16 @@ class AtozController extends BaseApsController
         }
 
         if (strlen($search) < 2) {
-            list ($items, $itemCount) = $this->letterSearch($search, $slice, $network, $page, $limit);
+            list ($items, $itemCount) = $this->letterSearch($search, $slice, $page, $limit);
         } else {
-            list ($items, $itemCount) = $this->keywordSearch($search, $slice, $network, $page, $limit);
+            list ($items, $itemCount) = $this->keywordSearch($search, $slice, $page, $limit);
         }
 
         if (!count($items)) {
             throw $this->createNotFoundException('No results returned');
         }
 
-        $data = $this->getLettersAndSlice($slice, $network, $search, $page, $limit, $itemCount);
+        $data = $this->getLettersAndSlice($slice, $search, $page, $limit, $itemCount);
         $data['tleo_titles'] = $this->mapManyApsObjects(
             new AtozItemMapper(),
             $items
@@ -54,7 +46,7 @@ class AtozController extends BaseApsController
         ]);
     }
 
-    private function letterSearch(string $search, string $slice, string $network = null, int $page = null, int $limit = null)
+    private function letterSearch(string $search, string $slice, int $page = null, int $limit = null)
     {
         $service = $this->get('pps.atoz_titles_service');
         if (!$limit) {
@@ -63,14 +55,14 @@ class AtozController extends BaseApsController
         $items = [];
         $itemCount = null;
         if ($slice == 'player') {
-            $items = $service->findAvailableTleosByFirstLetter($search, $network, $limit, $page);
+            $items = $service->findAvailableTleosByFirstLetter($search, $limit, $page);
             if ($limit) {
-                $itemCount = $service->countAvailableTleosByFirstLetter($search, $network);
+                $itemCount = $service->countAvailableTleosByFirstLetter($search);
             }
         } elseif ($slice == 'all') {
-            $items = $service->findTleosByFirstLetter($search, $network, $limit, $page);
+            $items = $service->findTleosByFirstLetter($search, $limit, $page);
             if ($limit) {
-                $itemCount = $service->countTleosByFirstLetter($search, $network);
+                $itemCount = $service->countTleosByFirstLetter($search);
             }
         } else {
             throw new NotFoundHttpException("Slice does not exist");
@@ -79,7 +71,7 @@ class AtozController extends BaseApsController
         return [$items, $itemCount];
     }
 
-    private function keywordSearch(string $search, string $slice, string $network = null, int $page = null, int $limit = null)
+    private function keywordSearch(string $search, string $slice, int $page = null, int $limit = null)
     {
         $service = $this->get('pps.programmes_service');
         if (!$limit) {
@@ -89,14 +81,14 @@ class AtozController extends BaseApsController
         $items = [];
         $itemCount = null;
         if ($slice == 'player') {
-            $items = $service->searchAvailableByKeywords($search, $network, $limit, $page);
+            $items = $service->searchAvailableByKeywords($search, $limit, $page);
             if ($limit) {
-                $itemCount = $service->countAvailableByKeywords($search, $network);
+                $itemCount = $service->countAvailableByKeywords($search);
             }
         } elseif ($slice == 'all') {
-            $items = $service->searchByKeywords($search, $network, $limit, $page);
+            $items = $service->searchByKeywords($search, $limit, $page);
             if ($limit) {
-                $itemCount = $service->countByKeywords($search, $network);
+                $itemCount = $service->countByKeywords($search);
             }
         } else {
             throw new NotFoundHttpException("Slice does not exist");
@@ -113,7 +105,6 @@ class AtozController extends BaseApsController
 
     private function getLettersAndSlice(
         string $slice,
-        string $networkUrlKey = null,
         string $search = null,
         int $page = null,
         int $limit = null,
@@ -128,20 +119,11 @@ class AtozController extends BaseApsController
             'slice' => $slice,
             'by' => null,
             'search' => $search,
-            'service_group' => [],
-            'letters' => $service->findAllLetters($networkUrlKey),
+            'letters' => $service->findAllLetters(),
             'page' => $limit ? $page : null,
             'total' => $total,
             'offset' => $offset,
         ];
-        if ($networkUrlKey) {
-            $data['service_group'] = [
-                'key' => $networkUrlKey,
-                'title' => ($networkUrlKey == 'radio' ? 'BBC Radio' : 'BBC TV'),
-            ];
-        } else {
-            unset($data['service_group']);
-        }
         if ($search) {
             unset($data['by']);
         } else {

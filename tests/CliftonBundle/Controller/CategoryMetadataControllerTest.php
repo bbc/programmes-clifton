@@ -44,7 +44,6 @@ class CategoryMetadataControllerTest extends BaseWebTestCase
             ['/aps/programmes/genres/comedy.json', 'C00193'],
             ['/aps/programmes/genres/comedy/sitcoms.json', 'C00196'],
             ['/aps/programmes/genres/comedy/sitcoms/puppetysitcoms.json', 'C00999'],
-            ['/aps/tv/programmes/genres/comedy/sitcoms/puppetysitcoms.json', 'C00999'],
             ['/aps/programmes/formats/animation.json', 'PT001'],
         ];
     }
@@ -68,7 +67,6 @@ class CategoryMetadataControllerTest extends BaseWebTestCase
             ['/aps/programmes/genres/comedy/sitcoms/puppetysitcoms/extralevel.json'],
             ['/aps/programmes/genres/notinthere.json'],
             ['/aps/programmes/format/with/2levels.json'],
-            ['/aps/microwave/programmes/genres/comedy.json'],
         ];
     }
 
@@ -99,39 +97,6 @@ class CategoryMetadataControllerTest extends BaseWebTestCase
         $this->assertArrayHasKey('available_and_upcoming_counts', $jsonContent['category_page']);
 
         $this->assertEquals('C00193', $jsonContent['category_page']['category']['id']);
-    }
-
-    public function testCategoryMetadataWithMedium()
-    {
-        $this->loadFixtures(['MongrelsWithCategoriesFixture']);
-
-        $broadcastsService = $this->mockCollapsedBroadcastsService();
-
-        $broadcastsService->expects($this->once())->method('countByCategoryAndEndAtDateRange')
-            ->willReturn(2);
-
-        $client = static::createClient();
-        // Inject the mock Service
-        static::$kernel->getContainer()->set('pps.collapsed_broadcasts_service', $broadcastsService);
-        $client->request('GET', '/aps/tv/programmes/genres/comedy/sitcoms/puppetysitcoms.json');
-
-        $this->assertResponseStatusCode($client, 200);
-
-        $jsonContent = $this->getDecodedJsonContent($client);
-
-        $this->assertArrayHasKey('category_page', $jsonContent);
-        $this->assertArrayHasKey('category', $jsonContent['category_page']);
-        $this->assertArrayHasKey('available_programmes_count', $jsonContent['category_page']);
-        $this->assertArrayHasKey('available_programmes', $jsonContent['category_page']);
-        $this->assertArrayHasKey('upcoming_broadcasts_count', $jsonContent['category_page']);
-        $this->assertArrayHasKey('upcoming_broadcasts', $jsonContent['category_page']);
-        $this->assertArrayHasKey('service', $jsonContent['category_page']);
-        $this->assertArrayHasKey('available_and_upcoming_counts', $jsonContent['category_page']);
-
-        $this->assertArrayHasKey('broader', $jsonContent['category_page']['category']);
-        $this->assertEquals(1, count($jsonContent['category_page']['category']['broader']));
-
-        $this->assertEquals('C00999', $jsonContent['category_page']['category']['id']);
     }
 
     private function mockCollapsedBroadcastsService()

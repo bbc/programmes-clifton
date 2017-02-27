@@ -59,30 +59,12 @@ aps.pan_bbc_category_list:
     defaults: { _controller: CliftonBundle:CategoriesList:panBbcCategoriesList }
     requirements: { categoryType: 'formats|genres' }
 
-aps.upcoming_collapsed_broadcast_for_category_and_medium:
-    path: /aps/{medium}/programmes/{categoryType}/{urlKeyHierarchy}/schedules/upcoming.json
-    methods:  [GET]
-    defaults: { _controller: CliftonBundle:UpcomingCollapsedBroadcastForCategory:upcomingCollapsedBroadcastForCategory }
-    requirements:
-        categoryType: 'formats|genres'
-        urlKeyHierarchy: '.+'
-        medium: 'tv|radio'
-
 aps.upcoming_collapsed_broadcast_for_category:
     path: /aps/programmes/{categoryType}/{urlKeyHierarchy}/schedules/upcoming.json
     methods:  [GET]
     defaults: { _controller: CliftonBundle:UpcomingCollapsedBroadcastForCategory:upcomingCollapsedBroadcastForCategory }
     requirements:
         categoryType: 'formats|genres'
-        urlKeyHierarchy: '.+'
-
-aps.available_episodes_by_category_and_medium:
-    path: /aps/{medium}/programmes/{categoryType}/{urlKeyHierarchy}/player/episodes.json
-    methods: [GET]
-    defaults: { _controller: CliftonBundle:AvailableEpisodesByCategory:availableEpisodesByCategory }
-    requirements:
-        medium: 'tv|radio'
-        categoryType: "formats|genres"
         urlKeyHierarchy: '.+'
 
 aps.available_episodes_by_category:
@@ -102,27 +84,6 @@ aps.tleos_slice_by_category:
         urlKeyHierarchy: '.+'
         slice: 'all|player'
 
-tleos_slice_by_category_and_medium:
-    path: /aps/{medium}/programmes/{categoryType}/{urlKeyHierarchy}/{slice}.json
-    methods:  [GET]
-    defaults: { _controller: CliftonBundle:TleosSliceByCategory:showSliceTleosByCategory }
-    requirements:
-        medium: 'tv|radio'
-        categoryType: 'formats|genres'
-        urlKeyHierarchy: '.+'
-        slice: 'all|player'
-
-aps.category_calendar_by_medium:
-    path: /aps/{medium}/programmes/{categoryType}/{urlKeyHierarchy}/schedules/{year}/{month}/calendar.json
-    methods:  [GET]
-    defaults: { _controller: CliftonBundle:CategoryCalendar:categoryCalendar }
-    requirements:
-        medium: 'tv|radio'
-        categoryType: 'formats|genres'
-        urlKeyHierarchy: '.+'
-        year: '[1-2][0-9]{3}'
-        month: '0?[1-9]|1[0-2]'
-
 aps.category_calendar:
     path: /aps/programmes/{categoryType}/{urlKeyHierarchy}/schedules/{year}/{month}/calendar.json
     methods:  [GET]
@@ -133,35 +94,11 @@ aps.category_calendar:
         year: '[1-2][0-9]{3}'
         month: '0?[1-9]|1[0-2]'
 
-aps.aps.subcategories_for_category_by_day_and_medium:
-    path: /aps/{medium}/programmes/{categoryType}/{urlKeyHierarchy}/schedules/{year}/{month}/{day}/subcategories.json
-    methods:  [GET]
-    defaults: { _controller: CliftonBundle:SubcategoriesForCategoryByDay:showBroadcastForCategoryBySubcategories }
-    requirements:
-        medium: 'tv|radio'
-        categoryType: 'formats|genres'
-        urlKeyHierarchy: '.+'
-        year: '[1-2][0-9]{3}'
-        month: '0?[1-9]|1[0-2]'
-        day: '0?[1-9]|[1-2][0-9]|3[0-1]'
-
 aps.subcategories_for_category_by_day:
     path: /aps/programmes/{categoryType}/{urlKeyHierarchy}/schedules/{year}/{month}/{day}/subcategories.json
     methods:  [GET]
     defaults: { _controller: CliftonBundle:SubcategoriesForCategoryByDay:showBroadcastForCategoryBySubcategories }
     requirements:
-        categoryType: 'formats|genres'
-        urlKeyHierarchy: '.+'
-        year: '[1-2][0-9]{3}'
-        month: '0?[1-9]|1[0-2]'
-        day: '0?[1-9]|[1-2][0-9]|3[0-1]'
-
-aps.broadcast_by_category_and_medium_for_day:
-    path: /aps/{medium}/programmes/{categoryType}/{urlKeyHierarchy}/schedules/{year}/{month}/{day}.json
-    methods:  [GET]
-    defaults: { _controller: CliftonBundle:BroadcastForCategoryByDay:showBroadcastForCategoryByDay }
-    requirements:
-        medium: 'tv|radio'
         categoryType: 'formats|genres'
         urlKeyHierarchy: '.+'
         year: '[1-2][0-9]{3}'
@@ -178,15 +115,6 @@ aps.broadcast_by_category_for_day:
         year: '[1-2][0-9]{3}'
         month: '0?[1-9]|1[0-2]'
         day: '0?[1-9]|[1-2][0-9]|3[0-1]'
-
-aps.category_metadata_by_medium:
-    path: /aps/{medium}/programmes/{categoryType}/{urlKeyHierarchy}.json
-    methods:  [GET]
-    defaults: { _controller: CliftonBundle:CategoryMetadata:showCategoryMetadata }
-    requirements:
-        medium: 'tv|radio'
-        categoryType: 'formats|genres'
-        urlKeyHierarchy: '.+'
 
 aps.category_metadata:
     path: /aps/programmes/{categoryType}/{urlKeyHierarchy}.json
@@ -215,49 +143,25 @@ aps.music_artist:
 aps.atoz_list_default:
     path: /aps/programmes/a-z.json
     methods: [GET]
-    defaults: { _controller: CliftonBundle:Atoz:lettersList, network: null}
+    defaults: { _controller: CliftonBundle:Atoz:lettersList }
 
 aps.atoz_list:
     path: /aps/programmes/a-z/{slice}.json
     methods: [GET]
-    defaults: { _controller: CliftonBundle:Atoz:lettersList, slice: 'player', network: null }
+    defaults: { _controller: CliftonBundle:Atoz:lettersList, slice: 'player' }
     requirements: { slice: 'player|all' }
 
 aps.atoz_by_default:
     path: /aps/programmes/a-z/by/{search}.json
     methods: [GET]
-    defaults: { _controller: CliftonBundle:Atoz:by, slice: 'player', network: null }
+    defaults: { _controller: CliftonBundle:Atoz:by, slice: 'player' }
     requirements: { search: '[^/.]+' }
 
 aps.atoz_by:
     path: /aps/programmes/a-z/by/{search}/{slice}.json
     methods: [GET]
-    defaults: { _controller: CliftonBundle:Atoz:by, slice: 'player', network: null }
+    defaults: { _controller: CliftonBundle:Atoz:by, slice: 'player' }
     requirements: { search: '[^/.]+', slice: 'player|all' }
-
-aps.atoz_list_by_network_default:
-    path: /aps/{network}/programmes/a-z.json
-    methods: [GET]
-    defaults: { _controller: CliftonBundle:Atoz:lettersList}
-    requirements: {  network: '^(tv|radio)$' }
-
-aps.atoz_list_by_network:
-    path: /aps/{network}/programmes/a-z/{slice}.json
-    methods: [GET]
-    defaults: { _controller: CliftonBundle:Atoz:lettersList, slice: 'player'}
-    requirements: { slice: 'player|all', network: '^(tv|radio)$' }
-
-aps.atoz_by_network_default:
-    path: /aps/{network}/programmes/a-z/by/{search}.json
-    methods: [GET]
-    defaults: { _controller: CliftonBundle:Atoz:by, slice: 'player' }
-    requirements: { search: '[^/.]+', network: '^(tv|radio)$' }
-
-aps.atoz_by_network:
-    path: /aps/{network}/programmes/a-z/by/{search}/{slice}.json
-    methods: [GET]
-    defaults: { _controller: CliftonBundle:Atoz:by, slice: 'player' }
-    requirements: { search: '[^/.]+', slice: 'player|all', network: '^(tv|radio)$' }
 
 
 test.availability:

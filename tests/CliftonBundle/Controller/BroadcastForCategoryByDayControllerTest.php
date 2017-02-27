@@ -56,16 +56,6 @@ class BroadcastForCategoryByDayControllerTest extends BaseWebTestCase
             ["/aps/programmes/genres/comedy/sitcoms/schedules/2016/12/04.json"],
             ["/aps/programmes/genres/comedy/sitcoms/puppetysitcoms/schedules/2016/12/04.json"],
             ["/aps/programmes/formats/animation/schedules/2016/12/04.json"],
-            // medium = tv
-            ["/aps/tv/programmes/genres/comedy/schedules/2016/12/04.json"],
-            ["/aps/tv/programmes/genres/comedy/sitcoms/schedules/2016/12/04.json"],
-            ["/aps/tv/programmes/genres/comedy/sitcoms/puppetysitcoms/schedules/2016/12/04.json"],
-            ["/aps/tv/programmes/formats/animation/schedules/2016/12/04.json"],
-            // medium = radio
-            ["/aps/radio/programmes/genres/comedy/schedules/2016/12/04.json"],
-            ["/aps/radio/programmes/genres/comedy/sitcoms/schedules/2016/12/04.json"],
-            ["/aps/radio/programmes/genres/comedy/sitcoms/puppetysitcoms/schedules/2016/12/04.json"],
-            ["/aps/radio/programmes/formats/animation/schedules/2016/12/04.json"],
         ];
     }
 

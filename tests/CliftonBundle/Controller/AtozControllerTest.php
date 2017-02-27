@@ -43,12 +43,6 @@ class AtozControllerTest extends BaseWebTestCase
             ['/aps/programmes/a-z.json', ['@', 'm', 't', 'w']],
             ['/aps/programmes/a-z/player.json', ['@', 'm', 't', 'w']],
             ['/aps/programmes/a-z/all.json', ['@', 'm', 't', 'w']],
-            ['/aps/radio/programmes/a-z.json', ['m']],
-            ['/aps/radio/programmes/a-z/player.json', ['m']],
-            ['/aps/radio/programmes/a-z/all.json', ['m']],
-            ['/aps/tv/programmes/a-z.json', ['m']],
-            ['/aps/tv/programmes/a-z/player.json', ['m']],
-            ['/aps/tv/programmes/a-z/all.json', ['m']],
         ];
     }
 
@@ -80,12 +74,6 @@ class AtozControllerTest extends BaseWebTestCase
             ['/aps/programmes/a-z/by/@.json', ['b0000002']],
             ['/aps/programmes/a-z/by/@/player.json', ['b0000002']],
             ['/aps/programmes/a-z/by/m/all.json', ['b0020020', 'b010t19z']],
-            ['/aps/radio/programmes/a-z/by/m.json', ['b0020020']],
-            ['/aps/radio/programmes/a-z/by/m/player.json', ['b0020020']],
-            ['/aps/radio/programmes/a-z/by/m/all.json', ['b0020020']],
-            ['/aps/tv/programmes/a-z/by/m.json', ['b010t19z']],
-            ['/aps/tv/programmes/a-z/by/m/player.json', ['b010t19z']],
-            ['/aps/tv/programmes/a-z/by/m/all.json', ['b010t19z']],
         ];
     }
 
@@ -108,12 +96,6 @@ class AtozControllerTest extends BaseWebTestCase
             ['/aps/programmes/a-z/by/t.json'],
             ['/aps/programmes/a-z/by/t/player.json'],
             ['/aps/programmes/a-z/by/c/all.json'],
-            ['/aps/radio/programmes/a-z/by/c.json'],
-            ['/aps/radio/programmes/a-z/by/c/player.json'],
-            ['/aps/radio/programmes/a-z/by/c/all.json'],
-            ['/aps/tv/programmes/a-z/by/c.json'],
-            ['/aps/tv/programmes/a-z/by/c/player.json'],
-            ['/aps/tv/programmes/a-z/by/c/all.json'],
         ];
     }
 }

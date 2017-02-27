@@ -20,8 +20,7 @@ class SubcategoriesForCategoryByDayController extends BaseApsController
         string $urlKeyHierarchy,
         int $year,
         int $month,
-        int $day,
-        string $medium = null
+        int $day
     ) {
         /** @var CategoriesService $categoriesService */
         $categoriesService = $this->get('pps.categories_service');
@@ -32,12 +31,11 @@ class SubcategoriesForCategoryByDayController extends BaseApsController
 
         $broadcastedCategoriesAtScheduledDate = [];
         if ($categoryType === 'genres') {
-            $subcategories = $categoriesService->findPopulatedChildGenres($categorySelected, $medium);
+            $subcategories = $categoriesService->findPopulatedChildGenres($categorySelected);
             $broadcastedCategoriesAtScheduledDate = $broadcastService->filterCategoriesByBroadcastedDate(
                 $subcategories,
                 new DateTimeImmutable("$year-$month-$day 00:00:01"),
-                new DateTimeImmutable("$year-$month-$day 23:59:59"),
-                $medium
+                new DateTimeImmutable("$year-$month-$day 23:59:59")
             );
         }
 

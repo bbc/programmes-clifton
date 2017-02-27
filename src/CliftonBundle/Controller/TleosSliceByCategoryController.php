@@ -14,25 +14,24 @@ class TleosSliceByCategoryController extends BaseApsController
         Request $request,
         string $categoryType,
         string $urlKeyHierarchy,
-        string $slice,
-        string $medium = null
+        string $slice
     ) {
         $category = $this->fetchCategoryFromTypeAndUrlHierarchy($categoryType, $urlKeyHierarchy);
 
         $subcategories = [];
         if ($category instanceof Genre) {
-            $subcategories = $this->get('pps.categories_service')->findPopulatedChildGenres($category, $medium);
+            $subcategories = $this->get('pps.categories_service')->findPopulatedChildGenres($category);
         }
 
         /** @var ProgrammesService $programmesService */
         $programmesService = $this->get('pps.programmes_service');
         switch ($slice) {
             case 'all':
-                $programmes = $programmesService->findAllTleosByCategory($category, $medium, null);
+                $programmes = $programmesService->findAllTleosByCategory($category, null);
                 break;
 
             case 'player':
-                $programmes = $programmesService->findAvailableTleosByCategory($category, $medium, null);
+                $programmes = $programmesService->findAvailableTleosByCategory($category, null);
                 break;
             default:
                 throw  $this->createNotFoundException("Slice does not exist");
@@ -42,7 +41,6 @@ class TleosSliceByCategoryController extends BaseApsController
 
         return $this->json($mapper->getApsObject(
             $programmes,
-            $medium,
             $category,
             $slice,
             $subcategories

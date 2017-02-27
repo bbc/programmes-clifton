@@ -15,8 +15,7 @@ class CategoryMetadataController extends BaseApsController
     public function showCategoryMetadataAction(
         Request $request,
         string $categoryType,
-        string $urlKeyHierarchy,
-        string $medium = null
+        string $urlKeyHierarchy
     ): JsonResponse {
         $category = $this->fetchCategoryFromTypeAndUrlHierarchy($categoryType, $urlKeyHierarchy);
 
@@ -25,12 +24,12 @@ class CategoryMetadataController extends BaseApsController
         // There's no such thing as a format with a parent, so there are no subformats
         $subcategories = [];
         if ($categoryType === 'genres') {
-            $subcategories = $categoriesService->findPopulatedChildGenres($category, $medium);
+            $subcategories = $categoriesService->findPopulatedChildGenres($category);
         }
 
         $programmesService = $this->get('pps.programmes_service');
 
-        $episodesCount = $programmesService->countAvailableEpisodesByCategory($category, $medium);
+        $episodesCount = $programmesService->countAvailableEpisodesByCategory($category);
 
         $collapsedBroadcastsService = $this->get('pps.collapsed_broadcasts_service');
         $now = ApplicationTime::getCurrent3MinuteWindow();
@@ -38,7 +37,7 @@ class CategoryMetadataController extends BaseApsController
         $upcomingBroadcastsCount = $collapsedBroadcastsService->countByCategoryAndEndAtDateRange(
             $category,
             $now,
-            $now->add(new DateInterval('P31D')) // APS sets this 31 day limit in Models::Broadcast#L658
+            $now->add(new DateInterval('P31D'))
         );
 
         // APS has the hide_counts flag up, so we don't show counts for anything. Therefore, we are not worrying about this.
@@ -51,8 +50,7 @@ class CategoryMetadataController extends BaseApsController
                 $subcategories,
                 $episodesCount,
                 $upcomingBroadcastsCount,
-                $counts,
-                $medium
+                $counts
             ),
         ]);
     }

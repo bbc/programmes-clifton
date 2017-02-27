@@ -17,8 +17,7 @@ class CategoryCalendarController extends BaseApsController
         string $categoryType,
         string $urlKeyHierarchy,
         int $year,
-        int $month,
-        string $medium = null
+        int $month
     ): JsonResponse {
         $category = $this->fetchCategoryFromTypeAndUrlHierarchy($categoryType, $urlKeyHierarchy);
 
@@ -44,8 +43,7 @@ class CategoryCalendarController extends BaseApsController
         $dates = $categoryService->findDaysByCategoryInDateRange(
             $category,
             $startLastMonth,
-            $endNextMonth,
-            $medium
+            $endNextMonth
         );
 
         return $this->json((object) [
