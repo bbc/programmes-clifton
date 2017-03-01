@@ -8,7 +8,7 @@ class SubcategoriesForCategoryByDayControllerTest extends BaseWebTestCase
 {
     protected function setUp()
     {
-        $this->loadFixtures(['BroadcastsWithCategoriesFixture']);
+        $this->loadFixtures(['CollapsedBroadcastsWithCategoriesFixture']);
     }
 
     /**

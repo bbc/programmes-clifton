@@ -11,7 +11,7 @@ class BroadcastYearsAndMonthsControllerTest extends BaseWebTestCase
 {
     public function testYearsAndMonthActionWithBrand()
     {
-        $this->loadFixtures(['BroadcastsFixture']);
+        $this->loadFixtures(['CollapsedBroadcastsFixture']);
 
         $client = static::createClient();
         $client->request('GET', '/aps/programmes/b017j7vs/episodes.json');

@@ -3,10 +3,8 @@
 namespace BBC\CliftonBundle\Controller;
 
 use BBC\CliftonBundle\ApsMapper\CategoryItemMapper;
-use BBC\ProgrammesPagesService\Domain\Entity\Category;
-use BBC\ProgrammesPagesService\Domain\Entity\Genre;
-use BBC\ProgrammesPagesService\Service\BroadcastsService;
 use BBC\ProgrammesPagesService\Service\CategoriesService;
+use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
 use DateTimeImmutable;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -24,15 +22,15 @@ class SubcategoriesForCategoryByDayController extends BaseApsController
     ) {
         /** @var CategoriesService $categoriesService */
         $categoriesService = $this->get('pps.categories_service');
-        /** @var BroadcastsService $broadcastService */
-        $broadcastService = $this->get('pps.broadcasts_service');
+        /** @var CollapsedBroadcastsService $broadcastService */
+        $collapsedBroadcastService = $this->get('pps.collapsed_broadcasts_service');
 
         $categorySelected = $this->fetchCategoryFromTypeAndUrlHierarchy($categoryType, $urlKeyHierarchy);
 
         $broadcastedCategoriesAtScheduledDate = [];
         if ($categoryType === 'genres') {
             $subcategories = $categoriesService->findPopulatedChildGenres($categorySelected);
-            $broadcastedCategoriesAtScheduledDate = $broadcastService->filterCategoriesByBroadcastedDate(
+            $broadcastedCategoriesAtScheduledDate = $collapsedBroadcastService->filterCategoriesByBroadcastedDate(
                 $subcategories,
                 new DateTimeImmutable("$year-$month-$day 00:00:01"),
                 new DateTimeImmutable("$year-$month-$day 23:59:59")

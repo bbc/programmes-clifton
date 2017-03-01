@@ -11,7 +11,7 @@ class CategoryCalendarControllerTest extends BaseWebTestCase
      */
     public function testCategoryCalendarValidRoutes($url, $expectedResult)
     {
-        $this->loadFixtures(['BroadcastsFixture']);
+        $this->loadFixtures(['CollapsedBroadcastsFixture']);
 
         $client = static::createClient();
         $client->request('GET', $url);

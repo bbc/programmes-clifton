@@ -39,7 +39,7 @@ class CategoryCalendarController extends BaseApsController
         $currentMonth = (int) $date->format('m');
         $currentMonthsYear = (int) $date->format('Y');
 
-        $categoryService = $this->get('pps.broadcasts_service');
+        $categoryService = $this->get('pps.collapsed_broadcasts_service');
         $dates = $categoryService->findDaysByCategoryInDateRange(
             $category,
             $startLastMonth,
