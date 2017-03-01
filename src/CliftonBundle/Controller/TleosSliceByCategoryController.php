@@ -27,11 +27,11 @@ class TleosSliceByCategoryController extends BaseApsController
         $programmesService = $this->get('pps.programmes_service');
         switch ($slice) {
             case 'all':
-                $programmes = $programmesService->findAllTleosByCategory($category, null);
+                $programmes = $programmesService->findAllTleosByCategory($category, 3000);
                 break;
 
             case 'player':
-                $programmes = $programmesService->findAvailableTleosByCategory($category, null);
+                $programmes = $programmesService->findAvailableTleosByCategory($category, 3000);
                 break;
             default:
                 throw  $this->createNotFoundException("Slice does not exist");
