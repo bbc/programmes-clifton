@@ -33,7 +33,7 @@
             "fpm.start_servers": 32,
             "fpm.min_spare_servers": 16,
             "fpm.max_spare_servers": 48,
-            "fpm.max_requests": 50,
+            "fpm.max_requests": 500,
 
             "nginx.worker_processes": 4,
             "nginx.worker_connections": 1024
