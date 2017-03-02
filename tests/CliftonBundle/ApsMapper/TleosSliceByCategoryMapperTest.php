@@ -23,28 +23,26 @@ class TleosSliceByCategoryMapperTest extends PHPUnit_Framework_TestCase
         $subCategories =  null;
 
         $expectedOutput = (object) [
-            'category_slice' => [
-                'slice' => $slice,
-                'category' => (object) [
-                    'type' => 'genre',
-                    'id' => $category->getId(),
-                    'key' => $category->getUrlKey(),
-                    'title' => $category->getTitle(),
-                    'broader' => (object) [],
-                    'has_topic_page' => false,
-                    'sameAs' => null,
+            'slice' => $slice,
+            'category' => (object) [
+                'type' => 'genre',
+                'id' => $category->getId(),
+                'key' => $category->getUrlKey(),
+                'title' => $category->getTitle(),
+                'broader' => (object) [],
+                'has_topic_page' => false,
+                'sameAs' => null,
 
-                ],
-                'programmes' => [
-                    (object) [
-                        'type' => 'series',
-                        'pid' => $programmes->getPid(),
-                        'title' => $programmes->getTitle(),
-                        'image' => [
-                                'pid' => $programmes->getImage()->getPid(),
-                        ],
-                        'is_available' => $programmes->isStreamable(),
+            ],
+            'programmes' => [
+                (object) [
+                    'type' => 'series',
+                    'pid' => $programmes->getPid(),
+                    'title' => $programmes->getTitle(),
+                    'image' => [
+                            'pid' => $programmes->getImage()->getPid(),
                     ],
+                    'is_available' => $programmes->isStreamable(),
                 ],
             ],
         ];

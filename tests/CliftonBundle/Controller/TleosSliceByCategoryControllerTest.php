@@ -40,6 +40,32 @@ class TleosSliceByCategoryControllerTest extends BaseWebTestCase
         $this->assertCount(2, $programmesInSlice['category_slice']['programmes']);
     }
 
+    /**
+     * @dataProvider tleosSliceByCategoryPaginationProvider
+     */
+    public function testTleosSliceByCategoryPagination($limit, $page, $expectedOffset, $expectedPage)
+    {
+        $client = static::createClient();
+        $client->request('GET', sprintf('/aps/programmes/genres/cat1/cat11/all.json?limit=%s&page=%s', $limit, $page));
+
+        $this->assertResponseStatusCode($client, 200);
+
+        $jsonContent = $this->getDecodedJsonContent($client);
+
+        $this->assertEquals($expectedPage, $jsonContent['page']);
+        $this->assertEquals($expectedOffset, $jsonContent['offset']);
+    }
+
+    public function tleosSliceByCategoryPaginationProvider()
+    {
+        return [
+            [ '', '', 0, 1], // Use default
+            [ '-1', '-1', 0, 1], // Use default - invalid negative numbers
+            [ 'a', 'a', 0, 1], // Use default - invalid alphabet inputs
+            ['1', '2', 1, 2], // Custom page and limit
+        ];
+    }
+
     public function testShowProgrammesInAllSliceReturnAllProgrammesInGenreTreeCategory()
     {
         $client = static::createClient();

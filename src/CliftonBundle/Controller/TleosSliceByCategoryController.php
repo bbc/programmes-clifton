@@ -16,6 +16,13 @@ class TleosSliceByCategoryController extends BaseApsController
         string $urlKeyHierarchy,
         string $slice
     ) {
+        $limit = $this->queryParamToInt($request, 'limit', 3000, 1);
+        $page = $this->queryParamToInt($request, 'page', 1, 1);
+
+        if ($slice !== 'all' && $slice !== 'player') {
+            throw  $this->createNotFoundException('Slice does not exist');
+        }
+
         $category = $this->fetchCategoryFromTypeAndUrlHierarchy($categoryType, $urlKeyHierarchy);
 
         $subcategories = [];
@@ -25,25 +32,31 @@ class TleosSliceByCategoryController extends BaseApsController
 
         /** @var ProgrammesService $programmesService */
         $programmesService = $this->get('pps.programmes_service');
-        switch ($slice) {
-            case 'all':
-                $programmes = $programmesService->findAllTleosByCategory($category, 3000);
-                break;
 
-            case 'player':
-                $programmes = $programmesService->findAvailableTleosByCategory($category, 3000);
-                break;
-            default:
-                throw  $this->createNotFoundException("Slice does not exist");
+        if ($slice === 'all') {
+            $count = $programmesService->countAllTleosByCategory($category);
+        } else {
+            $count = $programmesService->countAvailableTleosByCategory($category);
         }
 
-        $mapper = new TleosSliceByCategoryMapper();
+        $offset = $limit * ($page - 1);
+        if ($offset >= $count) {
+            $this->createNotFoundException('Invalid page number');
+        }
 
-        return $this->json($mapper->getApsObject(
-            $programmes,
-            $category,
-            $slice,
-            $subcategories
-        ));
+        if ($slice === 'all') {
+            $programmes = $programmesService->findAllTleosByCategory($category, $limit, $page);
+        } else {
+            $programmes = $programmesService->findAvailableTleosByCategory($category, $limit, $page);
+        }
+
+        $mappedSlice = $this->mapSingleApsObject(new TleosSliceByCategoryMapper(), $programmes, $category, $slice, $subcategories);
+
+        return $this->json((object) [
+            'page' => $page,
+            'total' => $count,
+            'offset' => $offset,
+            'category_slice' => $mappedSlice,
+        ]);
     }
 }

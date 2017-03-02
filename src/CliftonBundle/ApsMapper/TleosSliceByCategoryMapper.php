@@ -16,18 +16,14 @@ class TleosSliceByCategoryMapper implements MapperInterface
         string $slice = '',
         array $subCategories = null
     ) {
-        $output = [
-            'category_slice' => [
-                'slice'      => $slice,
-                'category'   => $this->mapCategoryItem($category, true, $subCategories),
-                'programmes' => $this->getProgrammeItems($programmes, $slice),
-            ],
+        return (object) [
+            'slice' => $slice,
+            'category' => $this->mapCategoryItem($category, true, $subCategories),
+            'programmes' => $this->getProgrammeItems($programmes),
         ];
-
-        return (object) $output;
     }
 
-    private function getProgrammeItems($programmes, $slice)
+    private function getProgrammeItems($programmes)
     {
         $programmesOutput = [];
         foreach ($programmes as $programme) {
