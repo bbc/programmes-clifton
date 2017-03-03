@@ -16,8 +16,8 @@ class TleosSliceByCategoryController extends BaseApsController
         string $urlKeyHierarchy,
         string $slice
     ) {
-        $limit = $this->queryParamToInt($request, 'limit', 3000, 1);
-        $page = $this->queryParamToInt($request, 'page', 1, 1);
+        $limit = $this->queryParamToInt($request, 'limit', 3000, 1, 3000);
+        $page = $this->queryParamToInt($request, 'page', 1, 1, 99999);
 
         if ($slice !== 'all' && $slice !== 'player') {
             throw  $this->createNotFoundException('Slice does not exist');
