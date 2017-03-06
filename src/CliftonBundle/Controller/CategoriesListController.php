@@ -14,9 +14,9 @@ class CategoriesListController extends BaseApsController
     {
         /** @var Format[]|Genre[] $categories */
         if ($categoryType === 'genres') {
-            $categories = $this->get('pps.categories_service')->findUsedGenres($categoryType);
+            $categories = $this->get('pps.categories_service')->findGenres();
         } elseif ($categoryType === 'formats') {
-            $categories = $this->get('pps.categories_service')->findUsedFormats($categoryType);
+            $categories = $this->get('pps.categories_service')->findFormats();
         } else {
             // This shouldn't really happen as the route only matches genres or formats, but better safe than sorry
             throw $this->createNotFoundException(sprintf("'%s' is not a valid category type", $categoryType));

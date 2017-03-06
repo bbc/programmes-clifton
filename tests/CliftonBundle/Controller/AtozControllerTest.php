@@ -2,6 +2,7 @@
 
 namespace Tests\BBC\CliftonBundle\Controller;
 
+use BBC\ProgrammesPagesService\Service\AtozTitlesService;
 use Tests\BBC\CliftonBundle\BaseWebTestCase;
 
 /**
@@ -40,9 +41,9 @@ class AtozControllerTest extends BaseWebTestCase
     public function lettersListUrlProvider()
     {
         return [
-            ['/aps/programmes/a-z.json', ['@', 'm', 't', 'w']],
-            ['/aps/programmes/a-z/player.json', ['@', 'm', 't', 'w']],
-            ['/aps/programmes/a-z/all.json', ['@', 'm', 't', 'w']],
+            ['/aps/programmes/a-z.json', AtozTitlesService::LETTERS],
+            ['/aps/programmes/a-z/player.json', AtozTitlesService::LETTERS],
+            ['/aps/programmes/a-z/all.json', AtozTitlesService::LETTERS],
         ];
     }
 
