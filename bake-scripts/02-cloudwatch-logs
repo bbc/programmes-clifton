@@ -13,6 +13,9 @@ file = /var/log/nginx/access.log
 log_group_name = $environment-clifton/nginx-access
 log_stream_name = $component_name-{instance_id}
 datetime_format = %d/%b/%Y:%H:%M:%S %z
+batch_count = 10000
+batch_size = 1048576
+buffer_duration = 20000
 
 [clifton/nginx-error]
 file = /var/log/nginx/error.log
@@ -37,7 +40,9 @@ file = /var/www/programmes-clifton/tmp/logs/prod-access.log
 log_group_name = $environment-clifton/app-access
 log_stream_name = $component_name-{instance_id}
 datetime_format = %Y-%m-%d %H:%M:%S
-
+batch_count = 10000
+batch_size = 1048576
+buffer_duration = 30000
 [clifton/haproxy]
 file = /var/log/haproxy.log
 log_group_name = $environment-clifton/haproxy
