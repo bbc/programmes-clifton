@@ -7,7 +7,7 @@ use DateTimeImmutable;
 use Tests\BBC\CliftonBundle\BaseWebTestCase;
 
 /**
- * @covers BBC\CliftonBundle\Controller\UpcomingCollapsedBroadcastForCategoryController
+ * @covers BBC\CliftonBundle\Controller\CollapsedBroadcastLatestForProgrammeController
  */
 class CollapsedBroadcastLatestForProgrammeControllerTest extends BaseWebTestCase
 {
