@@ -62,7 +62,7 @@ aps.pan_bbc_category_list:
 aps.upcoming_collapsed_broadcast_for_category:
     path: /aps/programmes/{categoryType}/{urlKeyHierarchy}/schedules/upcoming.json
     methods:  [GET]
-    defaults: { _controller: CliftonBundle:UpcomingCollapsedBroadcastForCategory:upcomingCollapsedBroadcastForCategory }
+    defaults: { _controller: CliftonBundle:CollapsedBroadcastUpcomingForCategory:collapsedBroadcastUpcomingForCategory }
     requirements:
         categoryType: 'formats|genres'
         urlKeyHierarchy: '.+'

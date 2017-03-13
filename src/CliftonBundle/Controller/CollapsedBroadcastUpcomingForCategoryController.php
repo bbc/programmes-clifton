@@ -8,11 +8,11 @@ use DateInterval;
 use Symfony\Component\HttpFoundation\Request;
 use BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService;
 
-class UpcomingCollapsedBroadcastForCategoryController extends BaseApsController
+class CollapsedBroadcastUpcomingForCategoryController extends BaseApsController
 {
     use Traits\CategoryFetchingTrait;
 
-    public function upcomingCollapsedBroadcastForCategoryAction(
+    public function collapsedBroadcastUpcomingForCategoryAction(
         Request $request,
         string $categoryType,
         string $urlKeyHierarchy

@@ -8,9 +8,9 @@ use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use DateTimeImmutable;
 
 /**
- * @covers BBC\CliftonBundle\Controller\UpcomingCollapsedBroadcastForCategoryController
+ * @covers BBC\CliftonBundle\Controller\CollapsedBroadcastUpcomingForCategoryController
  */
-class UpcomingCollapsedBroadcastForCategoryControllerTest extends BaseWebTestCase
+class CollapsedBroadcastUpcomingForCategoryControllerTest extends BaseWebTestCase
 {
     /** @var  Client */
     private $client;
@@ -18,7 +18,7 @@ class UpcomingCollapsedBroadcastForCategoryControllerTest extends BaseWebTestCas
     /**
      * Tetst amount of programmes returned
      */
-    public function testUpcomingCollapsedBroadcastForCategoryAmountReturnTwoProgrammes()
+    public function testCollapsedBroadcastUpcomingForCategoryAmountReturnTwoProgrammes()
     {
         $this->client->request('GET', "/aps/programmes/genres/comedy/schedules/upcoming.json");
         $this->assertResponseStatusCode($this->client, 200);
@@ -29,7 +29,7 @@ class UpcomingCollapsedBroadcastForCategoryControllerTest extends BaseWebTestCas
     /**
      * Tetst page/offset functionality
      */
-    public function testUpcomingCollapsedBroadcastForCategoryAmountReturnCorrectDefaultValues()
+    public function testCollapsedBroadcastUpcomingForCategoryAmountReturnCorrectDefaultValues()
     {
         $this->client->request('GET', "/aps/programmes/genres/comedy/schedules/upcoming.json");
         $this->assertResponseStatusCode($this->client, 200);
@@ -39,7 +39,7 @@ class UpcomingCollapsedBroadcastForCategoryControllerTest extends BaseWebTestCas
         $this->assertEquals(0, $programmesInSlice['offset']);
     }
 
-    public function testUpcomingCollapsedBroadcastForCategoryAmountReturnCorrectCustomValues()
+    public function testCollapsedBroadcastUpcomingForCategoryAmountReturnCorrectCustomValues()
     {
         $this->client->request('GET', "/aps/programmes/genres/comedy/schedules/upcoming.json?page=3&limit=4");
         $this->assertResponseStatusCode($this->client, 200);
