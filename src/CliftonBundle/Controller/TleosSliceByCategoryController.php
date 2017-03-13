@@ -16,7 +16,7 @@ class TleosSliceByCategoryController extends BaseApsController
         string $urlKeyHierarchy,
         string $slice
     ) {
-        $limit = $this->queryParamToInt($request, 'limit', 3000, 1, 3000);
+        $limit = $this->queryParamToInt($request, 'limit', 50, 1, 999);
         $page = $this->queryParamToInt($request, 'page', 1, 1, 99999);
 
         if ($slice !== 'all' && $slice !== 'player') {
