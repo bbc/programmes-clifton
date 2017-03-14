@@ -55,6 +55,21 @@ def rewrite_application_parameters():
     with open(appParamWriteFile, 'wt') as config_file:
         config_file.write(parameters)
 
+def system_tweaks():
+    with open("/etc/sysctl.d/80-clifton.conf", "w") as f:
+        # This increases the number of waiting connections to a socket.
+        # Used in conjunction with "fpm.listen_backlog": 1023
+        # in php-fpm.conf to allow bigger queues before failing requests
+        f.write("net.core.somaxconn=1024\n")
+        # This increases the number of TCP connections the box can handle
+        f.write("net.ipv4.ip_local_port_range=11000 63000\n")
+
+    # This increases the max open files for the nginx user, used
+    # in conjunction with "nginx.worker_rlimit_nofile": 3000
+    # in nginx.conf to allow bigger queues before failing.
+    with open("/etc/security/limits.d/80-clifton.conf", "w") as f:
+        f.write("nginx soft nofile 3000\n")
+        f.write("nginx hard nofile 6000\n")
 
 def regenerate_cache():
     appTmpDir = appRoot + "/tmp"
@@ -82,6 +97,7 @@ def main():
     rewrite_application_parameters()
     regenerate_cache()
     create_monitoring_cronjob()
+    system_tweaks()
 
 if __name__ == '__main__':
     main()

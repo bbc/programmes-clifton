@@ -43,6 +43,7 @@ datetime_format = %Y-%m-%d %H:%M:%S
 batch_count = 10000
 batch_size = 1048576
 buffer_duration = 30000
+
 [clifton/haproxy]
 file = /var/log/haproxy.log
 log_group_name = $environment-clifton/haproxy
