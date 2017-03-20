@@ -4,11 +4,11 @@
     "type": "project",
     "description": "The Bridge between ProgrammesDB and Forge /programmes",
     "autoload": {
-        "psr-4": { "BBC\\CliftonBundle\\": "src/CliftonBundle" },
+        "psr-4": { "BBC\\CliftonBundle\\": "src" },
         "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
     },
     "autoload-dev": {
-        "psr-4": { "Tests\\BBC\\CliftonBundle\\": "tests/CliftonBundle" }
+        "psr-4": { "Tests\\BBC\\CliftonBundle\\": "tests" }
     },
     "repositories": [
         {
