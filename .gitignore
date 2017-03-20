@@ -1,16 +1,12 @@
 # Created by .ignore support plugin (hsz.mobi)
 ### Symfony template
 # Cache and logs (Symfony2)
-/app/bootstrap.php.cache
 /app/config/parameters.yml
 /build/
 /phpunit.xml
 /tmp
 /vendor/
 /web/bundles/
-
-# This file is generated automatically on composer install
-/app/symfony_requirements
 
 /composer.phar
 
