@@ -10,7 +10,7 @@ parameters:
     database_server_version: 5.6
 
     # A secret key that's used to generate certain security-related tokens
-    secret:            ThisTokenIsNotSoSecretChangeIt
+    secret:            $secret
 
     cosmos_environment: $cosmos_environment
     cosmos_component_release: $cosmos_component_release
