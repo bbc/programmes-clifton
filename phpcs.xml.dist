@@ -53,10 +53,4 @@
            <property name="ignoreNewlines" value="true"/>
         </properties>
     </rule>
-
-    <!-- The Mappers that convert nitro/pips to DB entites can have variables
-        with underscores in them as that's what they look like in the nitro/pips apis -->
-    <rule ref="Zend.NamingConventions.ValidVariableName">
-        <exclude-pattern>src/FaucetBundle/Mapper/*</exclude-pattern>
-    </rule>
 </ruleset>
