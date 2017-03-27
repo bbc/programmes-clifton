@@ -80,8 +80,11 @@ def regenerate_cache():
     # the new cache files to it
     subprocess.call(['chown', '-R', 'root:root', appTmpDir])
 
-    # cache:clear also warms up the cache by default (unless we specify --no-warmup)
-    subprocess.call(['php', appConsoleFile, '--env=prod', 'cache:clear', '--no-debug'])
+    # The warmup in cache:clear doesn't quite do what you expect so we should
+    # call cache:warmup explicitly
+    # http://symfony.com/blog/new-in-symfony-3-3-deprecated-cache-clear-with-warmup
+    subprocess.call(['php', appConsoleFile, '--env=prod', 'cache:clear', '--no-warmup', '--no-debug'])
+    subprocess.call(['php', appConsoleFile, '--env=prod', 'cache:warmup', '--no-debug'])
 
     # Give the temp directory back to nginx
     subprocess.call(['chown', '-R', 'nginx:nginx', appTmpDir])
