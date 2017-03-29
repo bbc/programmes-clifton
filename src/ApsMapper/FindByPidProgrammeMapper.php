@@ -34,6 +34,11 @@ class FindByPidProgrammeMapper implements MapperInterface
             'display_title' => $this->getDisplayTitle($programme),
         ];
 
+        // If the programme is a container add the descendent episodes
+        if (($programme instanceof ProgrammeContainer)) {
+            $output['aggregated_episode_count'] = $programme->getAggregatedEpisodesCount();
+        }
+
         // If Image is null then remove it from the feed
         if (is_null($output['image'])) {
             unset($output['image']);
@@ -95,6 +100,11 @@ class FindByPidProgrammeMapper implements MapperInterface
             'expected_child_count' => ($programme instanceof ProgrammeContainer) ? $programme->getExpectedChildCount() : null,
             'first_broadcast_date' => $this->getFirstBroadcastDate($programme),
         ];
+
+        // If the programme is a container add the descendent episodes
+        if (($programme instanceof ProgrammeContainer)) {
+            $output['aggregated_episode_count'] = $programme->getAggregatedEpisodesCount();
+        }
 
         // If Image is null then remove it from the feed
         if (is_null($output['image'])) {

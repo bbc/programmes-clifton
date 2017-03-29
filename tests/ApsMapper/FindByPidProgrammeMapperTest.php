@@ -58,6 +58,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
             'type' => 'brand',
             'pid' => 'b006q2x0',
             'expected_child_count' => 2201,
+            'aggregated_episode_count' => 1202,
             'position' => 2101,
             'image' => (object) ['pid' => 'p01m5mss'],
             'media_type' => null,
@@ -166,9 +167,11 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
                     'title' => 'Doctor Who',
                     'short_synopsis' => 'Short Synopsis',
                     'first_broadcast_date' => '2000-01-01T00:00:00Z',
+                    'aggregated_episode_count' => 1202,
                 ],
             ],
             'peers' => (object) ['previous' => null, 'next' => null],
+            'aggregated_episode_count' => 1202,
         ];
 
         $mapper = new FindByPidProgrammeMapper();
@@ -754,6 +757,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
                         'title' => 'BBC Two',
                     ],
                 ],
+                'aggregated_episode_count' => 0,
             ],
         ];
 
@@ -776,6 +780,7 @@ class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
                     ],
                 ],
                 'parent' => $expectedBrand,
+                'aggregated_episode_count' => 0,
             ],
         ];
 
