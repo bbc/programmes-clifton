@@ -43,3 +43,12 @@ Now visit https://clifton-debug.int.b7e6ae3250e1722d.xhst.bbci.co.uk/xhprof/xhpr
 You should see a list of your visits along with a load of metrics on execution. 
 
 We should at some point look at baking this into pac-plugin-nginx or similar in order to make it less hacky. 
+
+
+License
+-------
+
+This repository is available under the terms of the Apache 2.0 license.
+View the LICENSE file for more information.
+
+Copyright (c) 2017 BBC
