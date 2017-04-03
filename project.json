@@ -36,7 +36,9 @@
             "fpm.listen_backlog": 1023,
             "nginx.worker_rlimit_nofile": 3000,
             "nginx.worker_processes": 4,
-            "nginx.worker_connections": 1592
+            "nginx.worker_connections": 1592,
+            "nginx.gzip_comp_level": 1,
+            "nginx.gzip_experimental_config": true
         }
     }
 }
