@@ -71,11 +71,12 @@ trait CollapsedBroadcastTrait
         );
     }
 
-    private function createService($network = null, $id = 'service0')
+    private function createService($network = null, $id = 'service0', $pid = 'b0000001')
     {
         return new Service(
             0,
             new Sid($id),
+            new Pid($pid),
             'Service ' . $id,
             'Short name ' . $id,
             $id . '_url_key',
