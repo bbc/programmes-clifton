@@ -39,7 +39,6 @@ framework:
                 # cache.adapter.psr6 act as a proxy for the adapter we set on the "provider" section,
                 # this is required when and adapter is not supported directly
                 adapter: cache.adapter.psr6
-                default_lifetime: 120
                 provider: cache.null_provider # locally we don't want to use cache
 
 # Twig Configuration
