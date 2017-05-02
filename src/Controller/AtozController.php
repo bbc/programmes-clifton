@@ -96,8 +96,15 @@ class AtozController extends BaseApsController
         // Make a-z titles out of core entities. Bit nuts...
         $fakeItems = [];
         foreach ($items as $item) {
-            $firstLetter = substr($item->getTitle(), 0, 1);
-            $fakeItems[] = new AtozTitle($item->getTitle(), strtolower($firstLetter), $item);
+            $firstLetter = '@';
+            $possibleAlphas = preg_replace('/[^A-Za-z0-9]/', '', $item->getTitle());
+            if ($possibleAlphas) {
+                $possibleFirstLetter = substr($possibleAlphas, 0, 1);
+                if (preg_match('/^[A-Za-z]/', $possibleFirstLetter)) {
+                    $firstLetter = strtolower($possibleFirstLetter);
+                }
+            }
+            $fakeItems[] = new AtozTitle($item->getTitle(), $firstLetter, $item);
         }
 
         return [$fakeItems, $itemCount];
