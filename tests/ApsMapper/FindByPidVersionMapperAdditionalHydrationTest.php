@@ -16,9 +16,9 @@ use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\CliftonBundle\ApsMapper\FindByPidVersionMapper;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use DateTimeImmutable;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class FindByPidVersionMapperAdditionalHydrationTest extends PHPUnit_Framework_TestCase
+class FindByPidVersionMapperAdditionalHydrationTest extends TestCase
 {
     public function testMappingContributions()
     {

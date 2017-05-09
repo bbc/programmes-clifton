@@ -48,7 +48,7 @@ class AtozControllerTest extends BaseWebTestCase
     }
 
     /**
-     * @dataProvider testByLetterUrlProvider
+     * @dataProvider letterUrlProvider
      */
     public function testByLetter($url, $expectedPids)
     {
@@ -69,7 +69,7 @@ class AtozControllerTest extends BaseWebTestCase
     }
 
 
-    public function testByLetterUrlProvider()
+    public function letterUrlProvider()
     {
         return [
             ['/aps/programmes/a-z/by/@.json', ['b0000002']],
@@ -79,7 +79,7 @@ class AtozControllerTest extends BaseWebTestCase
     }
 
     /**
-     * @dataProvider testByLetterUrl404Provider
+     * @dataProvider letterUrl404Provider
      */
     public function testByLetter404($url)
     {
@@ -91,7 +91,7 @@ class AtozControllerTest extends BaseWebTestCase
         $this->assertResponseStatusCode($client, 404);
     }
 
-    public function testByLetterUrl404Provider()
+    public function letterUrl404Provider()
     {
         return [
             ['/aps/programmes/a-z/by/t.json'],

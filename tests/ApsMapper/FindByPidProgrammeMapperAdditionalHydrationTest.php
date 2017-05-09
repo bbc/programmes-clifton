@@ -16,9 +16,9 @@ use BBC\ProgrammesPagesService\Domain\ValueObject\PartialDate;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use BBC\CliftonBundle\ApsMapper\FindByPidProgrammeMapper;
 use DateTimeImmutable;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class FindByPidProgrammeMapperAdditionalHydrationTest extends PHPUnit_Framework_TestCase
+class FindByPidProgrammeMapperAdditionalHydrationTest extends TestCase
 {
     public function testMappingRelatedLinks()
     {

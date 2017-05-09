@@ -11,9 +11,9 @@ use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use Doctrine\Common\Proxy\Exception\InvalidArgumentException;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class FindByPidSegmentEventMapperTest extends PHPUnit_Framework_TestCase
+class FindByPidSegmentEventMapperTest extends TestCase
 {
     public function testMappingSegmentEvent()
     {

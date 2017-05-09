@@ -7,9 +7,9 @@ use BBC\ProgrammesPagesService\Domain\Entity\Network;
 use BBC\ProgrammesPagesService\Domain\Entity\Unfetched\UnfetchedImage;
 use BBC\ProgrammesPagesService\Domain\Enumeration\NetworkMediumEnum;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Nid;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class MusicChartNetworkMapperTest extends PHPUnit_Framework_TestCase
+class MusicChartNetworkMapperTest extends TestCase
 {
     public function testMappingArtistPlays()
     {

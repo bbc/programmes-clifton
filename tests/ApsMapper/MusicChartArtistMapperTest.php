@@ -5,9 +5,9 @@ namespace Tests\BBC\CliftonBundle\ApsMapper;
 use BBC\CliftonBundle\ApsMapper\MusicChartArtistMapper;
 use BBC\ProgrammesPagesService\Domain\Entity\Contributor;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class MusicChartArtistMapperTest extends PHPUnit_Framework_TestCase
+class MusicChartArtistMapperTest extends TestCase
 {
     public function testMappingArtistPlays()
     {

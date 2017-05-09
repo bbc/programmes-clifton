@@ -5,9 +5,9 @@ namespace Tests\BBC\CliftonBundle\ApsMapper;
 use BBC\CliftonBundle\ApsMapper\CategoryItemMapper;
 use BBC\ProgrammesPagesService\Domain\Entity\Format;
 use BBC\ProgrammesPagesService\Domain\Entity\Genre;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class CategoryItemMapperAdditionalHydrationTest extends PHPUnit_Framework_TestCase
+class CategoryItemMapperAdditionalHydrationTest extends TestCase
 {
     public function testMappingBroaderCategory()
     {

@@ -8,10 +8,10 @@ use BBC\ProgrammesPagesService\Domain\Entity\Series;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use DateTimeImmutable;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use InvalidArgumentException;
 
-class ChildrenSeriesOfContainerMapperTest extends PHPUnit_Framework_TestCase
+class ChildrenSeriesOfContainerMapperTest extends TestCase
 {
     public function testMappingChildrenSeriesOfContainer()
     {
