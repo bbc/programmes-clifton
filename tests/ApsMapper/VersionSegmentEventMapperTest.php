@@ -12,9 +12,9 @@ use BBC\ProgrammesPagesService\Domain\Entity\SegmentEvent;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class VersionSegmentEventMapperTest extends PHPUnit_Framework_TestCase
+class VersionSegmentEventMapperTest extends TestCase
 {
     public function testMappingVersionSegmentEventMapper()
     {

@@ -8,12 +8,12 @@ use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use BBC\ProgrammesPagesService\Domain\Entity\Series;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @Cover BBC\CliftonBundle\ApsMapper\TleosSliceByCategoryMapper
  */
-class TleosSliceByCategoryMapperTest extends PHPUnit_Framework_TestCase
+class TleosSliceByCategoryMapperTest extends TestCase
 {
     public function testMappingTleoSlice()
     {

@@ -40,11 +40,11 @@
         "bbc-rmp/cloudwatch-monitoringhandler": "^1.0"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "^3.0",
-        "phpunit/phpunit": "^5.1",
-        "squizlabs/php_codesniffer": "^2.5",
         "escapestudios/symfony2-coding-standard": "~2.0",
-        "liip/functional-test-bundle": "^1.7"
+        "liip/functional-test-bundle": "^1.7",
+        "phpunit/phpunit": "^6.1",
+        "squizlabs/php_codesniffer": "^2.9",
+        "symfony/phpunit-bridge": "^3.0"
     },
     "scripts": {
         "symfony-scripts": [
@@ -63,7 +63,8 @@
     "config": {
         "platform": {
             "php": "7.1.0"
-        }
+        },
+        "sort-packages": true
     },
     "extra": {
         "symfony-app-dir": "app",

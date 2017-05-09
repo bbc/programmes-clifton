@@ -5,9 +5,9 @@ namespace Tests\BBC\CliftonBundle\ApsMapper;
 use BBC\CliftonBundle\ApsMapper\CategoryMetadataMapper;
 use BBC\ProgrammesPagesService\Domain\Entity\Format;
 use BBC\ProgrammesPagesService\Domain\Entity\Genre;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class CategoryMetadataMapperTest extends PHPUnit_Framework_TestCase
+class CategoryMetadataMapperTest extends TestCase
 {
     public function testMappingGenreWithParentMetadata()
     {

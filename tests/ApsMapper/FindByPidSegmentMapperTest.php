@@ -12,9 +12,9 @@ use BBC\ProgrammesPagesService\Domain\Entity\Unfetched\UnfetchedProgramme;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use InvalidArgumentException;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class FindByPidSegmentMapperTest extends PHPUnit_Framework_TestCase
+class FindByPidSegmentMapperTest extends TestCase
 {
     public function testMappingSegment()
     {

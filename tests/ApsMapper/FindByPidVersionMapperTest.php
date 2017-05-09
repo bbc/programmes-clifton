@@ -8,9 +8,9 @@ use BBC\ProgrammesPagesService\Domain\Entity\VersionType;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\CliftonBundle\ApsMapper\FindByPidVersionMapper;
 use InvalidArgumentException;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class FindByPidVersionMapperTest extends PHPUnit_Framework_TestCase
+class FindByPidVersionMapperTest extends TestCase
 {
     public function testMappingVersion()
     {

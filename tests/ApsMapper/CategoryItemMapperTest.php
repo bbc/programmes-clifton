@@ -6,10 +6,10 @@ use BBC\CliftonBundle\ApsMapper\CategoryItemMapper;
 use BBC\ProgrammesPagesService\Domain\Entity\Format;
 use BBC\ProgrammesPagesService\Domain\Entity\Genre;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use InvalidArgumentException;
 
-class CategoryItemMapperTest extends PHPUnit_Framework_TestCase
+class CategoryItemMapperTest extends TestCase
 {
     public function testMappingGenre()
     {

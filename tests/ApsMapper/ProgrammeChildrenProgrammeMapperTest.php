@@ -12,9 +12,9 @@ use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use BBC\CliftonBundle\ApsMapper\ProgrammeChildrenProgrammeMapper;
 use DateTimeImmutable;
 use InvalidArgumentException;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class ProgrammeChildrenProgrammeMapperTest extends PHPUnit_Framework_TestCase
+class ProgrammeChildrenProgrammeMapperTest extends TestCase
 {
     public function testMappingSeries()
     {

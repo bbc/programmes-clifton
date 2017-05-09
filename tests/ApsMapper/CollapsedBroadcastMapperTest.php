@@ -9,10 +9,10 @@ use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use InvalidArgumentException;
 
-class CollapsedBroadcastMapperTest extends PHPUnit_Framework_TestCase
+class CollapsedBroadcastMapperTest extends TestCase
 {
     use Traits\CollapsedBroadcastTrait;
 

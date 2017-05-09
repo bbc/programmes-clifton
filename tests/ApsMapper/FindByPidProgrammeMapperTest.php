@@ -20,9 +20,9 @@ use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use BBC\CliftonBundle\ApsMapper\FindByPidProgrammeMapper;
 use DateTimeImmutable;
 use InvalidArgumentException;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class FindByPidProgrammeMapperTest extends PHPUnit_Framework_TestCase
+class FindByPidProgrammeMapperTest extends TestCase
 {
     public function testMappingBrand()
     {
