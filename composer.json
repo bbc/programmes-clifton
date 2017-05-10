@@ -26,18 +26,18 @@
     ],
     "require": {
         "php": ">=7.1.0",
-        "symfony/symfony": "~3.2",
-        "doctrine/orm": "^2.5",
+        "aws/aws-sdk-php": "^3.0",
+        "bbc-rmp/cloudwatch-monitoringhandler": "^1.0",
+        "bbc/programmes-pages-service": "^2.0",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/doctrine-cache-bundle": "^1.2",
         "doctrine/doctrine-fixtures-bundle": "~2.2",
-        "symfony/monolog-bundle": "^3.0.1",
-        "sensio/distribution-bundle": "^5.0",
+        "doctrine/orm": "^2.5",
         "incenteev/composer-parameter-handler": "^2.0",
+        "sensio/distribution-bundle": "^5.0",
         "stof/doctrine-extensions-bundle": "^1.2",
-        "aws/aws-sdk-php": "^3.0",
-        "bbc/programmes-pages-service": "dev-master@dev",
-        "bbc-rmp/cloudwatch-monitoringhandler": "^1.0"
+        "symfony/monolog-bundle": "^3.0.1",
+        "symfony/symfony": "~3.2"
     },
     "require-dev": {
         "escapestudios/symfony2-coding-standard": "~2.0",
