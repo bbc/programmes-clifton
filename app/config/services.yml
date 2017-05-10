@@ -36,7 +36,7 @@ services:
         arguments:
             - '@doctrine.orm.default_entity_manager'
             - '@pps.mapper_factory'
-            - '@cache.programmes'
+            - '@pps.cache'
 
     pps.atoz_titles_service:
         class: BBC\ProgrammesPagesService\Service\AtozTitlesService
@@ -45,6 +45,13 @@ services:
     pps.broadcasts_service:
         class: BBC\ProgrammesPagesService\Service\BroadcastsService
         factory: [ '@pps.service_factory', 'getBroadcastsService']
+
+    pps.cache:
+        class: BBC\ProgrammesPagesService\Cache\Cache
+        public: false
+        arguments:
+            - '@cache.programmes'
+            - 'clifton.%cosmos_component_release%'
 
     pps.categories_service:
         class: BBC\ProgrammesPagesService\Service\CategoriesService
