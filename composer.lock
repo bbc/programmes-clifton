@@ -225,12 +225,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bbc/programmes-pages-service.git",
-                "reference": "e120e6354142c18b7770c008344509dd02d4ace1"
+                "reference": "68bcd14f08745b1f01ae5bcf5eca44988f6cdcd3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/e120e6354142c18b7770c008344509dd02d4ace1",
-                "reference": "e120e6354142c18b7770c008344509dd02d4ace1",
+                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/68bcd14f08745b1f01ae5bcf5eca44988f6cdcd3",
+                "reference": "68bcd14f08745b1f01ae5bcf5eca44988f6cdcd3",
                 "shasum": ""
             },
             "require": {
@@ -267,7 +267,7 @@
                 "source": "https://github.com/bbc/programmes-pages-service/tree/UsingCache",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2017-05-11 14:52:40"
+            "time": "2017-05-12 10:12:49"
         },
         {
             "name": "behat/transliterator",
