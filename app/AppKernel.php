@@ -14,6 +14,7 @@ class AppKernel extends Kernel
     public function registerBundles()
     {
         $bundles = [
+            new Jns\Bundle\XhprofBundle\JnsXhprofBundle(),
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Symfony\Bundle\MonologBundle\MonologBundle(),

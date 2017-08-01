@@ -66,6 +66,16 @@ doctrine:
                 #   2. Uncomment database_path in parameters.yml.dist
                 #   3. Uncomment next line:
                 #     path:     "%database_path%"
+
+            profiler:
+                driver:   pdo_mysql
+                host:     localhost
+                port:     3307
+                dbname:   xhprof
+                user:     xhprof
+                password: developer
+                server_version: 5.6
+                charset:  UTF8
         types:
             date_partial: BBC\ProgrammesPagesService\Data\ProgrammesDb\Type\DatePartialType
     orm:
@@ -94,8 +104,25 @@ doctrine:
                         MONTH: BBC\ProgrammesPagesService\Data\ProgrammesDb\Functions\Month
                         DAY: BBC\ProgrammesPagesService\Data\ProgrammesDb\Functions\Day
 
+            profiler:
+                connection: profiler
+                mappings:
+                    XhprofDetail:
+                        type: annotation
+                        dir: "%kernel.root_dir%/../vendor/bbc/programmes-xhprof/Entity"
+                        is_bundle: false
+                        prefix: Jns\Bundle\XhprofBundle\Entity
+
 stof_doctrine_extensions:
     orm:
         default:
             tree: true
             timestampable: true
+
+jns_xhprof:
+    enabled: true
+    enable_xhgui: true
+    require_extension_exists: false
+    request_query_argument: "__profile"
+    entity_manager: profiler
+    server_id: clifton

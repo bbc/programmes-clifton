@@ -24,6 +24,7 @@ if [ ! -d "build/reports" ]; then
     mkdir -p build/reports
 fi
 
+php composer.phar --no-ansi --no-interaction require bbc/programmes-xhprof
 php composer.phar --no-ansi --no-interaction install
 
 # Show php version for debugging

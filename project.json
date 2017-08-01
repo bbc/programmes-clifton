@@ -12,7 +12,12 @@
             "php71u-mysqlnd",
             "php71u-pecl-apcu",
             "php71u-pdo",
-            "awslogs"
+            "awslogs",
+            "tideways-php",
+            "awslogs",
+            "mysql-server",
+            "mysql",
+            "graphviz"
         ],
         "conf": {
             "comment": "We're targeting c4.xlarge instances",
