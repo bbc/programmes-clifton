@@ -49,44 +49,50 @@ twig:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   pdo_mysql
-        host:     "%database_host%"
-        port:     "%database_port%"
-        dbname:   "%database_name%"
-        user:     "%database_user%"
-        password: "%database_password%"
-        server_version: "%database_server_version%"
-        charset:  UTF8
-        # if using pdo_sqlite as your database driver:
-        #   1. add the path in parameters.yml
-        #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
-        #   2. Uncomment database_path in parameters.yml.dist
-        #   3. Uncomment next line:
-        #     path:     "%database_path%"
+        default_connection: default
+        connections:
+            default:
+                driver:   pdo_mysql
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                server_version: "%database_server_version%"
+                charset:  UTF8
+                # if using pdo_sqlite as your database driver:
+                #   1. add the path in parameters.yml
+                #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
+                #   2. Uncomment database_path in parameters.yml.dist
+                #   3. Uncomment next line:
+                #     path:     "%database_path%"
         types:
             date_partial: BBC\ProgrammesPagesService\Data\ProgrammesDb\Type\DatePartialType
     orm:
+        default_entity_manager: default
         auto_generate_proxy_classes: "%kernel.debug%"
-        naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true
-        mappings:
-            ProgrammesPagesService:
-                type: annotation
-                dir: "%kernel.root_dir%/../vendor/bbc/programmes-pages-service/src/Data/ProgrammesDb/Entity"
-                is_bundle: false
-                prefix: BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity
-        filters:
-            embargoed_filter:
-                class: BBC\ProgrammesPagesService\Data\ProgrammesDb\Filter\EmbargoedFilter
-                enabled: true
-        dql:
-            string_functions:
-                MATCH_AGAINST: BBC\ProgrammesPagesService\Data\ProgrammesDb\Functions\MatchAgainst
-                GROUP_CONCAT: BBC\ProgrammesPagesService\Data\ProgrammesDb\Functions\GroupConcat
-            datetime_functions:
-                YEAR: BBC\ProgrammesPagesService\Data\ProgrammesDb\Functions\Year
-                MONTH: BBC\ProgrammesPagesService\Data\ProgrammesDb\Functions\Month
-                DAY: BBC\ProgrammesPagesService\Data\ProgrammesDb\Functions\Day
+        entity_managers:
+            default:
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                auto_mapping: true
+                mappings:
+                    ProgrammesPagesService:
+                        type: annotation
+                        dir: "%kernel.root_dir%/../vendor/bbc/programmes-pages-service/src/Data/ProgrammesDb/Entity"
+                        is_bundle: false
+                        prefix: BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity
+                filters:
+                    embargoed_filter:
+                        class: BBC\ProgrammesPagesService\Data\ProgrammesDb\Filter\EmbargoedFilter
+                        enabled: true
+                dql:
+                    string_functions:
+                        MATCH_AGAINST: BBC\ProgrammesPagesService\Data\ProgrammesDb\Functions\MatchAgainst
+                        GROUP_CONCAT: BBC\ProgrammesPagesService\Data\ProgrammesDb\Functions\GroupConcat
+                    datetime_functions:
+                        YEAR: BBC\ProgrammesPagesService\Data\ProgrammesDb\Functions\Year
+                        MONTH: BBC\ProgrammesPagesService\Data\ProgrammesDb\Functions\Month
+                        DAY: BBC\ProgrammesPagesService\Data\ProgrammesDb\Functions\Day
 
 stof_doctrine_extensions:
     orm:
