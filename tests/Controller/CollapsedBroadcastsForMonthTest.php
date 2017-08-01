@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\CliftonBundle\Controller;
+namespace Tests\BBC\CliftonBundle\Controller;
 
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use Tests\BBC\CliftonBundle\BaseWebTestCase;

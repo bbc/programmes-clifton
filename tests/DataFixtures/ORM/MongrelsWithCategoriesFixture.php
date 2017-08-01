@@ -4,12 +4,13 @@ namespace Tests\BBC\CliftonBundle\DataFixtures\ORM;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Genre;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\MasterBrand;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Format;
 
-class MongrelsWithCategoriesFixture extends BaseFixture implements DependentFixtureInterface
+class MongrelsWithCategoriesFixture extends AbstractFixture implements DependentFixtureInterface
 {
     private $manager;
 

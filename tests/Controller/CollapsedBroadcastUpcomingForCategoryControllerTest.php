@@ -1,6 +1,6 @@
 <?php
 
-namespace CliftonBundle\Controller;
+namespace Tests\BBC\CliftonBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Client;
 use Tests\BBC\CliftonBundle\BaseWebTestCase;

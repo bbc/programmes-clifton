@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\BBC\CliftonBundle\TleosSliceByCategoryMapper;
+namespace Tests\BBC\CliftonBundle\ApsMapper;
 
 use BBC\CliftonBundle\ApsMapper\TleosSliceByCategoryMapper;
 use BBC\ProgrammesPagesService\Domain\Entity\Genre;

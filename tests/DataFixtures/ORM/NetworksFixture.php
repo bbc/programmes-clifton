@@ -87,7 +87,7 @@ class NetworksFixture extends AbstractFixture
         $urlKey = null,
         $medium = null
     ) {
-        $entity = new Network($nid, $title, $title);
+        $entity = new Network($nid, $title);
         $entity->setDefaultService($defaultService);
         $entity->setUrlKey($urlKey);
         if ($medium) {

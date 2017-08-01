@@ -25,7 +25,7 @@ class ProgrammeChildrenController extends BaseApsController
 
         $totalCount = $programmesService->countEpisodeGuideChildren($programme);
         if ($totalCount === 0) {
-            throw $this->createNotFoundException(sprintf('No children', $pid));
+            throw $this->createNotFoundException('No children');
         }
 
         $programmesResult = $programmesService->findEpisodeGuideChildren($programme, $limit, $page);

@@ -12,9 +12,8 @@ use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Series;
 use BBC\ProgrammesPagesService\Domain\Enumeration\NetworkMediumEnum;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
-use Tests\BBC\CliftonBundle\DataFixtures\ORM\BaseFixture;
 
-class AtozTitleFixture extends BaseFixture
+class AtozTitleFixture extends AbstractFixture
 {
     private $manager;
 

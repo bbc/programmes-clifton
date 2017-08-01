@@ -4,6 +4,7 @@ namespace Tests\BBC\CliftonBundle\DataFixtures\ORM;
 
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Segment;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\SegmentEvent;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Brand;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Episode;
@@ -15,7 +16,7 @@ use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Version;
 use BBC\ProgrammesPagesService\Domain\ValueObject\PartialDate;
 use DateTime;
 
-class EastendersFixture extends BaseFixture
+class EastendersFixture extends AbstractFixture
 {
     public function load(ObjectManager $manager)
     {
