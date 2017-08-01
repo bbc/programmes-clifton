@@ -22,7 +22,7 @@ class FindByPidProgrammeMapperAdditionalHydrationTest extends TestCase
 {
     public function testMappingRelatedLinks()
     {
-        $series = $this->createMock(Series::CLASS);
+        $series = $this->createMock(Series::class);
 
         $relatedLink = new RelatedLink(
             'Title',
@@ -53,8 +53,8 @@ class FindByPidProgrammeMapperAdditionalHydrationTest extends TestCase
         $streamableFrom = new DateTimeImmutable();
         $streamableUntil = new DateTimeImmutable();
 
-        $brand = $this->createMock(Brand::CLASS);
-        $series = $this->createMock(Series::CLASS);
+        $brand = $this->createMock(Brand::class);
+        $series = $this->createMock(Series::class);
         $series->method('getParent')->willReturn($brand);
 
         $previousSibling = new Series(
@@ -143,7 +143,7 @@ class FindByPidProgrammeMapperAdditionalHydrationTest extends TestCase
 
     public function testMappingVersions()
     {
-        $episode = $this->createMock(Episode::CLASS);
+        $episode = $this->createMock(Episode::class);
 
         $versions = [
             new Version(

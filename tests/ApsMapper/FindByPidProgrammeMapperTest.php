@@ -299,7 +299,7 @@ class FindByPidProgrammeMapperTest extends TestCase
 
     public function testMappingDisplayTitleOfBrand()
     {
-        $brand = $this->createMock(Brand::CLASS);
+        $brand = $this->createMock(Brand::class);
         $brand->method('getTitle')->willReturn('Brand');
 
         $mapper = new FindByPidProgrammeMapper();
@@ -315,10 +315,10 @@ class FindByPidProgrammeMapperTest extends TestCase
 
     public function testMappingDisplayTitleOfSeries()
     {
-        $brand = $this->createMock(Brand::CLASS);
+        $brand = $this->createMock(Brand::class);
         $brand->method('getTitle')->willReturn('Brand');
 
-        $series = $this->createMock(Series::CLASS);
+        $series = $this->createMock(Series::class);
         $series->method('getTitle')->willReturn('Series');
         $series->method('getParent')->willReturn($brand);
 
@@ -335,14 +335,14 @@ class FindByPidProgrammeMapperTest extends TestCase
 
     public function testMappingDisplayTitleOfSubSeries()
     {
-        $brand = $this->createMock(Brand::CLASS);
+        $brand = $this->createMock(Brand::class);
         $brand->method('getTitle')->willReturn('Brand');
 
-        $series = $this->createMock(Series::CLASS);
+        $series = $this->createMock(Series::class);
         $series->method('getTitle')->willReturn('Series');
         $series->method('getParent')->willReturn($brand);
 
-        $subSeries = $this->createMock(Series::CLASS);
+        $subSeries = $this->createMock(Series::class);
         $subSeries->method('getTitle')->willReturn('SubSeries');
         $subSeries->method('getParent')->willReturn($series);
 
@@ -359,18 +359,18 @@ class FindByPidProgrammeMapperTest extends TestCase
 
     public function testMappingDisplayTitleOfEpisode()
     {
-        $brand = $this->createMock(Brand::CLASS);
+        $brand = $this->createMock(Brand::class);
         $brand->method('getTitle')->willReturn('Brand');
 
-        $series = $this->createMock(Series::CLASS);
+        $series = $this->createMock(Series::class);
         $series->method('getTitle')->willReturn('Series');
         $series->method('getParent')->willReturn($brand);
 
-        $subSeries = $this->createMock(Series::CLASS);
+        $subSeries = $this->createMock(Series::class);
         $subSeries->method('getTitle')->willReturn('SubSeries');
         $subSeries->method('getParent')->willReturn($series);
 
-        $episode = $this->createMock(Episode::CLASS);
+        $episode = $this->createMock(Episode::class);
         $episode->method('getTitle')->willReturn('Episode');
         $episode->method('getParent')->willReturn($subSeries);
 
@@ -387,18 +387,18 @@ class FindByPidProgrammeMapperTest extends TestCase
 
     public function testMappingDisplayTitleOfClipsThatBelongToSeries()
     {
-        $brand = $this->createMock(Brand::CLASS);
+        $brand = $this->createMock(Brand::class);
         $brand->method('getTitle')->willReturn('Brand');
 
-        $series = $this->createMock(Series::CLASS);
+        $series = $this->createMock(Series::class);
         $series->method('getTitle')->willReturn('Series');
         $series->method('getParent')->willReturn($brand);
 
-        $subSeries = $this->createMock(Series::CLASS);
+        $subSeries = $this->createMock(Series::class);
         $subSeries->method('getTitle')->willReturn('SubSeries');
         $subSeries->method('getParent')->willReturn($series);
 
-        $clip = $this->createMock(Clip::CLASS);
+        $clip = $this->createMock(Clip::class);
         $clip->method('getTitle')->willReturn('Clip');
         $clip->method('getParent')->willReturn($subSeries);
 
@@ -415,18 +415,18 @@ class FindByPidProgrammeMapperTest extends TestCase
 
     public function testMappingDisplayTitleOfClipsThatBelongToEpisodes()
     {
-        $brand = $this->createMock(Brand::CLASS);
+        $brand = $this->createMock(Brand::class);
         $brand->method('getTitle')->willReturn('Brand');
 
-        $series = $this->createMock(Series::CLASS);
+        $series = $this->createMock(Series::class);
         $series->method('getTitle')->willReturn('Series');
         $series->method('getParent')->willReturn($brand);
 
-        $episode = $this->createMock(Episode::CLASS);
+        $episode = $this->createMock(Episode::class);
         $episode->method('getTitle')->willReturn('Episode');
         $episode->method('getParent')->willReturn($series);
 
-        $clip = $this->createMock(Clip::CLASS);
+        $clip = $this->createMock(Clip::class);
         $clip->method('getTitle')->willReturn('Clip');
         $clip->method('getParent')->willReturn($episode);
 
@@ -443,10 +443,10 @@ class FindByPidProgrammeMapperTest extends TestCase
 
     public function testMappingDisplayTitleOfEpisodeWithTitleAsADate()
     {
-        $brand = $this->createMock(Brand::CLASS);
+        $brand = $this->createMock(Brand::class);
         $brand->method('getTitle')->willReturn('Brand');
 
-        $episode = $this->createMock(Episode::CLASS);
+        $episode = $this->createMock(Episode::class);
         $episode->method('getTitle')->willReturn('01/01/2000');
         $episode->method('getParent')->willReturn($brand);
 
@@ -463,7 +463,7 @@ class FindByPidProgrammeMapperTest extends TestCase
 
     public function testMappingFirstBroadcastDateGMT()
     {
-        $episode = $this->createMock(Episode::CLASS);
+        $episode = $this->createMock(Episode::class);
         $episode->method('getFirstBroadcastDate')->willReturn(new DateTimeImmutable('1999-02-15T21:30:00Z'));
 
         $mapper = new FindByPidProgrammeMapper();
@@ -474,7 +474,7 @@ class FindByPidProgrammeMapperTest extends TestCase
 
     public function testMappingFirstBroadcastDateBST()
     {
-        $episode = $this->createMock(Episode::CLASS);
+        $episode = $this->createMock(Episode::class);
         $episode->method('getFirstBroadcastDate')->willReturn(new DateTimeImmutable('2007-05-18T22:55:00+01:00'));
 
         $mapper = new FindByPidProgrammeMapper();
@@ -485,10 +485,10 @@ class FindByPidProgrammeMapperTest extends TestCase
 
     public function testMappingDefaultImageResultsInAbsentImageField()
     {
-        $image = $this->createMock(Image::CLASS);
+        $image = $this->createMock(Image::class);
         $image->method('getPid')->willReturn(new Pid('p01tqv8z'));
 
-        $series = $this->createMock(Series::CLASS);
+        $series = $this->createMock(Series::class);
         $series->method('getImage')->willReturn($image);
 
         $mapper = new FindByPidProgrammeMapper();
@@ -505,10 +505,10 @@ class FindByPidProgrammeMapperTest extends TestCase
         // e.g. http://open.live.bbc.co.uk/aps/programmes/b008hskr.json
         // http://open.live.bbc.co.uk/aps/programmes/p00tbzym.json
         // http://open.live.bbc.co.uk/aps/programmes/p02qc4m5.json
-        $brand = $this->createMock(Brand::CLASS);
+        $brand = $this->createMock(Brand::class);
         $brand->method('getTitle')->willReturn('2007');
 
-        $series = $this->createMock(Series::CLASS);
+        $series = $this->createMock(Series::class);
         $series->method('getTitle')->willReturn('2008');
         $series->method('getParent')->willReturn($brand);
 
@@ -520,21 +520,21 @@ class FindByPidProgrammeMapperTest extends TestCase
         $this->assertEquals(2007, $apsObject->parent->programme->title);
 
         // Even for floats
-        $brand2 = $this->createMock(Brand::CLASS);
+        $brand2 = $this->createMock(Brand::class);
         $brand2->method('getTitle')->willReturn('3.1');
         $this->assertEquals(3.1, $mapper->getApsObject($brand2)->title);
 
-        $brand3 = $this->createMock(Brand::CLASS);
+        $brand3 = $this->createMock(Brand::class);
         $brand3->method('getTitle')->willReturn('3.0');
         $this->assertEquals(3, $mapper->getApsObject($brand3)->title);
     }
 
     public function testMappingEmptySynopsisToNull()
     {
-        $brand = $this->createMock(Brand::CLASS);
+        $brand = $this->createMock(Brand::class);
         $brand->method('getSynopses')->willReturn(new Synopses('', '', ''));
 
-        $series = $this->createMock(Series::CLASS);
+        $series = $this->createMock(Series::class);
         $series->method('getSynopses')->willReturn(new Synopses('', '', ''));
         $series->method('getParent')->willReturn($brand);
 
@@ -551,7 +551,7 @@ class FindByPidProgrammeMapperTest extends TestCase
 
     public function testMappingOwnership()
     {
-        $series = $this->createMock(Series::CLASS);
+        $series = $this->createMock(Series::class);
         $series->method('getMasterBrand')->willReturn(new MasterBrand(
             new Mid('bbc_radio_one'),
             'BBC Radio 1',
@@ -584,7 +584,7 @@ class FindByPidProgrammeMapperTest extends TestCase
 
     public function testMappingOwnershipWithEmptyValues()
     {
-        $series = $this->createMock(Series::CLASS);
+        $series = $this->createMock(Series::class);
         $series->method('getMasterBrand')->willReturn(new MasterBrand(
             new Mid('bbc_radio_one'),
             'BBC Radio 1',
@@ -617,7 +617,7 @@ class FindByPidProgrammeMapperTest extends TestCase
 
     public function testMappingOwnershipForSubMasterBrand()
     {
-        $series = $this->createMock(Series::CLASS);
+        $series = $this->createMock(Series::class);
         $series->method('getMasterBrand')->willReturn(new MasterBrand(
             new Mid('bbc_one_scotland'),
             'BBC One Scotland',
@@ -735,7 +735,7 @@ class FindByPidProgrammeMapperTest extends TestCase
             1001
         );
 
-        $episode = $this->createMock(Episode::CLASS);
+        $episode = $this->createMock(Episode::class);
         $episode->method('getPid')->willReturn(new Pid('b06tl32t'));
         $episode->method('getParent')->willReturn($series);
 
@@ -793,7 +793,7 @@ class FindByPidProgrammeMapperTest extends TestCase
 
     public function testMappingCategories()
     {
-        $series = $this->createMock(Series::CLASS);
+        $series = $this->createMock(Series::class);
         $series->method('getGenres')->willReturn([
             new Genre([0], 'g1id', 'Genre One', 'genre1', new Genre([0], 'g3id', 'Genre Three', 'genre3')),
             new Genre([0], 'g2id', 'Genre Two', 'genre2', null),

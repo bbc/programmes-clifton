@@ -168,10 +168,10 @@ class MusicArtistsMapperTest extends TestCase
     {
         $eTitle = 'Episode title';
 
-        $network = $this->createMock(Network::CLASS);
+        $network = $this->createMock(Network::class);
         $network->method('getUrlKey')->willReturn('radio2');
 
-        $masterBrand = $this->createMock(MasterBrand::CLASS);
+        $masterBrand = $this->createMock(MasterBrand::class);
         $masterBrand->method('getNetwork')->willReturn($network);
 
         // Needs full brand, as it needs to match the instance type

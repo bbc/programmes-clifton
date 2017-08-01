@@ -22,8 +22,8 @@ class FindByPidVersionMapperAdditionalHydrationTest extends TestCase
 {
     public function testMappingContributions()
     {
-        $version = $this->createMock(Version::CLASS);
-        $episode = $this->createMock(Episode::CLASS);
+        $version = $this->createMock(Version::class);
+        $episode = $this->createMock(Episode::class);
         $version->method('getProgrammeItem')->willReturn($episode);
 
         $contributor = new Contributor(
@@ -62,11 +62,11 @@ class FindByPidVersionMapperAdditionalHydrationTest extends TestCase
 
     public function testMappingBroadcasts()
     {
-        $version = $this->createMock(Version::CLASS);
-        $version->method('getProgrammeItem')->willReturn($this->createMock(Episode::CLASS));
+        $version = $this->createMock(Version::class);
+        $version->method('getProgrammeItem')->willReturn($this->createMock(Episode::class));
 
-        $service = $this->createMock(Service::CLASS);
-        $service->method('getNetwork')->willReturn($this->createMock(Network::CLASS));
+        $service = $this->createMock(Service::class);
+        $service->method('getNetwork')->willReturn($this->createMock(Network::class));
 
         $broadcast = new Broadcast(
             new Pid('b0000001'),
@@ -105,8 +105,8 @@ class FindByPidVersionMapperAdditionalHydrationTest extends TestCase
 
     public function testMappingSegmentEventsWithContribution()
     {
-        $version = $this->createMock(Version::CLASS);
-        $episode = $this->createMock(Episode::CLASS);
+        $version = $this->createMock(Version::class);
+        $episode = $this->createMock(Episode::class);
         $version->method('getProgrammeItem')->willReturn($episode);
 
         $contributor = new Contributor(
@@ -200,8 +200,8 @@ class FindByPidVersionMapperAdditionalHydrationTest extends TestCase
 
     public function testMappingSegmentEventsNoContribution()
     {
-        $version = $this->createMock(Version::CLASS);
-        $episode = $this->createMock(Episode::CLASS);
+        $version = $this->createMock(Version::class);
+        $episode = $this->createMock(Episode::class);
         $version->method('getProgrammeItem')->willReturn($episode);
 
         $segment = new Segment(

@@ -166,7 +166,7 @@ class FindByPidSegmentMapperTest extends TestCase
 
     private function setupSegmentWithType(string $type)
     {
-        $segment = $this->createMock(Segment::CLASS);
+        $segment = $this->createMock(Segment::class);
         $segment->method('getType')->willReturn($type);
         $mapper = new FindByPidSegmentMapper();
         return $mapper->getApsObject($segment);

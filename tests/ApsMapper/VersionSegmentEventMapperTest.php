@@ -18,8 +18,8 @@ class VersionSegmentEventMapperTest extends TestCase
 {
     public function testMappingVersionSegmentEventMapper()
     {
-        $version = $this->createMock(Version::CLASS);
-        $episode = $this->createMock(Episode::CLASS);
+        $version = $this->createMock(Version::class);
+        $episode = $this->createMock(Episode::class);
         $version->method('getProgrammeItem')->willReturn($episode);
 
         $contributor = new Contributor(
@@ -97,8 +97,8 @@ class VersionSegmentEventMapperTest extends TestCase
 
     public function testMappingVerionSegmentEventWithMusicSegmentMapper()
     {
-        $version = $this->createMock(Version::CLASS);
-        $episode = $this->createMock(Episode::CLASS);
+        $version = $this->createMock(Version::class);
+        $episode = $this->createMock(Episode::class);
         $version->method('getProgrammeItem')->willReturn($episode);
 
         $contributor = new Contributor(

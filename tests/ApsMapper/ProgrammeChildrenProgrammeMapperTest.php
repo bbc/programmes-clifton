@@ -126,10 +126,10 @@ class ProgrammeChildrenProgrammeMapperTest extends TestCase
 
     public function testMappingDefaultImageResultsInAbsentImageField()
     {
-        $image = $this->createMock(Image::CLASS);
+        $image = $this->createMock(Image::class);
         $image->method('getPid')->willReturn(new Pid('p01tqv8z'));
 
-        $series = $this->createMock(Series::CLASS);
+        $series = $this->createMock(Series::class);
         $series->method('getImage')->willReturn($image);
 
         $mapper = new ProgrammeChildrenProgrammeMapper();
@@ -144,7 +144,7 @@ class ProgrammeChildrenProgrammeMapperTest extends TestCase
         // If the Title is a numeric string, then APS outputs the value as a
         // number, rather than a string
         // e.g. http://open.live.bbc.co.uk/aps/programmes/b008hskr.json
-        $series = $this->createMock(Series::CLASS);
+        $series = $this->createMock(Series::class);
         $series->method('getTitle')->willReturn('2008');
 
 
@@ -154,11 +154,11 @@ class ProgrammeChildrenProgrammeMapperTest extends TestCase
         $this->assertEquals(2008, $apsObject->title);
 
         // Even for floats
-        $series2 = $this->createMock(Series::CLASS);
+        $series2 = $this->createMock(Series::class);
         $series2->method('getTitle')->willReturn('3.1');
         $this->assertEquals(3.1, $mapper->getApsObject($series2)->title);
 
-        $series3 = $this->createMock(Series::CLASS);
+        $series3 = $this->createMock(Series::class);
         $series3->method('getTitle')->willReturn('3.0');
         $this->assertEquals(3, $mapper->getApsObject($series3)->title);
     }
@@ -168,7 +168,7 @@ class ProgrammeChildrenProgrammeMapperTest extends TestCase
      */
     public function testMappingHasMediumOrLongSynopsis($synopses, $expectedValue)
     {
-        $series = $this->createMock(Series::CLASS);
+        $series = $this->createMock(Series::class);
         $series->method('getSynopses')->willReturn($synopses);
 
         $mapper = new ProgrammeChildrenProgrammeMapper();
@@ -189,7 +189,7 @@ class ProgrammeChildrenProgrammeMapperTest extends TestCase
 
     public function testMappingHasSegments()
     {
-        $episode = $this->createMock(Episode::CLASS);
+        $episode = $this->createMock(Episode::class);
         $episode->method('getSegmentEventCount')->willReturn(1);
 
         $mapper = new ProgrammeChildrenProgrammeMapper();
@@ -201,7 +201,7 @@ class ProgrammeChildrenProgrammeMapperTest extends TestCase
 
     public function testMappingDatesGMT()
     {
-        $episode = $this->createMock(Episode::CLASS);
+        $episode = $this->createMock(Episode::class);
         $episode->method('isStreamable')->willReturn(true);
         $episode->method('getFirstBroadcastDate')->willReturn(new DateTimeImmutable('1999-02-15T21:30:00Z'));
         $episode->method('getStreamableUntil')->willReturn(new DateTimeImmutable('1999-02-15T21:30:00Z'));
@@ -217,7 +217,7 @@ class ProgrammeChildrenProgrammeMapperTest extends TestCase
 
     public function testMappingDatesBST()
     {
-        $episode = $this->createMock(Episode::CLASS);
+        $episode = $this->createMock(Episode::class);
         $episode->method('isStreamable')->willReturn(true);
         $episode->method('getFirstBroadcastDate')->willReturn(new DateTimeImmutable('2007-05-18T22:55:00+01:00'));
         $episode->method('getStreamableUntil')->willReturn(new DateTimeImmutable('2007-05-18T22:55:00+01:00'));

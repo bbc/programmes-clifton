@@ -154,10 +154,10 @@ class FindByPidSegmentEventMapperTest extends TestCase
 
     private function setupSegmentEventWithType(string $type)
     {
-        $programme = $this->createMock(Episode::CLASS);
-        $version = $this->createMock(Version::CLASS);
-        $segment = $this->createMock(Segment::CLASS);
-        $segmentEvent = $this->createMock(SegmentEvent::CLASS);
+        $programme = $this->createMock(Episode::class);
+        $version = $this->createMock(Version::class);
+        $segment = $this->createMock(Segment::class);
+        $segmentEvent = $this->createMock(SegmentEvent::class);
 
         $segmentEvent->method('getSegment')->willReturn($segment);
         $segmentEvent->method('getVersion')->willReturn($version);

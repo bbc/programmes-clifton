@@ -16,8 +16,8 @@ class MongrelsWithCategoriesFixture extends BaseFixture implements DependentFixt
     public function getDependencies()
     {
         return [
-            MongrelsFixture::CLASS,
-            NetworksFixture::CLASS,
+            MongrelsFixture::class,
+            NetworksFixture::class,
         ];
     }
 

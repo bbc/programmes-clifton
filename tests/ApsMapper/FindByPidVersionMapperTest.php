@@ -14,7 +14,7 @@ class FindByPidVersionMapperTest extends TestCase
 {
     public function testMappingVersion()
     {
-        $episode = $this->createMock(Episode::CLASS);
+        $episode = $this->createMock(Episode::class);
         $episode->method('getPid')->willReturn(new Pid('b007733d'));
         $episode->method('getTitle')->willReturn('19/01/2007');
 
@@ -62,8 +62,8 @@ class FindByPidVersionMapperTest extends TestCase
 
     public function testMappingNonCanonicalVersion()
     {
-        $version = $this->createMock(Version::CLASS);
-        $version->method('getProgrammeItem')->willReturn($this->createMock(Episode::CLASS));
+        $version = $this->createMock(Version::class);
+        $version->method('getProgrammeItem')->willReturn($this->createMock(Episode::class));
         $version->method('getVersionTypes')->willReturn([new VersionType('audio_described', 'Audio Described')]);
 
 
@@ -78,7 +78,7 @@ class FindByPidVersionMapperTest extends TestCase
      */
     public function testInvalidDomainObject()
     {
-        $episode = $this->createMock(Episode::CLASS);
+        $episode = $this->createMock(Episode::class);
 
         $mapper = new FindByPidVersionMapper();
         $mapper->getApsObject($episode);

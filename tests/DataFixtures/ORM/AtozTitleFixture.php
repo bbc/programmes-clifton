@@ -24,29 +24,29 @@ class AtozTitleFixture extends BaseFixture
 
         $network = $this->buildNetwork('bbc_one', 'BBC One', NetworkMediumEnum::TV);
         $masterBrand = $this->buildMasterBrand('bbc_one', 'c0000000', 'BBC One', $network);
-        $brandTleo = $this->buildProgramme(Brand::CLASS, 'b010t19z', 'Mongrels', $masterBrand, true);
+        $brandTleo = $this->buildProgramme(Brand::class, 'b010t19z', 'Mongrels', $masterBrand, true);
         $brandTleoTitle = $this->buildAtozTitle($brandTleo->getTitle(), $brandTleo);
 
         $network2 = $this->buildNetwork('radio_one', 'Radio One', NetworkMediumEnum::RADIO);
         $masterBrand2 = $this->buildMasterBrand('radio_one', 'c0000001', 'Radio One', $network2);
-        $brandTleo2 = $this->buildProgramme(Brand::CLASS, 'b0020020', 'Mmmmm, unit tests', $masterBrand2, true);
+        $brandTleo2 = $this->buildProgramme(Brand::class, 'b0020020', 'Mmmmm, unit tests', $masterBrand2, true);
         $brandTleoTitle2 = $this->buildAtozTitle($brandTleo2->getTitle(), $brandTleo2);
 
-        $seriesTleo = $this->buildProgramme(Series::CLASS, 'b0000001', 'The WibbleTron2000');
+        $seriesTleo = $this->buildProgramme(Series::class, 'b0000001', 'The WibbleTron2000');
         $seriesTleoTitle1 = $this->buildAtozTitle($seriesTleo->getTitle(), $seriesTleo);
         $seriesTleoTitle2 = $this->buildAtozTitle('WibbleTron2000, The', $seriesTleo);
 
-        $episodeTleo = $this->buildProgramme(Episode::CLASS, 'b0000002', '3000UberWibbleTron3000', null, true);
+        $episodeTleo = $this->buildProgramme(Episode::class, 'b0000002', '3000UberWibbleTron3000', null, true);
         $episodeTleoTitle = $this->buildAtozTitle($episodeTleo->getTitle(), $episodeTleo);
 
-        $embargoedTleo = $this->buildProgramme(Brand::CLASS, 'b0000004', 'Prince Harry\'s death rattle', null, false, null, null, true);
+        $embargoedTleo = $this->buildProgramme(Brand::class, 'b0000004', 'Prince Harry\'s death rattle', null, false, null, null, true);
         $embargoedTleoTitle = $this->buildAtozTitle($embargoedTleo->getTitle(), $embargoedTleo);
 
-        $clipTleo = $this->buildProgramme(Clip::CLASS, 'b0000003', 'The Best of McWibbleTron');
+        $clipTleo = $this->buildProgramme(Clip::class, 'b0000003', 'The Best of McWibbleTron');
 
-        $series1 = $this->buildProgramme(Series::CLASS, 'b00swyx1', 'Series 1', null, false, $brandTleo, 1);
+        $series1 = $this->buildProgramme(Series::class, 'b00swyx1', 'Series 1', null, false, $brandTleo, 1);
 
-        $s1e1 = $this->buildProgramme(Episode::CLASS, 'b00swgkn', 'Episode 1', null, false, $series1, 1);
+        $s1e1 = $this->buildProgramme(Episode::class, 'b00swgkn', 'Episode 1', null, false, $series1, 1);
 
         $manager->flush();
     }

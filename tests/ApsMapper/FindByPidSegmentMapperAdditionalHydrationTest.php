@@ -21,8 +21,8 @@ class FindByPidSegmentMapperAdditionalHydrationTest extends TestCase
 {
     public function testMappingContributions()
     {
-        $segment = $this->createMock(Segment::CLASS);
-        $episode = $this->createMock(Episode::CLASS);
+        $segment = $this->createMock(Segment::class);
+        $episode = $this->createMock(Episode::class);
 
         $contributions = [
             new Contribution(
@@ -53,7 +53,7 @@ class FindByPidSegmentMapperAdditionalHydrationTest extends TestCase
 
     public function testMappingSegmentEvents()
     {
-        $segment = $this->createMock(Segment::CLASS);
+        $segment = $this->createMock(Segment::class);
 
         $segmentEvents = [
             new SegmentEvent(
@@ -126,8 +126,8 @@ class FindByPidSegmentMapperAdditionalHydrationTest extends TestCase
 
     public function testMappingPrimaryContributor()
     {
-        $segment = $this->createMock(Segment::CLASS);
-        $episode = $this->createMock(Episode::CLASS);
+        $segment = $this->createMock(Segment::class);
+        $episode = $this->createMock(Episode::class);
 
         $contributions = [
             new Contribution(
@@ -165,10 +165,10 @@ class FindByPidSegmentMapperAdditionalHydrationTest extends TestCase
 
     public function testMappingOwnership()
     {
-        $segment = $this->createMock(Segment::CLASS);
-        $segmentEvent = $this->createMock(SegmentEvent::CLASS);
-        $version = $this->createMock(Version::CLASS);
-        $episode = $this->createMock(Episode::CLASS);
+        $segment = $this->createMock(Segment::class);
+        $segmentEvent = $this->createMock(SegmentEvent::class);
+        $version = $this->createMock(Version::class);
+        $episode = $this->createMock(Episode::class);
 
         $masterBrand = new MasterBrand(
             new Mid('bbc_1xtra'),
