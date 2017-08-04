@@ -25,24 +25,17 @@ Profiling
 -----------
 There is a long-lived (hopefully) profiling branch named profiling-build which brings
 in tideways (basically xhprof updated for PHP7), a GUI and a few other things
-which you can run on cosmos INT. 
+which you can run on Cosmos INT. It uses https://github.com/bbc/programmes-xhprof to setup the profiling.
+ Got to that repository to see the available configuration options.
 
 How to do this:
-Checkout the profiling-build branch and rebase it on master. This assumes that the 
+Checkout the profiling-build branch, rebase it on master and deploy this branch to INT. This assumes that the 
 code you want to profile is on master of course. 
 
-Next go to the CI build job at 
-https://ci.rmp.tools.bbc.co.uk/job/programmes-clifton-debug/ . 
-Build your RPM. Go to the cosmos job at 
-https://admin.live.bbc.co.uk/cosmos/services/programmes-clifton-debug/
-Go into the stack. Update the number of instances to 1 (it should be zero when not in use).
-Push your new RPM up to INT. Visit 
-https://clifton-debug.int.b7e6ae3250e1722d.xhst.bbci.co.uk/whatever/your/route/is?_profile=1 .
+Visit https://clifton.int.api.bbci.co.uk/whatever/your/route/is?__profile=1 (Note the double underscore).
 Load that at least 5 times to make sure that everything that should be cached is cached.
-Now visit https://clifton-debug.int.b7e6ae3250e1722d.xhst.bbci.co.uk/xhprof/xhprof_html/index.php .
+Now visit https://clifton.int.api.bbci.co.uk/xhprof/xhprof_html/index.php .
 You should see a list of your visits along with a load of metrics on execution. 
-
-We should at some point look at baking this into pac-plugin-nginx or similar in order to make it less hacky. 
 
 
 License
