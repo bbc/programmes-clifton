@@ -8,6 +8,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\MasterBrand;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
+use BBC\ProgrammesPagesService\Domain\Entity\Options;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Mid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Nid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
@@ -38,13 +39,14 @@ class AtozItemMapperTest extends TestCase
             1204,
             1205,
             false,
+            new Options(),
             null, // Parent
             3,
             new MasterBrand(
                 new Mid('bbc_one'),
                 'BBC One',
                 $mbImage,
-                new Network(new Nid('bbc_one'), 'BBC One', $mbImage, 'bbcone', 'tv', 'tv')
+                new Network(new Nid('bbc_one'), 'BBC One', $mbImage, new Options(), 'bbcone', 'tv', 'tv')
             ),
             [],
             [],

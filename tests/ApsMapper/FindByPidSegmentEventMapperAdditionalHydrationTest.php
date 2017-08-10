@@ -9,6 +9,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\MasterBrand;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
+use BBC\ProgrammesPagesService\Domain\Entity\Options;
 use BBC\ProgrammesPagesService\Domain\Entity\Segment;
 use BBC\ProgrammesPagesService\Domain\Entity\SegmentEvent;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
@@ -250,6 +251,7 @@ class FindByPidSegmentEventMapperAdditionalHydrationTest extends TestCase
                 new Nid('bbc_1xtra'),
                 'BBC Radio 1Xtra',
                 new Image(new Pid('p01gdp18'), '', '', '', '', ''),
+                new Options(),
                 '1xtra',
                 'National Radio'
             )

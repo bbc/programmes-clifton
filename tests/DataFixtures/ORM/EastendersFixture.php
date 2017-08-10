@@ -11,6 +11,8 @@ use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Episode;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Clip;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Series;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Image;
+use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\MasterBrand;
+use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Network;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\RelatedLink;
 use BBC\ProgrammesPagesService\Data\ProgrammesDb\Entity\Version;
 use BBC\ProgrammesPagesService\Domain\ValueObject\PartialDate;
@@ -20,12 +22,17 @@ class EastendersFixture extends AbstractFixture
 {
     public function load(ObjectManager $manager)
     {
+        $network = new Network('bbc_one', 'BBC One');
+        $masterBrand = new MasterBrand('bbc_one', 'p01y7bvp', 'BBC One');
+        $masterBrand->setNetwork($network);
+
         $image = new Image('p01m5mss', 'Image Title');
         $image->setShortSynopsis('Image Synopsis');
         $image->setType('standard');
         $image->setExtension('jpg');
 
         $brand = new Brand('b006m86d', 'Eastenders');
+        $brand->setMasterBrand($masterBrand);
         $brand->setAvailableClipsCount(2);
         $brand->setRelatedLinksCount(2);
 
@@ -84,6 +91,8 @@ class EastendersFixture extends AbstractFixture
         $relatedLink2 = new RelatedLink('b06khps2', 'RL1', 'http://example.com', 'standard', $brand, true);
 
         foreach ([
+                     $network,
+                     $masterBrand,
                      $image,
                      $brand,
                      $series,

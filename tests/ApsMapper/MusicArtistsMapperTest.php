@@ -9,6 +9,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\MasterBrand;
 use BBC\ProgrammesPagesService\Domain\Entity\MusicSegment;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
+use BBC\ProgrammesPagesService\Domain\Entity\Options;
 use BBC\ProgrammesPagesService\Domain\Entity\Segment;
 use BBC\ProgrammesPagesService\Domain\Entity\SegmentEvent;
 use BBC\ProgrammesPagesService\Domain\Entity\Unfetched\UnfetchedImage;
@@ -194,6 +195,7 @@ class MusicArtistsMapperTest extends TestCase
             0,
             0,
             false,
+            new Options(),
             null,
             null,
             $masterBrand
@@ -217,6 +219,7 @@ class MusicArtistsMapperTest extends TestCase
             0,
             0,
             0,
+            new Options(),
             $brand
         );
 

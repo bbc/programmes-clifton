@@ -5,6 +5,7 @@ namespace Tests\BBC\CliftonBundle\ApsMapper;
 use BBC\CliftonBundle\ApsMapper\FindByPidSegmentEventMapper;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
+use BBC\ProgrammesPagesService\Domain\Entity\Options;
 use BBC\ProgrammesPagesService\Domain\Entity\Segment;
 use BBC\ProgrammesPagesService\Domain\Entity\SegmentEvent;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
@@ -39,7 +40,8 @@ class FindByPidSegmentEventMapperTest extends TestCase
                     0,
                     0,
                     1,
-                    0
+                    0,
+                    new Options()
                 ),
                 true,
                 true,

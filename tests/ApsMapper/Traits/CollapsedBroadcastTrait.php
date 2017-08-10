@@ -6,6 +6,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\CollapsedBroadcast;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
+use BBC\ProgrammesPagesService\Domain\Entity\Options;
 use BBC\ProgrammesPagesService\Domain\Entity\Series;
 use BBC\ProgrammesPagesService\Domain\Entity\Service;
 use BBC\ProgrammesPagesService\Domain\Enumeration\MediaTypeEnum;
@@ -39,6 +40,7 @@ trait CollapsedBroadcastTrait
             1301,
             1302,
             1303,
+            new Options(),
             $series,
             2101,
             null,
@@ -65,6 +67,7 @@ trait CollapsedBroadcastTrait
                 'type',
                 'jpg'
             ),
+            new Options(),
             'network' . $id,
             'audio',
             NetworkMediumEnum::TV
@@ -104,7 +107,8 @@ trait CollapsedBroadcastTrait
             0,
             1,
             1,
-            true
+            true,
+            new Options()
         );
     }
 

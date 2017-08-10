@@ -12,6 +12,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Series;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
 use BBC\ProgrammesPagesService\Domain\Entity\MasterBrand;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
+use BBC\ProgrammesPagesService\Domain\Entity\Options;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Mid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Nid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
@@ -45,6 +46,7 @@ class FindByPidProgrammeMapperTest extends TestCase
             1204,
             1205,
             false,
+            new Options(),
             null,
             2101,
             null,
@@ -101,6 +103,7 @@ class FindByPidProgrammeMapperTest extends TestCase
             1204,
             1205,
             false,
+            new Options(),
             null,
             2101,
             null,
@@ -129,6 +132,7 @@ class FindByPidProgrammeMapperTest extends TestCase
             1204,
             1205,
             false,
+            new Options(),
             $brand,
             2101,
             null,
@@ -201,6 +205,7 @@ class FindByPidProgrammeMapperTest extends TestCase
             1301,
             1302,
             1303,
+            new Options(),
             null,
             2101,
             null,
@@ -259,6 +264,7 @@ class FindByPidProgrammeMapperTest extends TestCase
             1103,
             MediaTypeEnum::VIDEO,
             1201,
+            new Options(),
             null,
             2101,
             null,
@@ -560,6 +566,7 @@ class FindByPidProgrammeMapperTest extends TestCase
                 new Nid('bbc_radio_one'),
                 'BBC Radio 1',
                 new Image(new Pid('p01tqv8z'), 'Title', 'ShortSynopsis', 'ShortSynopsis', 'standard', 'jpg'),
+                new Options(),
                 'radio1',
                 'National Radio',
                 'radio'
@@ -593,6 +600,7 @@ class FindByPidProgrammeMapperTest extends TestCase
                 new Nid('bbc_radio_one'),
                 'BBC Radio 1',
                 new Image(new Pid('p01tqv8z'), 'Title', 'ShortSynopsis', 'ShortSynopsis', 'standard', 'jpg'),
+                new Options(),
                 null,
                 'National Radio',
                 ''
@@ -626,6 +634,7 @@ class FindByPidProgrammeMapperTest extends TestCase
                 new Nid('bbc_one'),
                 'BBC One',
                 new Image(new Pid('p01tqv8z'), 'Title', 'ShortSynopsis', 'ShortSynopsis', 'standard', 'jpg'),
+                new Options(),
                 'bbc_one',
                 'TV',
                 'tv'
@@ -674,6 +683,7 @@ class FindByPidProgrammeMapperTest extends TestCase
             0,
             0,
             false,
+            new Options(),
             null,
             101,
             new MasterBrand(
@@ -684,6 +694,7 @@ class FindByPidProgrammeMapperTest extends TestCase
                     new Nid('bbc_two'),
                     'BBC Two',
                     new Image(new Pid('p01tqv8z'), 'Title', 'ShortSynopsis', 'ShortSynopsis', 'standard', 'jpg'),
+                    new Options(),
                     'bbc_two',
                     'TV',
                     'tv'
@@ -714,6 +725,7 @@ class FindByPidProgrammeMapperTest extends TestCase
             0,
             0,
             false,
+            new Options(),
             $brand,
             101,
             new MasterBrand(
@@ -724,6 +736,7 @@ class FindByPidProgrammeMapperTest extends TestCase
                     new Nid('bbc_one'),
                     'BBC One',
                     new Image(new Pid('p01tqv8z'), 'Title', 'ShortSynopsis', 'ShortSynopsis', 'standard', 'jpg'),
+                    new Options(),
                     'bbc_one',
                     'TV',
                     'tv'

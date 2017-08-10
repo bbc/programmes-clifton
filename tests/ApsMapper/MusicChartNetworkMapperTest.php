@@ -4,6 +4,7 @@ namespace Tests\BBC\CliftonBundle\ApsMapper;
 
 use BBC\CliftonBundle\ApsMapper\MusicChartNetworkMapper;
 use BBC\ProgrammesPagesService\Domain\Entity\Network;
+use BBC\ProgrammesPagesService\Domain\Entity\Options;
 use BBC\ProgrammesPagesService\Domain\Entity\Unfetched\UnfetchedImage;
 use BBC\ProgrammesPagesService\Domain\Enumeration\NetworkMediumEnum;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Nid;
@@ -20,6 +21,7 @@ class MusicChartNetworkMapperTest extends TestCase
             new Nid('bbc_radio_two'),
             $title,
             new UnfetchedImage(),
+            new Options(),
             $urlKey,
             'National Radio',
             NetworkMediumEnum::RADIO

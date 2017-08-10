@@ -8,6 +8,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\Brand;
 use BBC\ProgrammesPagesService\Domain\Entity\Episode;
 use BBC\ProgrammesPagesService\Domain\Entity\Series;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
+use BBC\ProgrammesPagesService\Domain\Entity\Options;
 use BBC\ProgrammesPagesService\Domain\Entity\RelatedLink;
 use BBC\ProgrammesPagesService\Domain\Entity\Version;
 use BBC\ProgrammesPagesService\Domain\Entity\VersionType;
@@ -76,6 +77,7 @@ class FindByPidProgrammeMapperAdditionalHydrationTest extends TestCase
             1204,
             1205,
             false,
+            new Options(),
             null,
             2101,
             null,
@@ -103,6 +105,7 @@ class FindByPidProgrammeMapperAdditionalHydrationTest extends TestCase
             1301,
             1302,
             1303,
+            new Options(),
             null,
             2101,
             null,

@@ -27,6 +27,10 @@ class FindByPidControllerTest extends BaseWebTestCase
         // Parent tree
         $this->assertArrayNotHasKey('parent', $jsonContent['programme']);
 
+        // Ownership
+        $this->assertArrayHasKey('ownership', $jsonContent['programme']);
+        $this->assertEquals('bbc_one', $jsonContent['programme']['ownership']['service']['id']);
+
         // Siblings
         $this->assertArrayNotHasKey('peers', $jsonContent['programme']);
 
@@ -53,6 +57,10 @@ class FindByPidControllerTest extends BaseWebTestCase
         // Parent tree
         $this->assertEquals('b006m86d', $jsonContent['programme']['parent']['programme']['pid']);
         $this->assertArrayNotHasKey('parent', $jsonContent['programme']['parent']);
+
+        // Ownership does not inherit
+        $this->assertArrayNotHasKey('ownership', $jsonContent['programme']);
+        $this->assertEquals('bbc_one', $jsonContent['programme']['parent']['programme']['ownership']['service']['id']);
 
         // Siblings
         $this->assertNull($jsonContent['programme']['peers']['next']);
@@ -85,6 +93,11 @@ class FindByPidControllerTest extends BaseWebTestCase
         $this->assertEquals('b006m86f', $jsonContent['programme']['parent']['programme']['pid']);
         $this->assertEquals('b006m86d', $jsonContent['programme']['parent']['programme']['parent']['programme']['pid']);
         $this->assertArrayNotHasKey('parent', $jsonContent['programme']['parent']['programme']['parent']);
+
+        // Ownership does not inherit
+        $this->assertArrayNotHasKey('ownership', $jsonContent['programme']);
+        $this->assertEquals('bbc_one', $jsonContent['programme']['parent']['programme']['parent']['programme']['ownership']['service']['id']);
+
 
         // Related links
         $this->assertSame([], $jsonContent['programme']['links']);
@@ -119,6 +132,11 @@ class FindByPidControllerTest extends BaseWebTestCase
         $this->assertEquals('b006m86f', $jsonContent['programme']['parent']['programme']['parent']['programme']['pid']);
         $this->assertEquals('b006m86d', $jsonContent['programme']['parent']['programme']['parent']['programme']['parent']['programme']['pid']);
         $this->assertArrayNotHasKey('parent', $jsonContent['programme']['parent']['programme']['parent']['programme']['parent']);
+
+        // Ownership does not inherit
+        $this->assertArrayNotHasKey('ownership', $jsonContent['programme']);
+        $this->assertEquals('bbc_one', $jsonContent['programme']['parent']['programme']['parent']['programme']['parent']['programme']['ownership']['service']['id']);
+
 
         // Related links
         $this->assertSame([], $jsonContent['programme']['links']);

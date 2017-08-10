@@ -30,6 +30,8 @@ services:
     pps.mapper_factory:
         class: BBC\ProgrammesPagesService\Mapper\ProgrammesDbToDomain\MapperFactory
         public: false
+        arguments:
+            - core_entity_inherit_master_brand: false
 
     pps.service_factory:
         class: BBC\ProgrammesPagesService\Service\ServiceFactory

@@ -4,6 +4,7 @@ namespace Tests\BBC\CliftonBundle\ApsMapper;
 
 use BBC\CliftonBundle\ApsMapper\ChildrenSeriesOfContainerMapper;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
+use BBC\ProgrammesPagesService\Domain\Entity\Options;
 use BBC\ProgrammesPagesService\Domain\Entity\Series;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
@@ -34,6 +35,7 @@ class ChildrenSeriesOfContainerMapperTest extends TestCase
             5,
             6,
             false,
+            new Options(),
             null,
             7,
             null,

@@ -5,6 +5,7 @@ namespace Tests\BBC\CliftonBundle\ApsMapper;
 use BBC\CliftonBundle\ApsMapper\TleosSliceByCategoryMapper;
 use BBC\ProgrammesPagesService\Domain\Entity\Genre;
 use BBC\ProgrammesPagesService\Domain\Entity\Image;
+use BBC\ProgrammesPagesService\Domain\Entity\Options;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Synopses;
 use BBC\ProgrammesPagesService\Domain\Entity\Series;
@@ -79,6 +80,7 @@ class TleosSliceByCategoryMapperTest extends TestCase
             1204,
             1205,
             false,
+            new Options(),
             null,
             2101,
             null,
