@@ -25,7 +25,7 @@ trait ProgrammeUtilitiesTrait
         }
     }
 
-    protected function formatDateTime(\DateTimeImmutable $dateTimeImmutable = null): string
+    protected function formatDateTime(\DateTimeImmutable $dateTimeImmutable = null): ?string
     {
         if (!$dateTimeImmutable) {
             return null;

@@ -93,11 +93,11 @@ class MusicArtistsMapper implements MapperInterface
     {
         $output = [
             'pid' => (string) $episode->getPid(),
-            'title' => (string) $episode->getTitle(),
+            'title' => $episode->getTitle(),
         ];
 
         if (!empty($episode->getShortSynopsis())) {
-            $output['short_synopsis'] = (string) $episode->getShortSynopsis();
+            $output['short_synopsis'] = $episode->getShortSynopsis();
         }
 
         return (object) $output;
@@ -118,7 +118,7 @@ class MusicArtistsMapper implements MapperInterface
         ];
 
         if (!empty($tleo->getShortSynopsis())) {
-            $output['short_synopsis'] = (string) $tleo->getShortSynopsis();
+            $output['short_synopsis'] = $tleo->getShortSynopsis();
         }
 
         return (object) $output;
