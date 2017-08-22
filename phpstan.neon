@@ -1,0 +1,6 @@
+parameters:
+    ignoreErrors:
+        # Mocks
+        - '#Parameter .* of (class|method) .* expects .*, PHPUnit_Framework_MockObject_MockObject given#'
+        - '#Call to an undefined method PHPUnit_Framework_MockObject_MockObject::.*#'
+        - '#Calling method set() on possibly null value of type Symfony\Component\DependencyInjection\ContainerInterface|null#'
