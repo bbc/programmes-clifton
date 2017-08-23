@@ -10,6 +10,7 @@ use BBC\ProgrammesPagesService\Domain\Entity\ProgrammeItem;
 use BBC\ProgrammesPagesService\Domain\Entity\Series;
 use BBC\ProgrammesPagesService\Domain\Entity\Programme;
 use BBC\ProgrammesPagesService\Domain\Enumeration\MediaTypeEnum;
+use DateTimeImmutable;
 use InvalidArgumentException;
 
 trait ProgrammeUtilitiesTrait
@@ -25,7 +26,7 @@ trait ProgrammeUtilitiesTrait
         }
     }
 
-    protected function formatDateTime(\DateTimeImmutable $dateTimeImmutable = null): ?string
+    protected function formatDateTime(DateTimeImmutable $dateTimeImmutable = null): ?string
     {
         if (!$dateTimeImmutable) {
             return null;
@@ -41,7 +42,7 @@ trait ProgrammeUtilitiesTrait
         }
     }
 
-    protected function formatDate(\DateTimeImmutable $dateTimeImmutable): string
+    protected function formatDate(DateTimeImmutable $dateTimeImmutable): string
     {
         $dateTimeImmutable = $dateTimeImmutable->setTimezone(new \DateTimeZone('Europe/London'));
         return $dateTimeImmutable->format('Y-m-d');
