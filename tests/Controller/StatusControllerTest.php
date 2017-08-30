@@ -2,8 +2,10 @@
 
 namespace Tests\BBC\CliftonBundle\Controller;
 
-use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
+use BBC\ProgrammesPagesService\Service\BroadcastsService;
 use BBC\ProgrammesPagesService\Service\ProgrammesService;
+use BBC\ProgrammesPagesService\Service\SegmentEventsService;
+use BBC\ProgrammesPagesService\Service\VersionsService;
 use Doctrine\DBAL\ConnectionException;
 use Doctrine\DBAL\DBALException;
 use Tests\BBC\CliftonBundle\BaseWebTestCase;
@@ -35,13 +37,28 @@ class StatusControllerTest extends BaseWebTestCase
         $client = static::createClient([], [
             'HTTP_USER_AGENT' => 'ELB-HealthChecker/1.0',
         ]);
-        // Create mock service to throw exception and inject into container
-        $mockService = $this->createMockProgrammesService();
-        $mockService->expects($this->once())
+
+        // clip mock
+        $mockProgrammeService = $this->createMockProgrammesService();
+        $mockProgrammeService->expects($this->once())->method('findByPidFull');
+        $client->getContainer()->set('pps.programmes_service', $mockProgrammeService);
+
+        // broadcast service mock
+        $mockBroadcastService = $this->createMock(BroadcastsService::class);
+        $mockBroadcastService->expects($this->once())->method('findByServiceAndDateRange');
+        $client->getContainer()->set('pps.broadcasts_service', $mockBroadcastService);
+
+        // version mock
+        $mockVersionService = $this->createMock(VersionsService::class);
+        $mockVersionService->expects($this->once())->method('findByPidFull');
+        $client->getContainer()->set('pps.versions_service', $mockVersionService);
+
+        // segment events mock. This one throw an exception and injects it into the container
+        $mockSegmentEventsService = $this->createMock(SegmentEventsService::class);
+        $mockSegmentEventsService->expects($this->once())
             ->method('findByPidFull')
-            ->with(new Pid('b006m86d'))
             ->willThrowException(new DBALException("Something bad happened."));
-        $client->getContainer()->set('pps.programmes_service', $mockService);
+        $client->getContainer()->set('pps.segment_events_service', $mockSegmentEventsService);
 
         $client->request('GET', '/status');
 
@@ -54,13 +71,28 @@ class StatusControllerTest extends BaseWebTestCase
         $client = static::createClient([], [
             'HTTP_USER_AGENT' => 'ELB-HealthChecker/1.0',
         ]);
-        // Create mock service to throw exception and inject into container
-        $mockService = $this->createMockProgrammesService();
-        $mockService->expects($this->once())
+
+        // clip mock
+        $mockProgrammeService = $this->createMockProgrammesService();
+        $mockProgrammeService->expects($this->once())->method('findByPidFull');
+        $client->getContainer()->set('pps.programmes_service', $mockProgrammeService);
+
+        // broadcast service mock
+        $mockBroadcastService = $this->createMock(BroadcastsService::class);
+        $mockBroadcastService->expects($this->once())->method('findByServiceAndDateRange');
+        $client->getContainer()->set('pps.broadcasts_service', $mockBroadcastService);
+
+        // version mock
+        $mockVersionService = $this->createMock(VersionsService::class);
+        $mockVersionService->expects($this->once())->method('findByPidFull');
+        $client->getContainer()->set('pps.versions_service', $mockVersionService);
+
+        // segment events mock. This one throw an exception and injects it into the container
+        $mockSegmentEventsService = $this->createMock(SegmentEventsService::class);
+        $mockSegmentEventsService->expects($this->once())
             ->method('findByPidFull')
-            ->with(new Pid('b006m86d'))
             ->willThrowException(new ConnectionException("Cannot Connect."));
-        $client->getContainer()->set('pps.programmes_service', $mockService);
+        $client->getContainer()->set('pps.segment_events_service', $mockSegmentEventsService);
 
         $client->request('GET', '/status');
 
