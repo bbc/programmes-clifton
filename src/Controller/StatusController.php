@@ -3,6 +3,8 @@
 namespace BBC\CliftonBundle\Controller;
 
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
+use BBC\ProgrammesPagesService\Domain\ValueObject\Sid;
+use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -61,8 +63,23 @@ class StatusController extends Controller
     private function verifyNoDatabaseCacheIssues(): bool
     {
         try {
-            $pid = new Pid('b006m86d'); //Eastenders
-            $this->get('pps.programmes_service')->findByPidFull($pid);
+            // Eastenders clip
+            $clipPid = new Pid('p04r0jcv');
+            $this->get('pps.programmes_service')->findByPidFull($clipPid);
+
+            // Broadcast
+            $fromDateTime = new DateTimeImmutable('2010-01-15 06:00:00');
+            $toDatetime = new DateTimeImmutable('2017-10-16 06:00:00');
+            $sid = new Sid('bbc_radio_two');
+            $this->get('pps.broadcasts_service')->findByServiceAndDateRange($sid, $fromDateTime, $toDatetime, 1, 1);
+
+            // Version
+            $versionPid = new Pid('b00000p6');
+            $this->get('pps.versions_service')->findByPidFull($versionPid);
+
+            // Segment event
+            $segmentPid = new Pid('p002d80x');
+            $this->get('pps.segment_events_service')->findByPidFull($segmentPid);
         } catch (ConnectionExceptionDBAL | ConnectionException $e) {
             return true;
         } catch (PDOException $e) {
