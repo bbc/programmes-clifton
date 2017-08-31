@@ -16,13 +16,6 @@ class FindByPidVersionMapper implements MapperInterface
     use Traits\ProgrammeUtilitiesTrait;
     use Traits\VersionUtilitiesTrait;
 
-    /**
-     * @param Version $version
-     * @param array $contributions
-     * @param array $segmentEvents
-     * @param Broadcast[] $broadcasts
-     * @return stdClass
-     */
     public function getApsObject($version, $contributions = [], $segmentEvents = [], $broadcasts = []): stdClass
     {
         /** @var Version $version */
@@ -101,6 +94,13 @@ class FindByPidVersionMapper implements MapperInterface
 
     private function getService(Service $service)
     {
+        if (!$service->getNetwork()) {
+            throw new InvalidArgumentException(sprintf(
+                "Service %s doesn't have a network attached to it",
+                $service->getSid()
+            ));
+        }
+
         return (object) [
             'id' => (string) $service->getSid(),
             'key' => $service->getNetwork()->getUrlKey() ?: "",
