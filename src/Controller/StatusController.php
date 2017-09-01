@@ -4,18 +4,18 @@ namespace BBC\CliftonBundle\Controller;
 
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Sid;
-use DateTimeImmutable;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use DateTime;
-use PDOException;
-use Exception;
+use DateTimeImmutable;
 use Doctrine\DBAL\ConnectionException as ConnectionExceptionDBAL;
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Exception\ConnectionException;
 use Doctrine\DBAL\Exception\DriverException;
+use Exception;
+use PDOException;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Debug\Exception\ContextErrorException;
-use Doctrine\DBAL\DBALException;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class StatusController
@@ -44,7 +44,7 @@ class StatusController extends Controller
 
         return $this->render('@Clifton/Status/status.html.twig', [
             'now' => new DateTime(),
-            'dbConnectivity' => $dbalConnection->isConnected() || $dbalConnection->connect(),
+            'dbConnectivity' => $dbalConnection->isConnected(),
             'dbCacheIsOk' => $dbCacheIsOk,
         ]);
     }
