@@ -2,6 +2,7 @@
 
 namespace BBC\CliftonBundle\Controller;
 
+use BBC\ProgrammesPagesService\Cache\CacheInterface;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Pid;
 use BBC\ProgrammesPagesService\Domain\ValueObject\Sid;
 use DateTime;
@@ -65,21 +66,21 @@ class StatusController extends Controller
         try {
             // Eastenders clip
             $clipPid = new Pid('p04r0jcv');
-            $this->get('pps.programmes_service')->findByPidFull($clipPid);
+            $this->get('pps.programmes_service')->findByPidFull($clipPid, 'Programme', CacheInterface::NONE);
 
             // Broadcast
             $fromDateTime = new DateTimeImmutable('2010-01-15 06:00:00');
             $toDatetime = new DateTimeImmutable('2017-10-16 06:00:00');
             $sid = new Sid('bbc_radio_two');
-            $this->get('pps.broadcasts_service')->findByServiceAndDateRange($sid, $fromDateTime, $toDatetime, 1, 1);
+            $this->get('pps.broadcasts_service')->findByServiceAndDateRange($sid, $fromDateTime, $toDatetime, 1, 1, CacheInterface::NONE);
 
             // Version
             $versionPid = new Pid('b00000p6');
-            $this->get('pps.versions_service')->findByPidFull($versionPid);
+            $this->get('pps.versions_service')->findByPidFull($versionPid, CacheInterface::NONE);
 
             // Segment event
             $segmentPid = new Pid('p002d80x');
-            $this->get('pps.segment_events_service')->findByPidFull($segmentPid);
+            $this->get('pps.segment_events_service')->findByPidFull($segmentPid, CacheInterface::NONE);
         } catch (ConnectionExceptionDBAL | ConnectionException $e) {
             return true;
         } catch (PDOException $e) {
