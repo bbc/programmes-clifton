@@ -46,7 +46,7 @@ class AvailabilityController extends BaseApsController
         if ($programme instanceof Episode) {
             /** Episode $programme */
             $res['availableClipCount'] = $programme->getAvailableClipsCount();
-            $res['availableGalleriesCount'] = $programme->getAvailableGalleriesCount();
+            $res['aggregatedGalleriesCount'] = $programme->getAggregatedGalleriesCount();
         }
         return $this->json($res);
     }

@@ -10,6 +10,7 @@
     <php>
         <ini name="error_reporting" value="-1" />
         <server name="KERNEL_DIR" value="app/" />
+        <ini name="memory_limit" value="2048M"/>
     </php>
 
     <testsuites>
