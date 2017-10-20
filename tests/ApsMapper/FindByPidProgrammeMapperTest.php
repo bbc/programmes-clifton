@@ -264,6 +264,7 @@ class FindByPidProgrammeMapperTest extends TestCase
             1103,
             MediaTypeEnum::VIDEO,
             1201,
+            0,
             new Options(),
             null,
             2101,
