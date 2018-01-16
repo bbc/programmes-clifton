@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "29495626bec4463247c112df6eb909f8",
+    "content-hash": "6c0d86bb622427e06803c461dac7adab",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -220,21 +220,64 @@
             "time": "2017-02-16T18:26:32+00:00"
         },
         {
-            "name": "bbc/programmes-pages-service",
-            "version": "3.1.0",
+            "name": "bbc/programmes-caching-library",
+            "version": "dev-getting-started",
             "source": {
                 "type": "git",
-                "url": "https://github.com/bbc/programmes-pages-service.git",
-                "reference": "7606e0b90faabe937a7725822553eb3e0e74f9cb"
+                "url": "https://github.com/bbc/programmes-caching-library.git",
+                "reference": "bf34e82fdced8b562f243cd419116c4b9ed91534"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/7606e0b90faabe937a7725822553eb3e0e74f9cb",
-                "reference": "7606e0b90faabe937a7725822553eb3e0e74f9cb",
+                "url": "https://api.github.com/repos/bbc/programmes-caching-library/zipball/bf34e82fdced8b562f243cd419116c4b9ed91534",
+                "reference": "bf34e82fdced8b562f243cd419116c4b9ed91534",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0",
+                "psr/cache": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "BBC\\ProgrammesCachingLibrary\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Tests\\BBC\\ProgrammesCachingLibrary\\": "tests/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Felipe Araujo",
+                    "email": "felipe.peixotodearaujo@bbc.co.uk"
+                }
+            ],
+            "description": "Caching for /programmes projects",
+            "support": {
+                "source": "https://github.com/bbc/programmes-caching-library/tree/getting-started",
+                "issues": "https://github.com/bbc/programmes-caching-library/issues"
+            },
+            "time": "2018-01-16T18:16:06+00:00"
+        },
+        {
+            "name": "bbc/programmes-pages-service",
+            "version": "dev-extract-caching",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bbc/programmes-pages-service.git",
+                "reference": "112bcc07cd9ec5878e08608debb6c4804cbb9558"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/112bcc07cd9ec5878e08608debb6c4804cbb9558",
+                "reference": "112bcc07cd9ec5878e08608debb6c4804cbb9558",
                 "shasum": ""
             },
             "require": {
                 "bbc/doctrine-extensions": "^2.4.137",
+                "bbc/programmes-caching-library": "dev-getting-started@dev",
                 "doctrine/orm": "^2.5",
                 "php": ">=7.1.0",
                 "psr/cache": "^1.0",
@@ -269,10 +312,10 @@
             ],
             "description": "A library for building /programmes pages",
             "support": {
-                "source": "https://github.com/bbc/programmes-pages-service/tree/3.1.0",
+                "source": "https://github.com/bbc/programmes-pages-service/tree/extract-caching",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2017-10-10T12:36:29+00:00"
+            "time": "2018-01-16T15:50:51+00:00"
         },
         {
             "name": "behat/transliterator",
@@ -4771,7 +4814,10 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "bbc/programmes-pages-service": 20,
+        "bbc/programmes-caching-library": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

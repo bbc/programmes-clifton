@@ -49,7 +49,7 @@ services:
         factory: [ '@pps.service_factory', 'getBroadcastsService']
 
     pps.cache:
-        class: BBC\ProgrammesPagesService\Cache\Cache
+        class: BBC\ProgrammesCachingLibrary\Cache
         public: false
         arguments:
             - '@cache.programmes'
