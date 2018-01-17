@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "287858928aa8fde834eabc42523f369d",
+    "content-hash": "bda6120f158d0966ebacc4b6e2a7df62",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -221,16 +221,16 @@
         },
         {
             "name": "bbc/programmes-caching-library",
-            "version": "v1.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bbc/programmes-caching-library.git",
-                "reference": "746e05d76bca3dcc430b270212d2c7c21415a9b1"
+                "reference": "36a94da1377c262d86693b3b4deab62b8304e4fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/programmes-caching-library/zipball/746e05d76bca3dcc430b270212d2c7c21415a9b1",
-                "reference": "746e05d76bca3dcc430b270212d2c7c21415a9b1",
+                "url": "https://api.github.com/repos/bbc/programmes-caching-library/zipball/36a94da1377c262d86693b3b4deab62b8304e4fa",
+                "reference": "36a94da1377c262d86693b3b4deab62b8304e4fa",
                 "shasum": ""
             },
             "require": {
@@ -250,10 +250,10 @@
             },
             "description": "Caching for /programmes projects",
             "support": {
-                "source": "https://github.com/bbc/programmes-caching-library/tree/master",
+                "source": "https://github.com/bbc/programmes-caching-library/tree/v1.0.1",
                 "issues": "https://github.com/bbc/programmes-caching-library/issues"
             },
-            "time": "2018-01-17T11:56:39+00:00"
+            "time": "2018-01-17T13:16:23+00:00"
         },
         {
             "name": "bbc/programmes-pages-service",
