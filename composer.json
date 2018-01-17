@@ -33,7 +33,6 @@
         "aws/aws-sdk-php": "^3.0",
         "bbc-rmp/cloudwatch-monitoringhandler": "^1.0",
         "bbc/programmes-pages-service": "^4.0",
-        "bbc/programmes-caching-library": "^1.0",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/doctrine-cache-bundle": "^1.2",
         "doctrine/doctrine-fixtures-bundle": "~2.2",
