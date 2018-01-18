@@ -221,16 +221,16 @@
         },
         {
             "name": "bbc/programmes-caching-library",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bbc/programmes-caching-library.git",
-                "reference": "36a94da1377c262d86693b3b4deab62b8304e4fa"
+                "reference": "2dfe8e24a9525c6f69a4e00510234442c2a0d58d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/programmes-caching-library/zipball/36a94da1377c262d86693b3b4deab62b8304e4fa",
-                "reference": "36a94da1377c262d86693b3b4deab62b8304e4fa",
+                "url": "https://api.github.com/repos/bbc/programmes-caching-library/zipball/2dfe8e24a9525c6f69a4e00510234442c2a0d58d",
+                "reference": "2dfe8e24a9525c6f69a4e00510234442c2a0d58d",
                 "shasum": ""
             },
             "require": {
@@ -250,10 +250,10 @@
             },
             "description": "Caching for /programmes projects",
             "support": {
-                "source": "https://github.com/bbc/programmes-caching-library/tree/v1.0.1",
+                "source": "https://github.com/bbc/programmes-caching-library/tree/v1.0.2",
                 "issues": "https://github.com/bbc/programmes-caching-library/issues"
             },
-            "time": "2018-01-17T13:16:23+00:00"
+            "time": "2018-01-18T12:15:46+00:00"
         },
         {
             "name": "bbc/programmes-pages-service",
@@ -261,12 +261,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bbc/programmes-pages-service.git",
-                "reference": "902038310e17672c97e6c888f5dd9728c7185fde"
+                "reference": "14082f26009256a0b9cde81140b9a7d67eedacf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/902038310e17672c97e6c888f5dd9728c7185fde",
-                "reference": "902038310e17672c97e6c888f5dd9728c7185fde",
+                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/14082f26009256a0b9cde81140b9a7d67eedacf8",
+                "reference": "14082f26009256a0b9cde81140b9a7d67eedacf8",
                 "shasum": ""
             },
             "require": {
