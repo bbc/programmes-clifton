@@ -88,16 +88,16 @@
         },
         {
             "name": "bbc-rmp/cloudwatch-monitoringhandler",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bbc/rmp-monitoringhandler.git",
-                "reference": "6ec092df125a725c680d0dea1fcf6ba93abef1a6"
+                "reference": "8d5b3374f546d3d2fe2d8da3b4eec7b01afae3c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/rmp-monitoringhandler/zipball/6ec092df125a725c680d0dea1fcf6ba93abef1a6",
-                "reference": "6ec092df125a725c680d0dea1fcf6ba93abef1a6",
+                "url": "https://api.github.com/repos/bbc/rmp-monitoringhandler/zipball/8d5b3374f546d3d2fe2d8da3b4eec7b01afae3c4",
+                "reference": "8d5b3374f546d3d2fe2d8da3b4eec7b01afae3c4",
                 "shasum": ""
             },
             "require": {
@@ -123,16 +123,15 @@
             ],
             "authors": [
                 {
-                    "name": "Jason Williams",
-                    "email": "jason.williams01@bbc.co.uk"
+                    "name": "Radio & Music Developers"
                 }
             ],
             "description": "Handler for RMP projects to post monitoring events to cloudwatch",
             "support": {
-                "source": "https://github.com/bbc/rmp-monitoringhandler/tree/v1.1.0",
+                "source": "https://github.com/bbc/rmp-monitoringhandler/tree/v1.1.1",
                 "issues": "https://github.com/bbc/rmp-monitoringhandler/issues"
             },
-            "time": "2017-03-31T14:03:20+00:00"
+            "time": "2018-02-15T20:26:25+00:00"
         },
         {
             "name": "bbc/doctrine-extensions",
