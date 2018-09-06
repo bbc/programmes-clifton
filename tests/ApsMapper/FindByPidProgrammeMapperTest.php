@@ -172,6 +172,7 @@ class FindByPidProgrammeMapperTest extends TestCase
                     'short_synopsis' => 'Short Synopsis',
                     'first_broadcast_date' => '2000-01-01T00:00:00Z',
                     'aggregated_episode_count' => 1202,
+                    'media_type' => null,
                 ],
             ],
             'peers' => (object) ['previous' => null, 'next' => null],
@@ -772,6 +773,7 @@ class FindByPidProgrammeMapperTest extends TestCase
                     ],
                 ],
                 'aggregated_episode_count' => 0,
+                'media_type' => null,
             ],
         ];
 
@@ -795,6 +797,7 @@ class FindByPidProgrammeMapperTest extends TestCase
                 ],
                 'parent' => $expectedBrand,
                 'aggregated_episode_count' => 0,
+                'media_type' => null,
             ],
         ];
 
