@@ -95,6 +95,7 @@ class FindByPidProgrammeMapper implements MapperInterface
             'title' => $this->getProgrammeTitle($programme->getTitle()),
             // Only synopses at the top level coerce empty strings to null
             'short_synopsis' => $programme->getShortSynopsis(),
+            'media_type' => $this->getMediaType($programme),
             'position' => $programme->getPosition(),
             'image' => $this->getImageObject($programme->getImage()),
             'expected_child_count' => ($programme instanceof ProgrammeContainer) ? $programme->getExpectedChildCount() : null,
