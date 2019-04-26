@@ -41,6 +41,7 @@ class FindByPidSegmentEventMapperTest extends TestCase
                     0,
                     1,
                     0,
+                    false,
                     new Options()
                 ),
                 true,

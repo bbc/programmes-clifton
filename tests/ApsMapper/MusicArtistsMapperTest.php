@@ -219,6 +219,7 @@ class MusicArtistsMapperTest extends TestCase
             0,
             0,
             0,
+            false,
             new Options(),
             $brand
         );

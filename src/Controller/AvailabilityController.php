@@ -24,6 +24,8 @@ class AvailabilityController extends BaseApsController
             return $this->programmeResponse($programme);
         }
 
+
+
         throw $this->createNotFoundException(sprintf('The item with PID "%s" was not found', $pid));
     }
 
@@ -32,7 +34,7 @@ class AvailabilityController extends BaseApsController
         $res = [
             'pid' => $programme->getPid(),
             'isStreamable' => $programme->isStreamable(),
-            'isStreamableAlternate' => $programme->isStreamableAlternatate(),
+            'isStreamableAlternate' => $programme->isStreamableAlternate(),
         ];
         if ($programme instanceof ProgrammeContainer) {
             /** ProgrammeContainer $programme */

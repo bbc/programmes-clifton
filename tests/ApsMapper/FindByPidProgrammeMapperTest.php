@@ -206,6 +206,7 @@ class FindByPidProgrammeMapperTest extends TestCase
             1301,
             1302,
             1303,
+            false,
             new Options(),
             null,
             2101,
@@ -266,6 +267,7 @@ class FindByPidProgrammeMapperTest extends TestCase
             MediaTypeEnum::VIDEO,
             1201,
             0,
+            false,
             new Options(),
             null,
             2101,
@@ -572,7 +574,8 @@ class FindByPidProgrammeMapperTest extends TestCase
                 'radio1',
                 'National Radio',
                 'radio'
-            )
+            ),
+            true
         ));
 
         $expectedOwnership = (object) [
@@ -606,7 +609,8 @@ class FindByPidProgrammeMapperTest extends TestCase
                 null,
                 'National Radio',
                 ''
-            )
+            ),
+            false
         ));
 
         $expectedOwnership = (object) [
@@ -640,7 +644,8 @@ class FindByPidProgrammeMapperTest extends TestCase
                 'bbc_one',
                 'TV',
                 'tv'
-            )
+            ),
+            false
         ));
 
         $expectedOwnership = (object) [
@@ -700,7 +705,8 @@ class FindByPidProgrammeMapperTest extends TestCase
                     'bbc_two',
                     'TV',
                     'tv'
-                )
+                ),
+                false
             ),
             [],
             [],
@@ -742,7 +748,8 @@ class FindByPidProgrammeMapperTest extends TestCase
                     'bbc_one',
                     'TV',
                     'tv'
-                )
+                ),
+                false
             ),
             [],
             [],
