@@ -30,8 +30,7 @@ class FindByPidProgrammeMapperAdditionalHydrationTest extends TestCase
             'http://www.example.com',
             'Short Synopsis',
             'Long Synosis',
-            'standard',
-            false
+            'standard'
         );
 
         $expectedLinks = [
@@ -105,6 +104,7 @@ class FindByPidProgrammeMapperAdditionalHydrationTest extends TestCase
             1301,
             1302,
             1303,
+            false,
             new Options(),
             null,
             2101,

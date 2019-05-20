@@ -46,7 +46,8 @@ class AtozItemMapperTest extends TestCase
                 new Mid('bbc_one'),
                 'BBC One',
                 $mbImage,
-                new Network(new Nid('bbc_one'), 'BBC One', $mbImage, new Options(), 'bbcone', 'tv', 'tv')
+                new Network(new Nid('bbc_one'), 'BBC One', $mbImage, new Options(), 'bbcone', 'tv', 'tv'),
+                false
             ),
             [],
             [],

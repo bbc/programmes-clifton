@@ -90,6 +90,7 @@ class ProgrammeChildrenProgrammeMapperTest extends TestCase
             1301,
             1302,
             1303,
+            false,
             new Options(),
             null,
             2101,

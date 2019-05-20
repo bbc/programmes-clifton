@@ -254,7 +254,8 @@ class FindByPidSegmentEventMapperAdditionalHydrationTest extends TestCase
                 new Options(),
                 '1xtra',
                 'National Radio'
-            )
+            ),
+            true
         );
 
         $segmentEvent->method('getVersion')->willReturn($version);

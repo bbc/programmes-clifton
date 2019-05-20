@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bda6120f158d0966ebacc4b6e2a7df62",
+    "content-hash": "e47e077eb7261b31a2ce9849b48bffee",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -256,16 +256,16 @@
         },
         {
             "name": "bbc/programmes-pages-service",
-            "version": "v4.0",
+            "version": "v10.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bbc/programmes-pages-service.git",
-                "reference": "14082f26009256a0b9cde81140b9a7d67eedacf8"
+                "reference": "887fb0c1c8f1366a8f3c3594d8de4c1351d2383d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/14082f26009256a0b9cde81140b9a7d67eedacf8",
-                "reference": "14082f26009256a0b9cde81140b9a7d67eedacf8",
+                "url": "https://api.github.com/repos/bbc/programmes-pages-service/zipball/887fb0c1c8f1366a8f3c3594d8de4c1351d2383d",
+                "reference": "887fb0c1c8f1366a8f3c3594d8de4c1351d2383d",
                 "shasum": ""
             },
             "require": {
@@ -305,10 +305,10 @@
             ],
             "description": "A library for building /programmes pages",
             "support": {
-                "source": "https://github.com/bbc/programmes-pages-service/tree/v4.0",
+                "source": "https://github.com/bbc/programmes-pages-service/tree/v10.1.0",
                 "issues": "https://github.com/bbc/programmes-pages-service/issues"
             },
-            "time": "2018-01-17T12:59:34+00:00"
+            "time": "2019-04-25T17:09:58+00:00"
         },
         {
             "name": "behat/transliterator",
@@ -1227,12 +1227,12 @@
             "version": "v2.5.6",
             "source": {
                 "type": "git",
-                "url": "https://github.com/doctrine/doctrine2.git",
+                "url": "https://github.com/doctrine/orm.git",
                 "reference": "e6c434196c8ef058239aaa0724b4aadb0107940b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/e6c434196c8ef058239aaa0724b4aadb0107940b",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/e6c434196c8ef058239aaa0724b4aadb0107940b",
                 "reference": "e6c434196c8ef058239aaa0724b4aadb0107940b",
                 "shasum": ""
             },
@@ -4016,6 +4016,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2017-03-03T06:30:20+00:00"
         },
         {
