@@ -25,6 +25,7 @@ services:
             - { name: 'monolog.logger', channel: 'app_access' }
 
     clifton.application_time:
+        public: true
         class: DateTimeImmutable
 
     pps.mapper_factory:
@@ -34,6 +35,7 @@ services:
             - core_entity_inherit_master_brand: false
 
     pps.service_factory:
+        public: true
         class: BBC\ProgrammesPagesService\Service\ServiceFactory
         arguments:
             - '@doctrine.orm.default_entity_manager'
@@ -41,10 +43,12 @@ services:
             - '@pps.cache'
 
     pps.atoz_titles_service:
+        public: true
         class: BBC\ProgrammesPagesService\Service\AtozTitlesService
         factory: [ '@pps.service_factory', 'getAtozTitlesService']
 
     pps.broadcasts_service:
+        public: true
         class: BBC\ProgrammesPagesService\Service\BroadcastsService
         factory: [ '@pps.service_factory', 'getBroadcastsService']
 
@@ -56,37 +60,46 @@ services:
             - 'clifton.%cosmos_component_release%'
 
     pps.collapsed_broadcasts_service:
+        public: true
         class: BBC\ProgrammesPagesService\Service\CollapsedBroadcastsService
         factory: [ '@pps.service_factory', 'getCollapsedBroadcastsService']
 
     pps.contributions_service:
+        public: true
         class: BBC\ProgrammesPagesService\Service\ContributionsService
         factory: [ '@pps.service_factory', 'getContributionsService']
 
     pps.contributors_service:
+        public: true
         class: BBC\ProgrammesPagesService\Service\ContributorsService
         factory: [ '@pps.service_factory', 'getContributorsService']
 
     pps.networks_service:
+        public: true
         class: BBC\ProgrammesPagesService\Service\NetworksService
         factory: [ '@pps.service_factory', 'getNetworksService']
 
     pps.programmes_service:
+        public: true
         class: BBC\ProgrammesPagesService\Service\ProgrammesService
         factory: [ '@pps.service_factory', 'getProgrammesService']
 
     pps.related_links_service:
+        public: true
         class: BBC\ProgrammesPagesService\Service\RelatedLinksService
         factory: [ '@pps.service_factory', 'getRelatedLinksService']
 
     pps.segments_service:
+        public: true
         class: BBC\ProgrammesPagesService\Service\SegmentsService
         factory: [ '@pps.service_factory', 'getSegmentsService']
 
     pps.segment_events_service:
+        public: true
         class: BBC\ProgrammesPagesService\Service\SegmentEventsService
         factory: [ '@pps.service_factory', 'getSegmentEventsService']
 
     pps.versions_service:
+        public: true
         class: BBC\ProgrammesPagesService\Service\VersionsService
         factory: [ '@pps.service_factory', 'getVersionsService']
