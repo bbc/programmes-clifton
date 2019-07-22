@@ -1,0 +1,87 @@
+#!/bin/bash
+
+# Prints shell input lines as they are read.
+# set -v
+
+# Exit immediately if a command exits with a non-zero status
+set -e
+
+###########
+# INSTALL #
+###########
+
+# Fail if we're not using php71+
+if ! (php --version | grep -q "PHP 7.") ; then
+    echo "You're not using PHP 7.1+, please install it."
+    php --version
+    exit 1
+fi
+
+# copy the certificate from aws parameter store so we can use cosmos-release inside CodeBuild
+# this is a temporal solution until we have an official way to provide CodeBuild with certs
+echo $BBC_CERTIFICATE | base64 --decode > /etc/pki/tls/certs/client.crt
+echo $BBC_CERTIFICATE_KEY | base64 --decode > /etc/pki/tls/private/client.key
+echo $COSMOS_REQUIRED_CA | base64 --decode >> /etc/pki/tls/certs/ca-bundle.crt
+
+if [[ -n "$OAUTH" ]]; then
+    composer config -g github-oauth.github.com $OAUTH
+fi
+# Make sure the reports directory exists
+if [[ ! -d "build/reports" ]]; then
+    mkdir -p build/reports
+fi
+
+composer --no-ansi --no-interaction install
+
+# Run PHPUnit
+vendor/bin/phpunit || RESULT=1
+
+# Run PHPCS
+vendor/bin/phpcs --report=checkstyle --report-file=build/reports/checkstyle.xml || RESULT=1
+
+# Run PHPStan
+vendor/bin/phpstan analyse -c phpstan.neon src tests --level=7 || RESULT=1
+
+if [[ "$RESULT" != "0" ]]; then
+    exit $RESULT
+fi
+
+# if build is trigger through a webhook we can stop here after the code analysers are run.
+if [[ ! -z "$CODEBUILD_WEBHOOK_ACTOR_ACCOUNT_ID" ]]
+then
+ exit 0
+fi
+
+export SYMFONY_ENV=prod;
+composer --no-ansi --no-interaction --no-dev --optimize-autoloader --prefer-dist install
+
+#########
+# BUILD #
+#########
+
+# Get the next release version from cosmos API.
+version=`cosmos-release generate-version programmes-clifton`
+
+# Build the RPM
+mbt -r 6 -s rpmbuild -v ${version}
+
+echo 'COSMOS-RELEASE: Sending RPM to cosmos.....'
+cosmos-release service programmes-clifton RPMS/*.rpm --release-version v
+
+sleep 1
+
+# Deploy the RPM if DEPLOY_TO is set
+if [[ ! -z "$DEPLOY_TO" ]]
+then
+    if [[ ${DEPLOY_TO,,} == "int" ]] || [[ ${DEPLOY_TO,,} == "test" ]] || [[ ${DEPLOY_TO,,} == "stage" ]];
+    then
+        echo "Deploying enabled. Deploying programmes-clifton $version to ${DEPLOY_TO,,}"
+        curl --cert /etc/pki/tls/certs/client.crt --key /etc/pki/tls/private/client.key \
+        https://cosmos.api.bbci.co.uk/env/${DEPLOY_TO,,}/component/programmes-clifton/deploy_release \
+        -d "{\"release_version\": \"$version\"}" -H 'Content-Type: application/json' -X POST
+    else
+        echo "Deployment error, please leave it empty if you only want to build otherwise use one of the valid environments: int, test or stage"
+    fi
+fi
+
+exit 0
