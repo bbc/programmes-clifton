@@ -33,8 +33,10 @@ fi
 
 composer --no-ansi --no-interaction install
 
+RESULT=0
+
 # Run PHPUnit
-vendor/bin/phpunit || RESULT=1
+vendor/bin/phpunit --no-coverage || RESULT=1
 
 # Run PHPCS
 vendor/bin/phpcs --report=checkstyle --report-file=build/reports/checkstyle.xml || RESULT=1
@@ -42,13 +44,15 @@ vendor/bin/phpcs --report=checkstyle --report-file=build/reports/checkstyle.xml 
 # Run PHPStan
 vendor/bin/phpstan analyse -c phpstan.neon src tests --level=7 || RESULT=1
 
-if [[ "$RESULT" != "0" ]]; then
+if [[ $RESULT != 0 ]]; then
+    echo "Exiting because Bjorn is an idiot $RESULT"
     exit $RESULT
 fi
 
 # if build is trigger through a webhook we can stop here after the code analysers are run.
 if [[ ! -z "$CODEBUILD_WEBHOOK_ACTOR_ACCOUNT_ID" ]]
 then
+ echo "Exiting as codebuild was run from a webhook"
  exit 0
 fi
 
