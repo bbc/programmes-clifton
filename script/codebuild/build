@@ -45,7 +45,6 @@ vendor/bin/phpcs --report=checkstyle --report-file=build/reports/checkstyle.xml 
 vendor/bin/phpstan analyse -c phpstan.neon src tests --level=7 || RESULT=1
 
 if [[ $RESULT != 0 ]]; then
-    echo "Exiting because Bjorn is an idiot $RESULT"
     exit $RESULT
 fi
 
