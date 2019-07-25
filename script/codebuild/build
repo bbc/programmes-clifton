@@ -39,7 +39,7 @@ RESULT=0
 vendor/bin/phpunit --no-coverage || RESULT=1
 
 # Run PHPCS
-vendor/bin/phpcs --report=checkstyle --report-file=build/reports/checkstyle.xml || RESULT=1
+vendor/bin/phpcs -n || RESULT=1
 
 # Run PHPStan
 vendor/bin/phpstan analyse -c phpstan.neon src tests --level=7 || RESULT=1
