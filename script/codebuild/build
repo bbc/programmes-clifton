@@ -26,10 +26,6 @@ echo $COSMOS_REQUIRED_CA | base64 --decode >> /etc/pki/tls/certs/ca-bundle.crt
 if [[ -n "$OAUTH" ]]; then
     composer config -g github-oauth.github.com $OAUTH
 fi
-# Make sure the reports directory exists
-if [[ ! -d "build/reports" ]]; then
-    mkdir -p build/reports
-fi
 
 composer --no-ansi --no-interaction install
 
