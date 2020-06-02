@@ -1,6 +1,13 @@
 Clifton
 =======
 
+Clifton was built to support /programmes V2 on forge during migration to
+/programmes v3. It has been decommissioned and is not supported or used. 
+
+
+Old Readme
+=========
+
 A bridge between ProgrammesDB and /programmes on Forge. Clifton provides a HTTP
 API that is consistant with APS's output, so that it can be a drop-in
 replacement data source for /programmes on Forge.
